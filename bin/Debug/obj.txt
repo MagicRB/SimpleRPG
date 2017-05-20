@@ -22,4 +22,5 @@ wall;2;3
 door_switch;0;-2;-2;-1
 door_switch;0;2;-2;1
 door;-2;-1;closed
-door;-2;1;closed
+door;-2;1;open
+anim_block;-5;0

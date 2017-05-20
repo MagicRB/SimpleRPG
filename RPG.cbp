@@ -66,6 +66,7 @@
 			<Add option="-fexceptions" />
 		</Compiler>
 		<Unit filename="colors.h" />
+		<Unit filename="include/animBlock.h" />
 		<Unit filename="include/block.h" />
 		<Unit filename="include/character.h" />
 		<Unit filename="include/door.h" />
@@ -75,6 +76,7 @@
 		<Unit filename="include/wall.h" />
 		<Unit filename="include/wall_mark.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="src/animBlock.cpp" />
 		<Unit filename="src/block.cpp" />
 		<Unit filename="src/character.cpp" />
 		<Unit filename="src/door.cpp" />

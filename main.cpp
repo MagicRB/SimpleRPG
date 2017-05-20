@@ -13,6 +13,7 @@
 #include <wall_mark.h>
 #include <door.h>
 #include <door_switch.h>
+#include <animBlock.h>
 
 #include <sstream>
 #include <string>
@@ -38,6 +39,9 @@ door door_o;
 
 std::vector<door_switch> door_sv;
 door_switch door_so;
+
+std::vector<animBlock> animBlock_v;
+animBlock animBlock_o;
 
 std::string obj_ln;
 std::vector<std::string> splObj_ln;
@@ -126,6 +130,16 @@ void addObjects()
             }
 
         }
+        if (vstr(splObj_ln, 0) == "anim_block")
+        {
+            std::stringstream nystream(vstr(splObj_ln, 1));
+            std::stringstream nxstream(vstr(splObj_ln, 2));
+            if (nystream >> numy && nxstream >> numx)
+            {
+                animBlock_v.push_back(animBlock_o);
+                animBlock_v.at(animBlock_v.size() - 1).setPos(numy, numx);
+            }
+        }
         splObj_ln.clear();
 
     }
@@ -135,7 +149,6 @@ void addObjects()
 void grender()
 {
     erase();
-
 
     for (int unsigned i = 0; i < wall_v.size(); i++)
     {
@@ -155,12 +168,16 @@ void grender()
     {
         door_sv.at(i).render(cy, cx);
     }
+    for (int unsigned i = 0; i < animBlock_v.size(); i++)
+    {
+        animBlock_v.at(i).render(cy, cx);
+    }
 
     mvaddch(0 - cy, 0 - cx, '$');
 
-    refresh();
-
     pl.render(cy, cx);
+
+    refresh();
 }
 
 void init_cpairs()
@@ -180,6 +197,8 @@ int main()
     /// Initialize ncurses
     initscr();
     //cbreak();
+
+    timeout(0);
     noecho();
     keypad(stdscr, TRUE);
     curs_set(0);
@@ -202,23 +221,23 @@ int main()
         {
             pl.chmove(pl.y, pl.x + 1);
             cx += 1;
-            grender();
+            //grender();
         } else if (ch == 'a' && !(pl.checkColl(0, -1, cy, cx)))
         {
             pl.chmove(pl.y, pl.x - 1);
             cx -= 1;
-            grender();
+            //grender();
         }
         if (ch == 'w' && !(pl.checkColl(-1, 0, cy, cx)))
         {
             pl.chmove(pl.y - 1, pl.x);
             cy -= 1;
-            grender();
+            //grender();
         } else if (ch == 's' && !(pl.checkColl(1, 0, cy, cx)))
         {
             pl.chmove(pl.y + 1, pl.x);
             cy += 1;
-            grender();
+            //grender();
 //        } else if (ch == '/')
 //        {
 //            wall_mv.push_back(wall_mo);
@@ -248,7 +267,7 @@ int main()
                     }
                 }
             }
-            grender();
+            //grender();
         } else if (ch == 'q')
         {
             for (unsigned int i = 0; i < wall_mv.size(); i++)
@@ -258,6 +277,8 @@ int main()
             outmap.close();
             break;
         }
+
+        grender();
 
 
 //        mvaddch(-5 - cy, -5 - cx, '#');
