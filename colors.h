@@ -1,0 +1,9 @@
+#ifndef COLORS_H_INCLUDED
+#define COLORS_H_INCLUDED
+
+#define COLOR_BROWN 8
+#define COLOR_BROWN_DARK 9
+
+#define PAIR_BROWN_BROWN_DARK 1
+
+#endif // COLORS_H_INCLUDED

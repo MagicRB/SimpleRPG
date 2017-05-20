@@ -1,0 +1,179 @@
+# depslib dependency file v1.0
+1494269997 source:/home/main/C++/Projects/RPG/main.cpp
+	<iostream>
+	<ncurses/ncurses.h>
+	<ncurses.h>
+	"colors.h"
+	<player.h>
+	<wall.h>
+	<wall_mark.h>
+	<door.h>
+	<door_switch.h>
+	<sstream>
+	<string>
+	<vector>
+	<fstream>
+
+1494176381 source:/home/main/C++/Projects/RPG/src/character.cpp
+	"character.h"
+
+1494236339 /home/main/C++/Projects/RPG/include/character.h
+	<string>
+
+1494259610 source:/home/main/C++/Projects/RPG/src/player.cpp
+	"player.h"
+	<ncurses/ncurses.h>
+	<ncurses.h>
+
+1494092797 /home/main/C++/Projects/RPG/include/player.h
+	<character.h>
+
+1494091867 source:/home/main/C++/Projects/RPG/func.cpp
+	<string>
+	<vector>
+	<sstream>
+
+1494091851 /home/main/C++/Projects/RPG/func.cpp
+	<string>
+	<vector>
+	<sstream>
+
+1494098894 source:/home/main/C++/Projects/RPG/src/func.cpp
+	"func.h"
+	<string>
+	<vector>
+	<sstream>
+	<iostream>
+
+1494098588 /home/main/C++/Projects/RPG/include/func.h
+	<string>
+	<vector>
+
+1494235561 source:/home/main/C++/Projects/RPG/src/block.cpp
+	"block.h"
+
+1494255557 /home/main/C++/Projects/RPG/include/block.h
+
+1494255539 /home/main/C++/Projects/RPG/include/wall.h
+	<ncurses/ncurses.h>
+	<ncurses.h>
+	<block.h>
+
+1494255539 source:/home/main/C++/Projects/RPG/src/wall.cpp
+	"wall.h"
+	<ncurses/ncurses.h>
+	<ncurses.h>
+
+1494255478 /home/main/C++/Projects/RPG/include/wall_mark.h
+	<ncurses/ncurses.h>
+	<ncurses.h>
+	<block.h>
+
+1494255478 source:/home/main/C++/Projects/RPG/src/wall_mark.cpp
+	"wall_mark.h"
+	<ncurses/ncurses.h>
+	<ncurses.h>
+
+1494258959 source:/home/main/C++/Projects/RPG/src/door.cpp
+	"door.h"
+
+1494259950 /home/main/C++/Projects/RPG/include/door.h
+	<ncurses/ncurses.h>
+	<ncurses.h>
+	<block.h>
+
+1494260743 source:/home/main/C++/Projects/RPG/src/door_switch.cpp
+	"door_switch.h"
+
+1494261586 /home/main/C++/Projects/RPG/include/door_switch.h
+	<ncurses/ncurses.h>
+	<ncurses.h>
+	<block.h>
+
+1494269635 source:/home/main/C++/Projects/RPG/colors.h
+
+1494269635 /home/main/C++/Projects/RPG/colors.h
+
+1494364138 source:/home/main/C++/RPG/main.cpp
+	<iostream>
+	<ncurses/ncurses.h>
+	<ncurses.h>
+	"colors.h"
+	<player.h>
+	<wall.h>
+	<wall_mark.h>
+	<door.h>
+	<door_switch.h>
+	<sstream>
+	<string>
+	<vector>
+	<fstream>
+
+1494270545 /home/main/C++/RPG/colors.h
+
+1494092797 /home/main/C++/RPG/include/player.h
+	<character.h>
+
+1494236339 /home/main/C++/RPG/include/character.h
+	<string>
+
+1494255539 /home/main/C++/RPG/include/wall.h
+	<ncurses/ncurses.h>
+	<ncurses.h>
+	<block.h>
+
+1494255557 /home/main/C++/RPG/include/block.h
+
+1494255478 /home/main/C++/RPG/include/wall_mark.h
+	<ncurses/ncurses.h>
+	<ncurses.h>
+	<block.h>
+
+1494259950 /home/main/C++/RPG/include/door.h
+	<ncurses/ncurses.h>
+	<ncurses.h>
+	<block.h>
+
+1494261586 /home/main/C++/RPG/include/door_switch.h
+	<ncurses/ncurses.h>
+	<ncurses.h>
+	<block.h>
+
+1494235561 source:/home/main/C++/RPG/src/block.cpp
+	"block.h"
+
+1494176381 source:/home/main/C++/RPG/src/character.cpp
+	"character.h"
+
+1494258959 source:/home/main/C++/RPG/src/door.cpp
+	"door.h"
+
+1494260743 source:/home/main/C++/RPG/src/door_switch.cpp
+	"door_switch.h"
+
+1494098894 source:/home/main/C++/RPG/src/func.cpp
+	"func.h"
+	<string>
+	<vector>
+	<sstream>
+	<iostream>
+
+1494098588 /home/main/C++/RPG/include/func.h
+	<string>
+	<vector>
+
+1494259610 source:/home/main/C++/RPG/src/player.cpp
+	"player.h"
+	<ncurses/ncurses.h>
+	<ncurses.h>
+
+1494255539 source:/home/main/C++/RPG/src/wall.cpp
+	"wall.h"
+	<ncurses/ncurses.h>
+	<ncurses.h>
+
+1494255478 source:/home/main/C++/RPG/src/wall_mark.cpp
+	"wall_mark.h"
+	<ncurses/ncurses.h>
+	<ncurses.h>
+
