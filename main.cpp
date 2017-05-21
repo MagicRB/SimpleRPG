@@ -54,7 +54,7 @@ int cx = 0;
 int numx = 0;
 int numy = 0;
 
-std::string vstr(std::vector<std::string> v, int short i)
+std::string vstr(std::vector<std::string> v, int unsigned short i)
 {
     std::cout << i << v.size() << std::endl;
     std::string str;

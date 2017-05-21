@@ -202,25 +202,25 @@
 1495310231 /home/main/C++/SimpleRPG/include/character.h
 	<string>
 
-1495310231 /home/main/C++/SimpleRPG/include/wall.h
-	<ncurses/ncurses.h>
+1495378927 /home/main/C++/SimpleRPG/include/wall.h
+	<ncurses/curses.h>
 	<ncurses.h>
 	<block.h>
 
 1495310231 /home/main/C++/SimpleRPG/include/block.h
 
-1495310231 /home/main/C++/SimpleRPG/include/wall_mark.h
-	<ncurses/ncurses.h>
+1495378927 /home/main/C++/SimpleRPG/include/wall_mark.h
+	<ncurses/curses.h>
 	<ncurses.h>
 	<block.h>
 
-1495310231 /home/main/C++/SimpleRPG/include/door.h
-	<ncurses/ncurses.h>
+1495378927 /home/main/C++/SimpleRPG/include/door.h
+	<ncurses/curses.h>
 	<ncurses.h>
 	<block.h>
 
-1495310231 /home/main/C++/SimpleRPG/include/door_switch.h
-	<ncurses/ncurses.h>
+1495378927 /home/main/C++/SimpleRPG/include/door_switch.h
+	<ncurses/curses.h>
 	<ncurses.h>
 	<block.h>
 
@@ -247,26 +247,26 @@
 	<string>
 	<vector>
 
-1495310231 source:/home/main/C++/SimpleRPG/src/player.cpp
+1495378927 source:/home/main/C++/SimpleRPG/src/player.cpp
 	"player.h"
-	<ncurses/ncurses.h>
+	<ncurses/curses.h>
 	<ncurses.h>
 
-1495310231 source:/home/main/C++/SimpleRPG/src/wall.cpp
+1495378927 source:/home/main/C++/SimpleRPG/src/wall.cpp
 	"wall.h"
-	<ncurses/ncurses.h>
+	<ncurses/curses.h>
 	<ncurses.h>
 
-1495310231 source:/home/main/C++/SimpleRPG/src/wall_mark.cpp
+1495378927 source:/home/main/C++/SimpleRPG/src/wall_mark.cpp
 	"wall_mark.h"
-	<ncurses/ncurses.h>
+	<ncurses/curses.h>
 	<ncurses.h>
 
 1495304889 source:/home/main/C++/SimpleRPG/src/animBlock.cpp
 	"animBlock.h"
 
-1495309378 /home/main/C++/SimpleRPG/include/animBlock.h
-	<ncurses/ncurses.h>
+1495378927 /home/main/C++/SimpleRPG/include/animBlock.h
+	<ncurses/curses.h>
 	<ncurses.h>
 	<iostream>
 	<block.h>
