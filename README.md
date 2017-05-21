@@ -3,23 +3,50 @@
 This is very simple RPG in C++ with ncurses. Compatible with linux-GCC and Windows-MinGW ~~(You must compile this on linux)~~
 Prefarably use CodeBlocks for ease of compilation
 
-## Latest compilation commands
+## Compilation
 
-g++ -Wall -fexceptions -g -Iinclude -c /home/main/C++/SimpleRPG/main.cpp -o obj/Debug/main.o
-g++ -Wall -fexceptions -g -Iinclude -c /home/main/C++/SimpleRPG/src/animBlock.cpp -o obj/Debug/src/animBlock.o
-g++ -Wall -fexceptions -g -Iinclude -c /home/main/C++/SimpleRPG/src/block.cpp -o obj/Debug/src/block.o
-g++ -Wall -fexceptions -g -Iinclude -c /home/main/C++/SimpleRPG/src/character.cpp -o obj/Debug/src/character.o
-g++ -Wall -fexceptions -g -Iinclude -c /home/main/C++/SimpleRPG/src/door.cpp -o obj/Debug/src/door.o
-g++ -Wall -fexceptions -g -Iinclude -c /home/main/C++/SimpleRPG/src/door_switch.cpp -o obj/Debug/src/door_switch.o
-g++ -Wall -fexceptions -g -Iinclude -c /home/main/C++/SimpleRPG/src/func.cpp -o obj/Debug/src/func.o
-g++ -Wall -fexceptions -g -Iinclude -c /home/main/C++/SimpleRPG/src/hud.cpp -o obj/Debug/src/hud.o
-g++ -Wall -fexceptions -g -Iinclude -c /home/main/C++/SimpleRPG/src/player.cpp -o obj/Debug/src/player.o
-g++ -Wall -fexceptions -g -Iinclude -c /home/main/C++/SimpleRPG/src/sign.cpp -o obj/Debug/src/sign.o
-g++ -Wall -fexceptions -g -Iinclude -c /home/main/C++/SimpleRPG/src/wall.cpp -o obj/Debug/src/wall.o
-g++ -Wall -fexceptions -g -Iinclude -c /home/main/C++/SimpleRPG/src/wall_mark.cpp -o obj/Debug/src/wall_mark.o
-g++  -o bin/Debug/RPG obj/Debug/main.o obj/Debug/src/animBlock.o obj/Debug/src/block.o obj/Debug/src/character.o obj/Debug/src/door.o obj/Debug/src/door_switch.o obj/Debug/src/func.o obj/Debug/src/hud.o obj/Debug/src/player.o obj/Debug/src/sign.o obj/Debug/src/wall.o obj/Debug/src/wall_mark.o   -lncurses
+Use Code::Blocks!! It's easy.  
+To compile on windows for windows use Windows - Debug  
+To compile on linux for linux use Linux - Debug  
+To compole on linux for windows use Windows from Linux - Debug
+
+## Required libs
+
+On linux you need to have ncurses installed to run and compile this  
+When cross compiling from Linux to Windows follow [this](https://sourceforge.net/p/mingw-w64/wiki2/NCurses/), change prefix to some sensible place (on Arch linux /usr/)  
+when compiling on Windows you need [this](www.google.com) (Just a placeholder)  
+
+On Linux GCC link againt lib ncurses with -lncurses
+On Linux when cross compiling for Windows use linker options:
+> -lstdc++
+-lgcc
+-lodbc32
+-lwsock32
+-lwinspool
+-lwinmm
+-lshell32
+-lcomctl32
+-lodbc32
+-ladvapi32
+-lodbc32
+-lwsock32
+-lopengl32
+-lglu32
+-lole32
+-loleaut32
+-luuid
+-lncurses  
+
+Set Search Dirs like this:
+* Compiler: $prefix/mingw../include
+* Linker: $prefix/mingw../lib
+* Resource compiler: $prefix/mingw../include
+
+On Windows.... I have to look
 
 ## Download section
 
 Windows x86_64 Binary [Download](http://62.168.71.236/SimpleRPG/RPG.exe)  
-Arch Linux x86_64 Binary [Download](http://62.168.71.236/SimpleRPG/RPG) !!Outdate (Actually not working)
+Arch Linux x86_64 Binary [Download](http://62.168.71.236/SimpleRPG/RPG)  
+Example obj file [Download](http://62.168.71.236/SimpleRPG/obj.txt)  
+Required dlls (Windows only) [Download](http://62.168.71.236/SimpleRPG/dlls.zip)
