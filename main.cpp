@@ -14,7 +14,7 @@
 #include <door.h>
 #include <door_switch.h>
 #include <animBlock.h>
-//#include <hud.h>
+#include <hud.h>
 
 #include <sstream>
 #include <string>
@@ -27,7 +27,7 @@
 
 int ch;
 
-//hud hud_o;
+hud hud_o;
 player pl;
 
 std::vector<wall_mark> wall_mv;
@@ -82,6 +82,11 @@ void addObjects()
         std::string token;
 
         std::cout << obj_ln << std::endl;
+
+        if (obj_ln == "")
+        {
+            break;
+        }
 
         while (std::getline(ss, token, ';'))
         {
@@ -181,7 +186,7 @@ void grender()
 
     pl.render(cy, cx);
 
-    //hud_o.render(&pl);
+    hud_o.render(&pl);
 
     refresh();
 }
