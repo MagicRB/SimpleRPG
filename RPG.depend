@@ -177,7 +177,7 @@
 	<ncurses/ncurses.h>
 	<ncurses.h>
 
-1495365301 source:/home/main/C++/SimpleRPG/main.cpp
+1495366513 source:/home/main/C++/SimpleRPG/main.cpp
 	<iostream>
 	<ncurses/ncurses.h>
 	<ncurses.h>
@@ -188,6 +188,7 @@
 	<door.h>
 	<door_switch.h>
 	<animBlock.h>
+	<hud.h>
 	<sstream>
 	<string>
 	<vector>
@@ -270,4 +271,21 @@
 	<iostream>
 	<block.h>
 	<sys/time.h>
+
+1495365737 source:/home/main/C++/SimpleRPG/src/sign.cpp
+	"sign.h"
+
+1495366138 /home/main/C++/SimpleRPG/include/sign.h
+	<ncurses/ncurses.h>
+	<ncurses.h>
+	<block.h>
+
+1495367909 /home/main/C++/SimpleRPG/include/hud.h
+	<player.h>
+	<ncurses/ncurses.h>
+	<ncurses.h>
+
+1495366812 source:/home/main/C++/SimpleRPG/src/hud.cpp
+	"hud.h"
+	<player.h>
 

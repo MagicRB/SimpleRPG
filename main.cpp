@@ -14,6 +14,7 @@
 #include <door.h>
 #include <door_switch.h>
 #include <animBlock.h>
+#include <hud.h>
 
 #include <sstream>
 #include <string>
@@ -26,6 +27,7 @@
 
 int ch;
 
+hud hud_o;
 player pl;
 
 std::vector<wall_mark> wall_mv;
@@ -176,6 +178,8 @@ void grender()
     mvaddch(0 - cy, 0 - cx, '$');
 
     pl.render(cy, cx);
+
+    hud_o.render(&pl);
 
     refresh();
 }
