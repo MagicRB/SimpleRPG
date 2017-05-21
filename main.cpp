@@ -276,6 +276,12 @@ int main()
             }
             outmap.close();
             break;
+        } else if (ch == 'r')
+        {
+            cy = (-1)*(getmaxy(stdscr) / 2);
+            cx = (-1)*(getmaxx(stdscr) / 2);
+            cy += pl.y;
+            cx += pl.x;
         }
 
         grender();
