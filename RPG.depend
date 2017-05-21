@@ -289,3 +289,97 @@
 	"hud.h"
 	<player.h>
 
+1495370523 source:f:\projekts\c++\simplerpg\src\block.cpp
+	"block.h"
+
+1495370523 f:\projekts\c++\simplerpg\include\block.h
+
+1495370523 source:f:\projekts\c++\simplerpg\src\character.cpp
+	"character.h"
+
+1495370523 f:\projekts\c++\simplerpg\include\character.h
+	<string>
+
+1495370523 source:f:\projekts\c++\simplerpg\src\animblock.cpp
+	"animBlock.h"
+
+1495370780 f:\projekts\c++\simplerpg\include\animblock.h
+	<ncurses/curses.h>
+	<ncurses.h>
+	<iostream>
+	<block.h>
+	<sys/time.h>
+
+1495370523 source:f:\projekts\c++\simplerpg\src\door.cpp
+	"door.h"
+
+1495370780 f:\projekts\c++\simplerpg\include\door.h
+	<ncurses/curses.h>
+	<ncurses.h>
+	<block.h>
+
+1495370523 source:f:\projekts\c++\simplerpg\src\door_switch.cpp
+	"door_switch.h"
+
+1495370780 f:\projekts\c++\simplerpg\include\door_switch.h
+	<ncurses/curses.h>
+	<ncurses.h>
+	<block.h>
+
+1495370523 source:f:\projekts\c++\simplerpg\src\func.cpp
+	"func.h"
+	<string>
+	<vector>
+	<sstream>
+	<iostream>
+
+1495370523 f:\projekts\c++\simplerpg\include\func.h
+	<string>
+	<vector>
+
+1495370724 source:f:\projekts\c++\simplerpg\src\player.cpp
+	"player.h"
+	<ncurses/curses.h>
+	<ncurses.h>
+
+1495370523 f:\projekts\c++\simplerpg\include\player.h
+	<character.h>
+
+1495370780 source:f:\projekts\c++\simplerpg\src\wall.cpp
+	"wall.h"
+	<ncurses/curses.h>
+	<ncurses.h>
+
+1495370780 f:\projekts\c++\simplerpg\include\wall.h
+	<ncurses/curses.h>
+	<ncurses.h>
+	<block.h>
+
+1495370780 source:f:\projekts\c++\simplerpg\src\wall_mark.cpp
+	"wall_mark.h"
+	<ncurses/curses.h>
+	<ncurses.h>
+
+1495370780 f:\projekts\c++\simplerpg\include\wall_mark.h
+	<ncurses/curses.h>
+	<ncurses.h>
+	<block.h>
+
+1495373351 source:f:\projekts\c++\simplerpg\main.cpp
+	<iostream>
+	<ncurses/ncurses.h>
+	<ncurses.h>
+	"colors.h"
+	<player.h>
+	<wall.h>
+	<wall_mark.h>
+	<door.h>
+	<door_switch.h>
+	<animBlock.h>
+	<sstream>
+	<string>
+	<vector>
+	<fstream>
+
+1495370523 f:\projekts\c++\simplerpg\colors.h
+

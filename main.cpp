@@ -14,7 +14,7 @@
 #include <door.h>
 #include <door_switch.h>
 #include <animBlock.h>
-#include <hud.h>
+//#include <hud.h>
 
 #include <sstream>
 #include <string>
@@ -27,7 +27,7 @@
 
 int ch;
 
-hud hud_o;
+//hud hud_o;
 player pl;
 
 std::vector<wall_mark> wall_mv;
@@ -56,12 +56,12 @@ int numy = 0;
 
 std::string vstr(std::vector<std::string> v, int short i)
 {
+    std::cout << i << v.size() << std::endl;
     std::string str;
-    try
+    if (i <= v.size() - 1)
     {
         str = v.at(i);
-    }
-    catch (const std::out_of_range& e)
+    }else
     {
         str = "";
     }
@@ -71,15 +71,17 @@ std::string vstr(std::vector<std::string> v, int short i)
 
 void addObjects()
 {
-    std::ifstream infile;
+    std::ifstream infile("obj.txt");
 
-    infile.open ("obj.txt");
+    //infile.open ("obj.txt");
     while(!infile.eof()) // To get you all the lines.
     {
         getline(infile,obj_ln); // Saves the line in STRING.
 
         std::istringstream ss(obj_ln);
         std::string token;
+
+        std::cout << obj_ln << std::endl;
 
         while (std::getline(ss, token, ';'))
         {
@@ -179,7 +181,7 @@ void grender()
 
     pl.render(cy, cx);
 
-    hud_o.render(&pl);
+    //hud_o.render(&pl);
 
     refresh();
 }
