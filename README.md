@@ -10,6 +10,16 @@ To compile on windows for windows use Windows - Debug
 To compile on linux for linux use Linux - Debug  
 To compole on linux for windows use Windows from Linux - Debug
 
+When compiling for windows your compiler must #define this:
+>WINVER=0x0400  
+\_\_WIN95\_\_  
+\_\_GNUWIN32\_\_  
+STRICT  
+HAVE_W32API_H  
+\_\_WXMSW\_\_  
+\_\_WINDOWS\_\_  
+
+
 ## Required libs
 
 On linux you need to have ncurses installed to run and compile this  
@@ -18,23 +28,23 @@ when compiling on Windows you need [this](www.google.com) (Just a placeholder)
 
 On Linux GCC link againt lib ncurses with -lncurses
 On Linux when cross compiling for Windows use linker options:
-> -lstdc++
--lgcc
--lodbc32
--lwsock32
--lwinspool
--lwinmm
--lshell32
--lcomctl32
--lodbc32
--ladvapi32
--lodbc32
--lwsock32
--lopengl32
--lglu32
--lole32
--loleaut32
--luuid
+> -lstdc++  
+-lgcc  
+-lodbc32  
+-lwsock32  
+-lwinspool  
+-lwinmm  
+-lshell32  
+-lcomctl32  
+-lodbc32  
+-ladvapi32  
+-lodbc32  
+-lwsock32  
+-lopengl32  
+-lglu32  
+-lole32  
+-loleaut32  
+-luuid  
 -lncurses  
 
 Set Search Dirs like this:
