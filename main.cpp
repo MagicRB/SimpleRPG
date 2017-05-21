@@ -15,6 +15,7 @@
 #include <door_switch.h>
 #include <animBlock.h>
 #include <hud.h>
+#include <sign.h>
 
 #include <sstream>
 #include <string>
@@ -44,6 +45,9 @@ door_switch door_so;
 
 std::vector<animBlock> animBlock_v;
 animBlock animBlock_o;
+
+std::vector<sign> sign_v;
+sign sign_o;
 
 std::string obj_ln;
 std::vector<std::string> splObj_ln;
@@ -149,6 +153,17 @@ void addObjects()
                 animBlock_v.at(animBlock_v.size() - 1).setPos(numy, numx);
             }
         }
+        if (vstr(splObj_ln, 0) == "sign")
+        {
+            std::stringstream nystream(vstr(splObj_ln, 1));
+            std::stringstream nxstream(vstr(splObj_ln, 2));
+            if (nystream >> numy && nxstream >> numx)
+            {
+                sign_v.push_back(sign_o);
+                sign_v.at(sign_v.size() - 1).setPos(numy, numx);
+                sign_v.at(sign_v.size() - 1).setText(vstr(splObj_ln, 3));
+            }
+        }
         splObj_ln.clear();
 
     }
@@ -180,6 +195,10 @@ void grender()
     for (int unsigned i = 0; i < animBlock_v.size(); i++)
     {
         animBlock_v.at(i).render(cy, cx);
+    }
+    for (int unsigned i = 0; i < sign_v.size(); i++)
+    {
+        sign_v.at(i).render(cy, cx);
     }
 
     mvaddch(0 - cy, 0 - cx, '$');
@@ -278,6 +297,14 @@ int main()
                     }
                 }
             }
+            for (int unsigned i = 0; i < sign_v.size(); i++)
+            {
+                if (sign_v.at(i).y == pl.y && sign_v.at(i).x == pl.x)
+                {
+                    sign_v.at(i).read(&hud_o);
+                }
+            }
+
             //grender();
         } else if (ch == 'q')
         {
@@ -293,7 +320,10 @@ int main()
             cx = (-1)*(getmaxx(stdscr) / 2);
             cy += pl.y;
             cx += pl.x;
-        }
+        }// else if (ch == 'y')
+//        {
+//            hud_o.displayText("Once upon a time, there was a bird. He flew towards a mountain and hit a rock. He fell and broke his wings, then a cat came and rid him of his head.");
+//        }
 
         grender();
 

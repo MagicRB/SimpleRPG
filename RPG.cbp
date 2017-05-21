@@ -60,6 +60,26 @@
 					<Add directory="include" />
 				</Compiler>
 			</Target>
+			<Target title="Windows from Linux - Debug">
+				<Option output="bin/Debug/RPG.exe" prefix_auto="1" extension_auto="0" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="mingw_compiler" />
+				<Compiler>
+					<Add option="-g" />
+					<Add directory="include" />
+				</Compiler>
+			</Target>
+			<Target title="Windows from Linux - Release">
+				<Option output="bin/Release/RPG.exe" prefix_auto="1" extension_auto="0" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="mingw_compiler" />
+				<Compiler>
+					<Add option="-g" />
+					<Add directory="include" />
+				</Compiler>
+			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
@@ -72,7 +92,9 @@
 		<Unit filename="include/door.h" />
 		<Unit filename="include/door_switch.h" />
 		<Unit filename="include/func.h" />
+		<Unit filename="include/hud.h" />
 		<Unit filename="include/player.h" />
+		<Unit filename="include/sign.h" />
 		<Unit filename="include/wall.h" />
 		<Unit filename="include/wall_mark.h" />
 		<Unit filename="main.cpp" />
@@ -82,7 +104,9 @@
 		<Unit filename="src/door.cpp" />
 		<Unit filename="src/door_switch.cpp" />
 		<Unit filename="src/func.cpp" />
+		<Unit filename="src/hud.cpp" />
 		<Unit filename="src/player.cpp" />
+		<Unit filename="src/sign.cpp" />
 		<Unit filename="src/wall.cpp" />
 		<Unit filename="src/wall_mark.cpp" />
 		<Extensions>

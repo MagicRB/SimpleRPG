@@ -9,21 +9,36 @@
 
 #include <block.h>
 
+#include <hud.h>
+#include <string>
+
 class sign : public block
 {
     public:
         sign();
         ~sign();
 
+        std::string text;
+
         void render(int cy, int cx)
         {
-            mvaddch(block::y - cy, block::x - cx, '#');
+            mvaddch(block::y - cy, block::x - cx, 'S');
         }
 
         void setPos(int y, int x)
         {
             block::y = y;
             block::x = x;
+        }
+
+        void setText(std::string str)
+        {
+            text = str;
+        }
+
+        void read(hud* hud_o)
+        {
+            hud_o->displayText(text);
         }
 
     protected:
