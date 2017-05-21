@@ -23,5 +23,5 @@ g++  -o bin/Debug/RPG obj/Debug/main.o obj/Debug/src/animBlock.o obj/Debug/src/b
 
 Windows x86_64 Binary [Download](http://62.168.71.236/SimpleRPG/RPG.exe)  
 Arch Linux x86_64 Binary [Download](http://62.168.71.236/SimpleRPG/RPG)  
-Example obj file [Download](http://62.168.71.236/SimpleRPG/obj.txt)
+Example obj file [Download](http://62.168.71.236/SimpleRPG/obj.txt)  
 Required dlls (Windows only) [Download](http://62.168.71.236/SimpleRPG/dlls.zip)
