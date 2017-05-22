@@ -26,7 +26,7 @@ On linux you need to have ncurses installed to run and compile this
 When cross compiling from Linux to Windows follow [this](https://sourceforge.net/p/mingw-w64/wiki2/NCurses/), change prefix to some sensible place (on Arch linux /usr/)  
 when compiling on Windows you need [this](www.google.com) (Just a placeholder)  
 
-On Linux GCC link againt lib ncurses with -lncurses
+On Linux GCC link againt lib ncurses with -lncurses  
 On Linux when cross compiling for Windows use linker options:
 > -lstdc++  
 -lgcc  
