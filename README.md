@@ -5,6 +5,8 @@ Prefarably use CodeBlocks for ease of compilation
 
 ## Compilation
 
+Test
+
 Use Code::Blocks!! It's easy.  
 To compile on windows for windows use Windows - Debug  
 To compile on linux for linux use Linux - Debug  
