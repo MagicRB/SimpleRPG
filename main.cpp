@@ -8,6 +8,8 @@
 
 #include "colors.h"
 
+#include <func.h>
+
 #include <player.h>
 #include <wall.h>
 #include <wall_mark.h>
@@ -16,6 +18,15 @@
 #include <animBlock.h>
 #include <hud.h>
 #include <sign.h>
+
+#include <stdio.h>
+
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_video.h>
+#include <SDL2/SDL_ttf.h>
+
+//#include <GL/glut.h>
+//#include <GL/gl.h>
 
 #include <sstream>
 #include <string>
@@ -27,6 +38,18 @@
 
 
 int ch;
+
+SDL_Window* window = NULL;
+SDL_Surface* screenSurface = NULL;
+SDL_Renderer* renderer = NULL;
+
+TTF_Font* font;
+
+long long int timeDelta = 0;
+long long int currentTime = 80;
+long long int lastTime = 0;
+
+struct timeval tv;
 
 hud hud_o;
 player pl;
@@ -52,6 +75,8 @@ sign sign_o;
 std::string obj_ln;
 std::vector<std::string> splObj_ln;
 
+func fc;
+
 int cy = 0;
 int cx = 0;
 
@@ -60,7 +85,7 @@ int numy = 0;
 
 std::string vstr(std::vector<std::string> v, int unsigned short i)
 {
-    std::cout << i << v.size() << std::endl;
+    //std::cout << i << v.size() << std::endl;
     std::string str;
     if (i <= v.size() - 1)
     {
@@ -71,7 +96,6 @@ std::string vstr(std::vector<std::string> v, int unsigned short i)
     }
     return str;
 }
-
 
 void addObjects()
 {
@@ -85,7 +109,7 @@ void addObjects()
         std::istringstream ss(obj_ln);
         std::string token;
 
-        std::cout << obj_ln << std::endl;
+        //std::cout << obj_ln << std::endl;
 
         if (obj_ln == "")
         {
@@ -107,8 +131,7 @@ void addObjects()
                 wall_v.push_back(wall_o);
                 wall_v.at(wall_v.size() - 1).setPos(numy, numx);
             }
-        }
-        if (vstr(splObj_ln, 0) == "door")
+        } else if (vstr(splObj_ln, 0) == "door")
         {
             std::stringstream nystream(vstr(splObj_ln, 1));
             std::stringstream nxstream(vstr(splObj_ln, 2));
@@ -125,8 +148,7 @@ void addObjects()
                     door_v.at(door_v.size() - 1).dch = '/';
                 }
             }
-        }
-        if (vstr(splObj_ln, 0) == "door_switch")
+        } else if (vstr(splObj_ln, 0) == "door_switch")
         {
             std::stringstream nystream(vstr(splObj_ln, 1));
             std::stringstream nxstream(vstr(splObj_ln, 2));
@@ -142,8 +164,7 @@ void addObjects()
                 door_sv.at(door_sv.size() - 1).setPos(numy, numx, numdy, numdx);
             }
 
-        }
-        if (vstr(splObj_ln, 0) == "anim_block")
+        } else if (vstr(splObj_ln, 0) == "anim_block")
         {
             std::stringstream nystream(vstr(splObj_ln, 1));
             std::stringstream nxstream(vstr(splObj_ln, 2));
@@ -152,8 +173,7 @@ void addObjects()
                 animBlock_v.push_back(animBlock_o);
                 animBlock_v.at(animBlock_v.size() - 1).setPos(numy, numx);
             }
-        }
-        if (vstr(splObj_ln, 0) == "sign")
+        } else if (vstr(splObj_ln, 0) == "sign")
         {
             std::stringstream nystream(vstr(splObj_ln, 1));
             std::stringstream nxstream(vstr(splObj_ln, 2));
@@ -170,8 +190,18 @@ void addObjects()
 	infile.close();
 }
 
+
+
+void SDLRender()
+{
+    //SDL_FillRect(screenSurface, NULL, SDL_MapRGB(screenSurface->format, 0x00, 0x00, 0x00));
+
+    SDL_RenderPresent(renderer);
+}
+
 void grender()
 {
+    SDL_RenderClear(renderer);
     erase();
 
     for (int unsigned i = 0; i < wall_v.size(); i++)
@@ -179,6 +209,7 @@ void grender()
         attron(COLOR_PAIR(PAIR_BROWN_BROWN_DARK));
         wall_v.at(i).render(cy, cx);
         attroff(COLOR_PAIR(PAIR_BROWN_BROWN_DARK));
+        wall_v.at(i).SDL_render(window, renderer, font, cy, cx);
     }
     for (int unsigned i = 0; i < wall_mv.size(); i++)
     {
@@ -204,10 +235,14 @@ void grender()
     mvaddch(0 - cy, 0 - cx, '$');
 
     pl.render(cy, cx);
+    pl.SDL_render(window, renderer, font, cy, cx);
+
 
     hud_o.render(&pl);
 
     refresh();
+
+    SDLRender();
 }
 
 void init_cpairs()
@@ -217,6 +252,30 @@ void init_cpairs()
     init_color(COLOR_BROWN_DARK, 388, 212, 24);
 }
 
+int SDLInit()
+{
+    if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
+    {
+        return -1;
+    }
+
+    TTF_Init();
+
+    font = fc.loadTTF("./font.ttf", 15);
+
+    window = SDL_CreateWindow("SDL_TEST", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SDL_WIDTH, SDL_HEIGTH, SDL_WINDOW_SHOWN);
+    if (window == NULL)
+    {
+        return -1;
+    }
+
+    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+
+    //screenSurface = SDL_GetWindowSurface(window);
+
+    return 0;
+}
+
 int main()
 {
     std::ofstream outmap;
@@ -224,7 +283,7 @@ int main()
 
     addObjects();
 
-    /// Initialize ncurses
+    ///Initialize ncurses
     initscr();
     //cbreak();
 
@@ -237,6 +296,10 @@ int main()
     start_color();
     init_cpairs();
 
+    if (SDLInit() != 0)
+    {
+        return -1;
+    }
 
     cy = (-1)*(getmaxy(stdscr) / 2);
     cx = (-1)*(getmaxx(stdscr) / 2);
@@ -245,96 +308,80 @@ int main()
 
     while (true)
     {
-        ch = getch();
+        gettimeofday (&tv, NULL);
+        currentTime = tv.tv_sec * 1000 + tv.tv_usec / 1000;
 
-        if (ch == 'd' && !(pl.checkColl(0, 1, cy, cx)))
+        timeDelta = currentTime - lastTime;
+
+        if (timeDelta >= 20)
         {
-            pl.chmove(pl.y, pl.x + 1);
-            cx += 1;
-            //grender();
-        } else if (ch == 'a' && !(pl.checkColl(0, -1, cy, cx)))
-        {
-            pl.chmove(pl.y, pl.x - 1);
-            cx -= 1;
-            //grender();
-        }
-        if (ch == 'w' && !(pl.checkColl(-1, 0, cy, cx)))
-        {
-            pl.chmove(pl.y - 1, pl.x);
-            cy -= 1;
-            //grender();
-        } else if (ch == 's' && !(pl.checkColl(1, 0, cy, cx)))
-        {
-            pl.chmove(pl.y + 1, pl.x);
-            cy += 1;
-            //grender();
-//        } else if (ch == '/')
-//        {
-//            wall_mv.push_back(wall_mo);
-//            wall_mv.at(wall_mv.size()-1).setPos(pl.y, pl.x);
-//        } else if (ch == '.')
-//        {
-//            for (unsigned int i = 0; i < wall_mv.size(); i++)
-//            {
-//                if (wall_mv.at(i).y == pl.y && wall_mv.at(i).x == pl.x)
-//                {
-//                    wall_mv.erase(wall_mv.begin() + i);
-//                    wall_mv.shrink_to_fit();
-//                }
-//            }
-        } else if (ch == 'e')
-        {
-            for (int unsigned i = 0; i < door_sv.size(); i++)
+            lastTime = currentTime;
+
+            ch = getch();
+
+            if (ch == 'd' && !(pl.checkColl(0, 1, cy, cx)))
             {
-                if (door_sv.at(i).y == pl.y && door_sv.at(i).x == pl.x)
+                pl.chmove(pl.y, pl.x + 1);
+                cx += 1;
+                //grender();
+            } else if (ch == 'a' && !(pl.checkColl(0, -1, cy, cx)))
+            {
+                pl.chmove(pl.y, pl.x - 1);
+                cx -= 1;
+            } else if (ch == 'w' && !(pl.checkColl(-1, 0, cy, cx)))
+            {
+                pl.chmove(pl.y - 1, pl.x);
+                cy -= 1;
+            } else if (ch == 's' && !(pl.checkColl(1, 0, cy, cx)))
+            {
+                pl.chmove(pl.y + 1, pl.x);
+                cy += 1;
+            } else if (ch == 'e')
+            {
+                for (int unsigned i = 0; i < door_sv.size(); i++)
                 {
-                    for (int unsigned di = 0; di < door_v.size(); di++)
+                    if (door_sv.at(i).y == pl.y && door_sv.at(i).x == pl.x)
                     {
-                        if (door_v.at(di).x == door_sv.at(i).dx && door_v.at(di).y == door_sv.at(i).dy)
+                        for (int unsigned di = 0; di < door_v.size(); di++)
                         {
-                            door_v.at(di).switchState();
+                            if (door_v.at(di).x == door_sv.at(i).dx && door_v.at(di).y == door_sv.at(i).dy)
+                            {
+                                door_v.at(di).switchState();
+                            }
                         }
                     }
                 }
-            }
-            for (int unsigned i = 0; i < sign_v.size(); i++)
-            {
-                if (sign_v.at(i).y == pl.y && sign_v.at(i).x == pl.x)
+                for (int unsigned i = 0; i < sign_v.size(); i++)
                 {
-                    sign_v.at(i).read(&hud_o);
+                    if (sign_v.at(i).y == pl.y && sign_v.at(i).x == pl.x)
+                    {
+                        sign_v.at(i).read(&hud_o);
+                    }
                 }
-            }
-
-            //grender();
-        } else if (ch == 'q')
-        {
-            for (unsigned int i = 0; i < wall_mv.size(); i++)
+            } else if (ch == 'q')
             {
-                outmap << "wall;" << wall_mv.at(i).y << ";" << wall_mv.at(i).x<< "\n";
+                for (unsigned int i = 0; i < wall_mv.size(); i++)
+                {
+                    outmap << "wall;" << wall_mv.at(i).y << ";" << wall_mv.at(i).x<< "\n";
+                }
+                outmap.close();
+                break;
+            } else if (ch == 'r')
+            {
+                cy = (-1)*(getmaxy(stdscr) / 2);
+                cx = (-1)*(getmaxx(stdscr) / 2);
+                cy += pl.y;
+                cx += pl.x;
             }
-            outmap.close();
-            break;
-        } else if (ch == 'r')
-        {
-            cy = (-1)*(getmaxy(stdscr) / 2);
-            cx = (-1)*(getmaxx(stdscr) / 2);
-            cy += pl.y;
-            cx += pl.x;
-        }// else if (ch == 'y')
-//        {
-//            hud_o.displayText("Once upon a time, there was a bird. He flew towards a mountain and hit a rock. He fell and broke his wings, then a cat came and rid him of his head.");
-//        }
-
-        grender();
-
-
-//        mvaddch(-5 - cy, -5 - cx, '#');
-//        mvaddch(-3 - cy, -10 - cx, '#');
-//        mvaddch(-2 - cy, -10 - cx, '#');
-//        mvaddch(0 - cy, 0 - cx, '$');
-
+            grender();
+        }
     }
     endwin();
+
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
+
+    SDL_Quit();
 
     return 0;
 }

@@ -22,19 +22,6 @@ void character::render(int cy, int cx)
     mvaddch(character::y - cy, character::x - cx, '@');
 }
 
-void character::erasel(int cy, int cx)
-{
-    mvaddch(character::ly - cy, character::lx - cx, ' ');
-}
-
-void character::chmove(int y, int x)
-{
-    character::lx = character::x;
-    character::ly = character::y;
-    character::x = x;
-    character::y = y;
-}
-
 bool character::checkColl(int y, int x,int cy, int cx)
 {
     int ch = mvwinch(stdscr, character::y + y - cy, character::x + x - cx) & A_CHARTEXT;
