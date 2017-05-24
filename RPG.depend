@@ -387,12 +387,20 @@
 
 1495370523 f:\projekts\c++\simplerpg\colors.h
 
-1495455075 source:/home/main/SimpleRPG/src/animBlock.cpp
+1495608105 source:/home/main/SimpleRPG/src/animBlock.cpp
 	"animBlock.h"
+	<SDL2/SDL.h>
+	<SDL2/SDL_video.h>
+	<SDL2/SDL_ttf.h>
+	<func.h>
 
-1495455075 /home/main/SimpleRPG/include/animBlock.h
+1495607942 /home/main/SimpleRPG/include/animBlock.h
 	<ncurses/curses.h>
 	<ncurses.h>
+	<SDL2/SDL.h>
+	<SDL2/SDL_video.h>
+	<SDL2/SDL_ttf.h>
+	<func.h>
 	<iostream>
 	<block.h>
 	<sys/time.h>
@@ -408,20 +416,28 @@
 1495455075 /home/main/SimpleRPG/include/character.h
 	<string>
 
-1495455075 source:/home/main/SimpleRPG/src/door.cpp
+1495608333 source:/home/main/SimpleRPG/src/door.cpp
 	"door.h"
 
-1495455075 /home/main/SimpleRPG/include/door.h
+1495608326 /home/main/SimpleRPG/include/door.h
 	<ncurses/curses.h>
 	<ncurses.h>
+	<SDL2/SDL.h>
+	<SDL2/SDL_video.h>
+	<SDL2/SDL_ttf.h>
+	<func.h>
 	<block.h>
 
 1495455075 source:/home/main/SimpleRPG/src/door_switch.cpp
 	"door_switch.h"
 
-1495455075 /home/main/SimpleRPG/include/door_switch.h
+1495607336 /home/main/SimpleRPG/include/door_switch.h
 	<ncurses/curses.h>
 	<ncurses.h>
+	<SDL2/SDL.h>
+	<SDL2/SDL_video.h>
+	<SDL2/SDL_ttf.h>
+	<func.h>
 	<block.h>
 
 1495545186 source:/home/main/SimpleRPG/src/func.cpp
@@ -438,17 +454,17 @@
 	<SDL2/SDL_video.h>
 	<SDL2/SDL_ttf.h>
 
-1495455075 source:/home/main/SimpleRPG/src/hud.cpp
+1495629838 source:/home/main/SimpleRPG/src/hud.cpp
 	"hud.h"
 	<player.h>
 
-1495455075 /home/main/SimpleRPG/include/hud.h
+1495617905 /home/main/SimpleRPG/include/hud.h
 	<player.h>
 	<string>
 	<ncurses/ncurses.h>
 	<ncurses.h>
 
-1495546489 /home/main/SimpleRPG/include/player.h
+1495629890 /home/main/SimpleRPG/include/player.h
 	<character.h>
 	<SDL2/SDL.h>
 	<SDL2/SDL_video.h>
@@ -463,19 +479,23 @@
 1495455075 source:/home/main/SimpleRPG/src/sign.cpp
 	"sign.h"
 
-1495455075 /home/main/SimpleRPG/include/sign.h
+1495606120 /home/main/SimpleRPG/include/sign.h
 	<ncurses/ncurses.h>
 	<ncurses.h>
+	<SDL2/SDL.h>
+	<SDL2/SDL_video.h>
+	<SDL2/SDL_ttf.h>
+	<func.h>
 	<block.h>
 	<hud.h>
 	<string>
 
-1495455075 source:/home/main/SimpleRPG/src/wall.cpp
+1495615555 source:/home/main/SimpleRPG/src/wall.cpp
 	"wall.h"
 	<ncurses/curses.h>
 	<ncurses.h>
 
-1495546355 /home/main/SimpleRPG/include/wall.h
+1495615555 /home/main/SimpleRPG/include/wall.h
 	<ncurses/curses.h>
 	<ncurses.h>
 	<SDL2/SDL.h>
@@ -494,7 +514,7 @@
 	<ncurses.h>
 	<block.h>
 
-1495546355 source:/home/main/SimpleRPG/main.cpp
+1495617928 source:/home/main/SimpleRPG/main.cpp
 	<iostream>
 	<ncurses/ncurses.h>
 	<ncurses.h>

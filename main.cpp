@@ -42,6 +42,7 @@ int ch;
 SDL_Window* window = NULL;
 SDL_Surface* screenSurface = NULL;
 SDL_Renderer* renderer = NULL;
+SDL_Event event;
 
 TTF_Font* font;
 
@@ -199,6 +200,25 @@ void SDLRender()
     SDL_RenderPresent(renderer);
 }
 
+void SDL_RenderStart()
+{
+    SDL_Surface* text = fc.SDL_drawText(font, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, "$", shaded);
+
+    SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, text);
+
+    SDL_FreeSurface(text);
+
+    SDL_Rect textRect;
+    textRect.x = (0 - cx) * 7;
+    textRect.y = (0 - cy) * 14;
+    textRect.w = 7;
+    textRect.h = 14;
+
+    SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
+
+    SDL_DestroyTexture(textTexture);
+}
+
 void grender()
 {
     SDL_RenderClear(renderer);
@@ -218,27 +238,34 @@ void grender()
     for (int unsigned i = 0; i < door_v.size(); i++)
     {
         door_v.at(i).render(cy, cx);
+        door_v.at(i).SDL_render(window, renderer, font, cy, cx);
     }
     for (int unsigned i = 0; i < door_sv.size(); i++)
     {
         door_sv.at(i).render(cy, cx);
+        door_sv.at(i).SDL_render(window, renderer, font, cy, cx);
     }
     for (int unsigned i = 0; i < animBlock_v.size(); i++)
     {
         animBlock_v.at(i).render(cy, cx);
+        animBlock_v.at(i).SDL_render(window, renderer, font, cy, cx);
     }
     for (int unsigned i = 0; i < sign_v.size(); i++)
     {
         sign_v.at(i).render(cy, cx);
+        sign_v.at(i).SDL_render(window, renderer, font, cy, cx);
     }
 
     mvaddch(0 - cy, 0 - cx, '$');
+
+    SDL_RenderStart();
 
     pl.render(cy, cx);
     pl.SDL_render(window, renderer, font, cy, cx);
 
 
     hud_o.render(&pl);
+    hud_o.SDL_render(window, renderer, font, &pl);
 
     refresh();
 
@@ -263,7 +290,7 @@ int SDLInit()
 
     font = fc.loadTTF("./font.ttf", 15);
 
-    window = SDL_CreateWindow("SDL_TEST", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SDL_WIDTH, SDL_HEIGTH, SDL_WINDOW_SHOWN);
+    window = SDL_CreateWindow("Kurva", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SDL_WIDTH, SDL_HEIGTH, SDL_WINDOW_SHOWN);
     if (window == NULL)
     {
         return -1;
@@ -318,6 +345,8 @@ int main()
             lastTime = currentTime;
 
             ch = getch();
+
+            SDL_PollEvent(&event);
 
             if (ch == 'd' && !(pl.checkColl(0, 1, cy, cx)))
             {

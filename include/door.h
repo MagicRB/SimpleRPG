@@ -7,6 +7,12 @@
     #include <ncurses.h>
 #endif
 
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_video.h>
+#include <SDL2/SDL_ttf.h>
+
+#include <func.h>
+
 #include <block.h>
 
 
@@ -19,16 +25,9 @@ class door : public block
         bool open = false;
         char dch = '/';
 
-        void render(int cy, int cx)
-        {
-            mvaddch(block::y - cy, block::x - cx, dch);
-        }
-
-        void setPos(int y, int x)
-        {
-            block::y = y;
-            block::x = x;
-        }
+        void render(int cy, int cx);
+        void SDL_render(SDL_Window* window, SDL_Renderer* renderer, TTF_Font* font, int cy, int cx);
+        void setPos(int y, int x);
 
         void switchState()
         {
@@ -42,6 +41,8 @@ class door : public block
         }
 
     protected:
+
+        func fc;
 
     private:
 };

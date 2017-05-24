@@ -7,6 +7,12 @@
     #include <ncurses.h>
 #endif
 
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_video.h>
+#include <SDL2/SDL_ttf.h>
+
+#include <func.h>
+
 #include <iostream>
 #include <block.h>
 #include <sys/time.h>
@@ -25,34 +31,13 @@ class animBlock : public block
         int currentTime = 80;
         int lastTime = 0;
 
-        void render(int cy, int cx)
-        {
-            gettimeofday (&tv, NULL);
-            currentTime = (tv.tv_sec) + 0.000001 * tv.tv_usec;
-
-            timeDelta = currentTime - lastTime;
-
-            if (timeDelta >= 1)
-            {
-                if (ch == 'a')
-                {
-                    ch = 'b';
-                } else
-                {
-                    ch = 'a';
-                }
-                lastTime = currentTime;
-            }
-            mvaddch(block::y - cy, block::x - cx, ch);
-        }
-
-        void setPos(int y, int x)
-        {
-            block::y = y;
-            block::x = x;
-        }
+        void render(int cy, int cx);
+        void SDL_render(SDL_Window* window, SDL_Renderer* renderer, TTF_Font* font, int cy, int cx);
+        void setPos(int y, int x);
 
     protected:
+
+        func fc;
 
     private:
 };
