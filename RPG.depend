@@ -419,7 +419,7 @@
 1495608333 source:/home/main/SimpleRPG/src/door.cpp
 	"door.h"
 
-1495608326 /home/main/SimpleRPG/include/door.h
+1495647352 /home/main/SimpleRPG/include/door.h
 	<ncurses/curses.h>
 	<ncurses.h>
 	<SDL2/SDL.h>
@@ -440,29 +440,30 @@
 	<func.h>
 	<block.h>
 
-1495545186 source:/home/main/SimpleRPG/src/func.cpp
+1495649592 source:/home/main/SimpleRPG/src/func.cpp
 	"func.h"
 	<string>
 	<vector>
 	<sstream>
 	<iostream>
 
-1495546185 /home/main/SimpleRPG/include/func.h
+1495649581 /home/main/SimpleRPG/include/func.h
 	<string>
 	<vector>
 	<SDL2/SDL.h>
 	<SDL2/SDL_video.h>
 	<SDL2/SDL_ttf.h>
 
-1495629838 source:/home/main/SimpleRPG/src/hud.cpp
+1495650725 source:/home/main/SimpleRPG/src/hud.cpp
 	"hud.h"
 	<player.h>
 
-1495617905 /home/main/SimpleRPG/include/hud.h
+1495650328 /home/main/SimpleRPG/include/hud.h
 	<player.h>
 	<string>
 	<ncurses/ncurses.h>
 	<ncurses.h>
+	<func.h>
 
 1495629890 /home/main/SimpleRPG/include/player.h
 	<character.h>
@@ -471,15 +472,15 @@
 	<SDL2/SDL_ttf.h>
 	<func.h>
 
-1495546428 source:/home/main/SimpleRPG/src/player.cpp
+1495647014 source:/home/main/SimpleRPG/src/player.cpp
 	"player.h"
 	<ncurses/curses.h>
 	<ncurses.h>
 
-1495455075 source:/home/main/SimpleRPG/src/sign.cpp
+1495650175 source:/home/main/SimpleRPG/src/sign.cpp
 	"sign.h"
 
-1495606120 /home/main/SimpleRPG/include/sign.h
+1495650175 /home/main/SimpleRPG/include/sign.h
 	<ncurses/ncurses.h>
 	<ncurses.h>
 	<SDL2/SDL.h>
@@ -514,7 +515,7 @@
 	<ncurses.h>
 	<block.h>
 
-1495617928 source:/home/main/SimpleRPG/main.cpp
+1495649826 source:/home/main/SimpleRPG/main.cpp
 	<iostream>
 	<ncurses/ncurses.h>
 	<ncurses.h>

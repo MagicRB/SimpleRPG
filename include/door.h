@@ -31,13 +31,14 @@ class door : public block
 
         void switchState()
         {
-            if (dch == '/')
+            if (open == false)
             {
                 dch = '*';
-            } else if (dch == '*')
+            } else if (open == true)
             {
                 dch = '/';
             }
+            open = !open;
         }
 
     protected:

@@ -13,6 +13,9 @@
 
 enum textQuality {solid, shaded, blended};
 
+extern bool SDL_ENABLED;
+extern bool NCURSES_ENABLED;
+
 class func
 {
     public:

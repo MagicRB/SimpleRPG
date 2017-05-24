@@ -144,9 +144,11 @@ void addObjects()
                 if (vstr(splObj_ln, 3) == "open")
                 {
                     door_v.at(door_v.size() - 1).dch = '*';
+                    door_v.at(door_v.size() - 1).open = true;
                 } else
                 {
                     door_v.at(door_v.size() - 1).dch = '/';
+                    door_v.at(door_v.size() - 1).open = false;
                 }
             }
         } else if (vstr(splObj_ln, 0) == "door_switch")
@@ -191,17 +193,48 @@ void addObjects()
 	infile.close();
 }
 
-
-
-void SDLRender()
+void NCurses_Render()
 {
-    //SDL_FillRect(screenSurface, NULL, SDL_MapRGB(screenSurface->format, 0x00, 0x00, 0x00));
+    erase();
 
-    SDL_RenderPresent(renderer);
+    for (int unsigned short i = 0; i < wall_v.size(); i++)
+    {
+        wall_v.at(i).render(cy, cx);
+    }
+    for (int unsigned short i = 0; i < wall_mv.size(); i++)
+    {
+        wall_mv.at(i).render(cy, cx);
+    }
+    for (int unsigned short i = 0; i < door_v.size(); i++)
+    {
+        door_v.at(i).render(cy, cx);
+    }
+    for (int unsigned short i = 0; i < door_sv.size(); i++)
+    {
+        door_sv.at(i).render(cy, cx);
+    }
+    for (int unsigned short i = 0; i < animBlock_v.size(); i++)
+    {
+        animBlock_v.at(i).render(cy, cx);
+    }
+    for (int unsigned short i = 0; i < sign_v.size(); i++)
+    {
+        sign_v.at(i).render(cy, cx);
+    }
+
+    mvaddch(0 - cy, 0 - cx, '$');
+
+    pl.render(cy, cx);
+
+    hud_o.render(&pl);
+
+    refresh();
 }
 
-void SDL_RenderStart()
+void SDL_Render()
 {
+    SDL_RenderClear(renderer);
+
     SDL_Surface* text = fc.SDL_drawText(font, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, "$", shaded);
 
     SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, text);
@@ -217,59 +250,49 @@ void SDL_RenderStart()
     SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
 
     SDL_DestroyTexture(textTexture);
+
+    for (int unsigned short i = 0; i < wall_v.size(); i++)
+    {
+        wall_v.at(i).SDL_render(window, renderer, font, cy, cx);
+    }
+    for (int unsigned short i = 0; i < wall_mv.size(); i++)
+    {
+
+    }
+    for (int unsigned short i = 0; i < door_v.size(); i++)
+    {
+        door_v.at(i).SDL_render(window, renderer, font, cy, cx);
+    }
+    for (int unsigned short i = 0; i < door_sv.size(); i++)
+    {
+        door_sv.at(i).SDL_render(window, renderer, font, cy, cx);
+    }
+    for (int unsigned short i = 0; i < animBlock_v.size(); i++)
+    {
+        animBlock_v.at(i).SDL_render(window, renderer, font, cy, cx);
+    }
+    for (int unsigned short i = 0; i < sign_v.size(); i++)
+    {
+        sign_v.at(i).SDL_render(window, renderer, font, cy, cx);
+    }
+
+    pl.SDL_render(window, renderer, font, cy, cx);
+
+    hud_o.SDL_render(window, renderer, font, &pl);
+
+    SDL_RenderPresent(renderer);
 }
 
 void grender()
 {
-    SDL_RenderClear(renderer);
-    erase();
-
-    for (int unsigned i = 0; i < wall_v.size(); i++)
+    if (NCURSES_ENABLED == true)
     {
-        attron(COLOR_PAIR(PAIR_BROWN_BROWN_DARK));
-        wall_v.at(i).render(cy, cx);
-        attroff(COLOR_PAIR(PAIR_BROWN_BROWN_DARK));
-        wall_v.at(i).SDL_render(window, renderer, font, cy, cx);
+        NCurses_Render();
     }
-    for (int unsigned i = 0; i < wall_mv.size(); i++)
+    if (SDL_ENABLED == true)
     {
-        wall_mv.at(i).render(cy, cx);
+        SDL_Render();
     }
-    for (int unsigned i = 0; i < door_v.size(); i++)
-    {
-        door_v.at(i).render(cy, cx);
-        door_v.at(i).SDL_render(window, renderer, font, cy, cx);
-    }
-    for (int unsigned i = 0; i < door_sv.size(); i++)
-    {
-        door_sv.at(i).render(cy, cx);
-        door_sv.at(i).SDL_render(window, renderer, font, cy, cx);
-    }
-    for (int unsigned i = 0; i < animBlock_v.size(); i++)
-    {
-        animBlock_v.at(i).render(cy, cx);
-        animBlock_v.at(i).SDL_render(window, renderer, font, cy, cx);
-    }
-    for (int unsigned i = 0; i < sign_v.size(); i++)
-    {
-        sign_v.at(i).render(cy, cx);
-        sign_v.at(i).SDL_render(window, renderer, font, cy, cx);
-    }
-
-    mvaddch(0 - cy, 0 - cx, '$');
-
-    SDL_RenderStart();
-
-    pl.render(cy, cx);
-    pl.SDL_render(window, renderer, font, cy, cx);
-
-
-    hud_o.render(&pl);
-    hud_o.SDL_render(window, renderer, font, &pl);
-
-    refresh();
-
-    SDLRender();
 }
 
 void init_cpairs()
@@ -303,6 +326,25 @@ int SDLInit()
     return 0;
 }
 
+bool checkColl(int y, int x)
+{
+    for (int unsigned short i = 0; i < wall_v.size(); i++)
+    {
+        if (pl.y + y == wall_v.at(i).y && pl.x + x == wall_v.at(i).x)
+        {
+            return true;
+        }
+    }
+    for (int unsigned short i = 0; i < door_v.size(); i++)
+    {
+        if (pl.y + y == door_v.at(i).y && pl.x + x == door_v.at(i).x && door_v.at(i).open == false)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 int main()
 {
     std::ofstream outmap;
@@ -310,26 +352,43 @@ int main()
 
     addObjects();
 
-    ///Initialize ncurses
-    initscr();
-    //cbreak();
-
-    timeout(0);
-    noecho();
-    keypad(stdscr, TRUE);
-    curs_set(0);
-
-
-    start_color();
-    init_cpairs();
-
-    if (SDLInit() != 0)
+    if (NCURSES_ENABLED == true)
     {
-        return -1;
+        ///Initialize ncurses
+        initscr();
+        //cbreak();
+
+        timeout(0);
+        noecho();
+        keypad(stdscr, TRUE);
+        curs_set(0);
+
+
+        start_color();
+        init_cpairs();
     }
 
-    cy = (-1)*(getmaxy(stdscr) / 2);
-    cx = (-1)*(getmaxx(stdscr) / 2);
+    if (SDL_ENABLED == true)
+    {
+        if (SDLInit() != 0)
+        {
+            return -1;
+        }
+
+        SDL_FlushEvent(SDL_KEYDOWN);
+    }
+
+    if (SDL_ENABLED == true)
+    {
+        cy = (-1)*(SDL_HEIGTH / 14 / 2);
+        cx = (-1)*(SDL_WIDTH / 7 / 2);
+    }
+
+    if (NCURSES_ENABLED == true)
+    {
+        cy = (-1)*(getmaxy(stdscr) / 2);
+        cx = (-1)*(getmaxx(stdscr) / 2);
+    }
 
     grender();
 
@@ -340,28 +399,26 @@ int main()
 
         timeDelta = currentTime - lastTime;
 
-        if (timeDelta >= 20)
+        if (timeDelta >= 20 && NCURSES_ENABLED == true)
         {
             lastTime = currentTime;
 
             ch = getch();
 
-            SDL_PollEvent(&event);
-
-            if (ch == 'd' && !(pl.checkColl(0, 1, cy, cx)))
+            if (ch == 'd' && !(checkColl(0, 1)))
             {
                 pl.chmove(pl.y, pl.x + 1);
                 cx += 1;
                 //grender();
-            } else if (ch == 'a' && !(pl.checkColl(0, -1, cy, cx)))
+            } else if (ch == 'a' && !(checkColl(0, -1)))
             {
                 pl.chmove(pl.y, pl.x - 1);
                 cx -= 1;
-            } else if (ch == 'w' && !(pl.checkColl(-1, 0, cy, cx)))
+            } else if (ch == 'w' && !(checkColl(-1, 0)))
             {
                 pl.chmove(pl.y - 1, pl.x);
                 cy -= 1;
-            } else if (ch == 's' && !(pl.checkColl(1, 0, cy, cx)))
+            } else if (ch == 's' && !(checkColl(1, 0)))
             {
                 pl.chmove(pl.y + 1, pl.x);
                 cy += 1;
@@ -384,10 +441,74 @@ int main()
                 {
                     if (sign_v.at(i).y == pl.y && sign_v.at(i).x == pl.x)
                     {
-                        sign_v.at(i).read(&hud_o);
+                        sign_v.at(i).read(&hud_o, font, renderer);
                     }
                 }
             } else if (ch == 'q')
+            {
+                for (unsigned int i = 0; i < wall_mv.size(); i++)
+                {
+                    outmap << "wall;" << wall_mv.at(i).y << ";" << wall_mv.at(i).x<< "\n";
+                }
+                outmap.close();
+                break;
+            } else if (ch == 'r')
+            {
+                cy = (-1)*(getmaxy(stdscr) / 2);
+                cx = (-1)*(getmaxx(stdscr) / 2);
+                cy += pl.y;
+                cx += pl.x;
+            }
+            grender();
+        }
+        if (timeDelta >= 20 && SDL_ENABLED == true)
+        {
+            lastTime = currentTime;
+
+            ch = getch();
+
+            SDL_PollEvent(&event);
+
+            if (event.key.keysym.sym == SDLK_d && event.type == SDL_KEYDOWN && !(checkColl(0, 1)))
+            {
+                pl.chmove(pl.y, pl.x + 1);
+                cx += 1;
+                //grender();
+            } else if (event.key.keysym.sym == SDLK_a && event.type == SDL_KEYDOWN && !(checkColl(0, -1)))
+            {
+                pl.chmove(pl.y, pl.x - 1);
+                cx -= 1;
+            } else if (event.key.keysym.sym == SDLK_w && event.type == SDL_KEYDOWN && !(checkColl(-1, 0)))
+            {
+                pl.chmove(pl.y - 1, pl.x);
+                cy -= 1;
+            } else if (event.key.keysym.sym == SDLK_s && event.type == SDL_KEYDOWN && !(checkColl(1, 0)))
+            {
+                pl.chmove(pl.y + 1, pl.x);
+                cy += 1;
+            } else if (event.key.keysym.sym == SDLK_e && event.type == SDL_KEYDOWN)
+            {
+                for (int unsigned i = 0; i < door_sv.size(); i++)
+                {
+                    if (door_sv.at(i).y == pl.y && door_sv.at(i).x == pl.x)
+                    {
+                        for (int unsigned di = 0; di < door_v.size(); di++)
+                        {
+                            if (door_v.at(di).x == door_sv.at(i).dx && door_v.at(di).y == door_sv.at(i).dy)
+                            {
+                                door_v.at(di).switchState();
+                            }
+                        }
+                    }
+                }
+                for (int unsigned i = 0; i < sign_v.size(); i++)
+                {
+                    if (sign_v.at(i).y == pl.y && sign_v.at(i).x == pl.x)
+                    {
+                        sign_v.at(i).read(&hud_o, font, renderer);
+                    }
+                }
+            } else if (event.key.keysym.sym == SDLK_q && event.type == SDL_KEYDOWN)
             {
                 for (unsigned int i = 0; i < wall_mv.size(); i++)
                 {

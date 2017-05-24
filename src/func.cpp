@@ -4,6 +4,9 @@
 #include <sstream>
 #include <iostream>
 
+bool SDL_ENABLED = true;
+bool NCURSES_ENABLED = false;
+
 func::func()
 {
     //ctor

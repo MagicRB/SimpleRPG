@@ -10,6 +10,8 @@
     #include <ncurses.h>
 #endif
 
+#include <func.h>
+
 class hud
 {
     public:
@@ -17,13 +19,15 @@ class hud
         ~hud();
 
         void render(player* pl);
-        void displayText(std::string str);
+        void displayText(std::string str, TTF_Font* font, SDL_Renderer* renderer);
         void SDL_render(SDL_Window* window, SDL_Renderer* renderer, TTF_Font* font, player* pl);
 
 
     protected:
 
         func fc;
+
+        SDL_Event event;
 
     private:
 };

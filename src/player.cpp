@@ -21,15 +21,3 @@ void character::render(int cy, int cx)
 {
     mvaddch(character::y - cy, character::x - cx, '@');
 }
-
-bool character::checkColl(int y, int x,int cy, int cx)
-{
-    int ch = mvwinch(stdscr, character::y + y - cy, character::x + x - cx) & A_CHARTEXT;
-    if (ch == '#' || ch == '/')
-    {
-        return true;
-    } else
-    {
-        return false;
-    }
-}

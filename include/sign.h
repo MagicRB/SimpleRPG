@@ -26,45 +26,15 @@ class sign : public block
 
         std::string text;
 
-        void render(int cy, int cx)
-        {
-            mvaddch(block::y - cy, block::x - cx, 'S');
-        }
+        void render(int cy, int cx);
 
-        void SDL_render(SDL_Window* window, SDL_Renderer* renderer, TTF_Font* font, int cy, int cx)
-        {
-            SDL_Surface* text = fc.SDL_drawText(font, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, "S", shaded);
+        void SDL_render(SDL_Window* window, SDL_Renderer* renderer, TTF_Font* font, int cy, int cx);
 
-            SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, text);
+        void setPos(int y, int x);
 
-            SDL_FreeSurface(text);
+        void setText(std::string str);
 
-            SDL_Rect textRect;
-            textRect.x = (block::x - cx) * 7;
-            textRect.y = (block::y - cy) * 14;
-            textRect.w = 7;
-            textRect.h = 14;
-
-            SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
-
-            SDL_DestroyTexture(textTexture);
-        }
-
-        void setPos(int y, int x)
-        {
-            block::y = y;
-            block::x = x;
-        }
-
-        void setText(std::string str)
-        {
-            text = str;
-        }
-
-        void read(hud* hud_o)
-        {
-            hud_o->displayText(text);
-        }
+        void read(hud* hud_o, TTF_Font* font, SDL_Renderer* renderer);
 
     protected:
 
