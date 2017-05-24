@@ -39,6 +39,22 @@ void animBlock::render(int cy, int cx)
 
 void animBlock::SDL_render(SDL_Window* window, SDL_Renderer* renderer, TTF_Font* font, int cy, int cx)
 {
+    gettimeofday (&tv, NULL);
+    currentTime = (tv.tv_sec) + 0.000001 * tv.tv_usec;
+
+    timeDelta = currentTime - lastTime;
+
+    if (timeDelta >= 1)
+    {
+        if (ch == 'a')
+        {
+            ch = 'b';
+        } else
+        {
+            ch = 'a';
+        }
+        lastTime = currentTime;
+    }
     SDL_Surface* text = fc.SDL_drawText(font, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, &ch, shaded);
 
     SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, text);
