@@ -9,6 +9,8 @@
 
 #include <func.h>
 
+enum look { up, down, left, right, left_down, left_up, right_down, right_up };
+
 class player : public character
 {
     public:
@@ -16,34 +18,18 @@ class player : public character
         player();
         ~player();
 
-        void SDL_render(SDL_Window* window, SDL_Renderer* renderer, TTF_Font* font, int cy, int cx)
-        {
-            SDL_Surface* text = fc.SDL_drawText(font, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, "@", shaded);
+        void SDL_render(SDL_Window* window, SDL_Renderer* renderer, TTF_Font* font, int cy, int cx);
+        void chmove(int y, int x);
+        void renderLook(look lk, TTF_Font* font, SDL_Renderer* renderer, int cy, int cx);
 
-            SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, text);
 
-            SDL_FreeSurface(text);
-
-            SDL_Rect textRect;
-            textRect.x = (character::x - cx) * 7;
-            textRect.y = (character::y - cy) * 14;
-            textRect.w = 7;
-            textRect.h = 14;
-
-            SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
-
-            SDL_DestroyTexture(textTexture);
-        }
-
-        void chmove(int y, int x)
-        {
-            character::y = y;
-            character::x = x;
-        }
     protected:
 
         int short reqxp = 100;
         int short xp = 0;
+
+        int lky;
+        int lkx;
 
         func fc;
 

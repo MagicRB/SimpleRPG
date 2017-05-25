@@ -44,7 +44,7 @@ std::vector<std::string> func::split(std::string str) {
     return tmpFont;
 }
 
-SDL_Surface* func::SDL_drawText(TTF_Font* font,  Uint8 fgR, Uint8 fgG, Uint8 fgB, Uint8 fgA, Uint8 bgR, Uint8 bgG, Uint8 bgB, Uint8 bgA, char text[], textQuality quality)
+SDL_Surface* func::SDL_drawText(TTF_Font* font,  Uint8 fgR, Uint8 fgG, Uint8 fgB, Uint8 fgA, Uint8 bgR, Uint8 bgG, Uint8 bgB, Uint8 bgA, char text[], textQuality quality, Uint16* utext)
 {
     SDL_Color tmpFontColor = {fgR,fgG,fgB,fgA};
     SDL_Color tmpfontBGColor = {bgR, bgG, bgB, bgA};
@@ -60,6 +60,16 @@ SDL_Surface* func::SDL_drawText(TTF_Font* font,  Uint8 fgR, Uint8 fgG, Uint8 fgB
     } else if (quality == blended)
     {
         resText = TTF_RenderText_Blended(font, text, tmpFontColor);
+    }
+        if (quality == solid_uni)
+    {
+        resText = TTF_RenderUNICODE_Solid(font, utext, tmpFontColor);
+    } else if (quality == shaded_uni)
+    {
+        resText = TTF_RenderUNICODE_Shaded(font, utext, tmpFontColor, tmpfontBGColor);
+    } else if (quality == blended_uni)
+    {
+        resText = TTF_RenderUNICODE_Blended(font, utext, tmpFontColor);
     }
 
     return resText;

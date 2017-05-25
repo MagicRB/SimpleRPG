@@ -11,7 +11,7 @@
 #include <SDL2/SDL_video.h>
 #include <SDL2/SDL_ttf.h>
 
-enum textQuality {solid, shaded, blended};
+enum textQuality { solid, shaded, blended, solid_uni, shaded_uni, blended_uni };
 
 extern bool SDL_ENABLED;
 extern bool NCURSES_ENABLED;
@@ -23,7 +23,7 @@ class func
         func();
         ~func();
         std::vector<std::string> split(std::string str);
-        SDL_Surface* SDL_drawText(TTF_Font* font,  Uint8 fgR, Uint8 fgG, Uint8 fgB, Uint8 fgA, Uint8 bgR, Uint8 bgG, Uint8 bgB, Uint8 bgA, char text[], textQuality quality);
+        SDL_Surface* SDL_drawText(TTF_Font* font,  Uint8 fgR, Uint8 fgG, Uint8 fgB, Uint8 fgA, Uint8 bgR, Uint8 bgG, Uint8 bgB, Uint8 bgA, char text[], textQuality quality, Uint16* utext = (Uint16*)2022);
         TTF_Font* loadTTF(char* file, int short ptsize);
 
     protected:

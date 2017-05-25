@@ -84,6 +84,8 @@ int cx = 0;
 int numx = 0;
 int numy = 0;
 
+look lk = up;
+
 std::string vstr(std::vector<std::string> v, int unsigned short i)
 {
     //std::cout << i << v.size() << std::endl;
@@ -245,7 +247,7 @@ void SDL_Render()
 {
     SDL_RenderClear(renderer);
 
-    SDL_Surface* text = fc.SDL_drawText(font, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, "$", shaded);
+    SDL_Surface* text = fc.SDL_drawText(font, (Uint8)0xFF, (Uint8)0xFF, (Uint8)0xFF, (Uint8)0xFF, (Uint8)0x00, (Uint8)0x00, (Uint8)0x00, (Uint8)0x00, (char*)"$", shaded);
 
     SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, text);
 
@@ -289,6 +291,8 @@ void SDL_Render()
     pl.SDL_render(window, renderer, font, cy, cx);
 
     hud_o.SDL_render(window, renderer, font, &pl);
+
+    pl.renderLook(lk, font, renderer, cy, cx);
 
     SDL_RenderPresent(renderer);
 }
@@ -526,12 +530,30 @@ int main()
                 }
                 outmap.close();
                 break;
-            } else if (ch == 'r')
+            } else if (event.key.keysym.sym == SDLK_KP_1 && event.type == SDL_KEYDOWN)
             {
-                cy = (-1)*(getmaxy(stdscr) / 2);
-                cx = (-1)*(getmaxx(stdscr) / 2);
-                cy += pl.y;
-                cx += pl.x;
+                lk = left_down;
+            } else if (event.key.keysym.sym == SDLK_KP_2 && event.type == SDL_KEYDOWN)
+            {
+                lk = down;
+            } else if (event.key.keysym.sym == SDLK_KP_3 && event.type == SDL_KEYDOWN)
+            {
+                lk = right_down;
+            } else if (event.key.keysym.sym == SDLK_KP_4 && event.type == SDL_KEYDOWN)
+            {
+                lk = left;
+            } else if (event.key.keysym.sym == SDLK_KP_6 && event.type == SDL_KEYDOWN)
+            {
+                lk = right;
+            } else if (event.key.keysym.sym == SDLK_KP_7 && event.type == SDL_KEYDOWN)
+            {
+                lk = left_up;
+            } else if (event.key.keysym.sym == SDLK_KP_8 && event.type == SDL_KEYDOWN)
+            {
+                lk = up;
+            } else if (event.key.keysym.sym == SDLK_KP_9 && event.type == SDL_KEYDOWN)
+            {
+                lk = right_up;
             }
             grender();
         }
