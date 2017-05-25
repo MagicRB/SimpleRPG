@@ -49,7 +49,7 @@ void character::render(int cy, int cx)
 
 void player::renderLook(look lk, TTF_Font* font, SDL_Renderer* renderer, int cy, int cx)
 {
-    SDL_Surface* text = fc.SDL_drawText(font, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, "-", shaded, (Uint16*)2022);
+    SDL_Surface* text = fc.SDL_drawText(font, 0xCF, 0x00, 0x00, 0xFF, 0x00, 0x00, 0x00, 0x00, "-", solid, (Uint16*)2022);
 
     SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, text);
 

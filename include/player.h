@@ -22,14 +22,13 @@ class player : public character
         void chmove(int y, int x);
         void renderLook(look lk, TTF_Font* font, SDL_Renderer* renderer, int cy, int cx);
 
+        int lky;
+        int lkx;
 
     protected:
 
         int short reqxp = 100;
         int short xp = 0;
-
-        int lky;
-        int lkx;
 
         func fc;
 

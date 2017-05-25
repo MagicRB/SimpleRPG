@@ -271,13 +271,13 @@ void SDL_Render()
     {
 
     }
-    for (int unsigned short i = 0; i < door_v.size(); i++)
-    {
-        door_v.at(i).SDL_render(window, renderer, font, cy, cx);
-    }
     for (int unsigned short i = 0; i < door_sv.size(); i++)
     {
         door_sv.at(i).SDL_render(window, renderer, font, cy, cx);
+    }
+    for (int unsigned short i = 0; i < door_v.size(); i++)
+    {
+        door_v.at(i).SDL_render(window, renderer, font, cy, cx);
     }
     for (int unsigned short i = 0; i < animBlock_v.size(); i++)
     {
@@ -504,7 +504,7 @@ int main()
             {
                 for (int unsigned i = 0; i < door_sv.size(); i++)
                 {
-                    if (door_sv.at(i).y == pl.y && door_sv.at(i).x == pl.x)
+                    if (door_sv.at(i).y == pl.y + pl.lky && door_sv.at(i).x == pl.x + pl.lkx)
                     {
                         for (int unsigned di = 0; di < door_v.size(); di++)
                         {
@@ -517,7 +517,7 @@ int main()
                 }
                 for (int unsigned i = 0; i < sign_v.size(); i++)
                 {
-                    if (sign_v.at(i).y == pl.y && sign_v.at(i).x == pl.x)
+                    if (sign_v.at(i).y == pl.y + pl.lky && sign_v.at(i).x == pl.x + pl.lkx)
                     {
                         sign_v.at(i).read(&hud_o, font, renderer);
                     }

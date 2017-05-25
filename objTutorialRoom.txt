@@ -24,8 +24,7 @@ wall;-7;-2
 wall;-7;1
 wall;-7;-1
 door;-7;0;closed
-door_switch;-6;0;-7;0
-door_switch;-8;0;-7;0
+door_switch;-7;0;-7;0
 wall;-7;3
 wall;-7;4
 wall;-7;5
@@ -63,8 +62,7 @@ wall;-17;-3
 wall;-17;-2
 wall;-17;-1
 door;-17;0;closed
-door_switch;-16;0;-17;0
-door_switch;-18;0;-17;0
+door_switch;-17;0;-17;0
 wall;-17;6
 wall;-17;5
 wall;-17;4
