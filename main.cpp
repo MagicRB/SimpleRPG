@@ -100,7 +100,7 @@ std::string vstr(std::vector<std::string> v, int unsigned short i)
 
 void addObjects()
 {
-    std::ifstream infile("obj.txt");
+    std::ifstream infile("objTutorialRoom.txt");
 
     //infile.open ("obj.txt");
     while(!infile.eof()) // To get you all the lines.
@@ -185,6 +185,16 @@ void addObjects()
                 sign_v.push_back(sign_o);
                 sign_v.at(sign_v.size() - 1).setPos(numy, numx);
                 sign_v.at(sign_v.size() - 1).setText(vstr(splObj_ln, 3));
+            }
+        } else if (vstr(splObj_ln, 0) == "player")
+        {
+            std::stringstream nystream(vstr(splObj_ln, 1));
+            std::stringstream nxstream(vstr(splObj_ln, 2));
+            if (nystream >> numy && nxstream >> numx)
+            {
+                pl.y = numy;
+                pl.x = numx;
+
             }
         }
         splObj_ln.clear();

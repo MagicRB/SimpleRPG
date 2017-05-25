@@ -33,7 +33,7 @@ std::vector<std::string> func::split(std::string str) {
     return strv;
 }
 
-TTF_Font* func::loadTTF(char* file, int short ptsize)
+ TTF_Font* func::loadTTF(char* file, int short ptsize)
 {
     TTF_Font* tmpFont;
     tmpFont = TTF_OpenFont(file, ptsize);

@@ -1,4 +1,4 @@
-wall;-3;-2
+﻿wall;-3;-2
 wall;-3;0
 wall;-3;2
 wall;-2;-3
@@ -26,3 +26,4 @@ door;-2;1;open
 anim_block;-5;0
 sign;-5;-2;Once upon a time, there was a bird. He flew towards a mountain and hit a rock. He fell and broke his wings, then a cat came and rid him of his head.
 sign;-5;2;If you haven't read the sign on the left then please read it, it's sooooo funny. Your best friend Magic_RB.
+player;3;2

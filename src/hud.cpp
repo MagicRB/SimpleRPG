@@ -60,11 +60,11 @@ void hud::displayText(std::string str, TTF_Font* font, SDL_Renderer* renderer)
 
         std::string bstr;
 
-        unsigned int l = by;
+        unsigned int l = by / 7;
 
         for (unsigned i = 0; i < str.length(); i += (SDL_WIDTH - 2 * bx) / 7)
         {
-            bstr = str.substr((i, SDL_WIDTH - 2 * bx) / 7);
+            bstr = str.substr(i, (SDL_WIDTH - 2 * bx) / 7);
 
             char *cstr = new char[bstr.length() + 1];
             strcpy(cstr, bstr.c_str());
@@ -76,7 +76,7 @@ void hud::displayText(std::string str, TTF_Font* font, SDL_Renderer* renderer)
             SDL_FreeSurface(text);
 
             SDL_Rect textRect;
-            textRect.x = 0;
+            textRect.x = 1 * bx;
             textRect.y = 0 + l * 14;
             textRect.w = 7 * bstr.length();
             textRect.h = 14;
