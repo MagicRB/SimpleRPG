@@ -524,12 +524,59 @@ int main()
                 }
             } else if (event.key.keysym.sym == SDLK_q && event.type == SDL_KEYDOWN)
             {
-                for (unsigned int i = 0; i < wall_mv.size(); i++)
+                unsigned int by = SDL_HEIGTH / 8;
+                unsigned int bx = SDL_WIDTH / 8;
+
+                std::string str = "Realy quit? [Y/n]";
+
+                std::string bstr;
+
+                unsigned int l = by / 7;
+
+                for (unsigned i = 0; i < str.length(); i += (SDL_WIDTH - 2 * bx) / 7)
                 {
-                    outmap << "wall;" << wall_mv.at(i).y << ";" << wall_mv.at(i).x<< "\n";
+                    bstr = str.substr(i, (SDL_WIDTH - 2 * bx) / 7);
+
+                    char *cstr = new char[bstr.length() + 1];
+                    strcpy(cstr, bstr.c_str());
+
+                    SDL_Surface* text = fc.SDL_drawText(font, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, cstr, shaded);
+
+                    SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, text);
+
+                    SDL_FreeSurface(text);
+
+                    SDL_Rect textRect;
+                    textRect.x = 1 * bx;
+                    textRect.y = 0 + l * 14;
+                    textRect.w = 7 * bstr.length();
+                    textRect.h = 14;
+
+                    SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
+
+                    SDL_DestroyTexture(textTexture);
+                    l++;
                 }
-                outmap.close();
-                break;
+
+                SDL_RenderPresent(renderer);
+
+                SDL_PollEvent(&event);
+
+                SDL_FlushEvent(SDL_KEYDOWN);
+
+                while ((event.key.keysym.sym != SDLK_y && event.key.keysym.sym != SDLK_n) && event.type != SDLK_DOWN)
+                {
+                    SDL_PollEvent(&event);
+                }
+                if (event.key.keysym.sym == SDLK_y && event.type != SDLK_DOWN)
+                {
+                    break;
+                    for (unsigned int i = 0; i < wall_mv.size(); i++)
+                    {
+                        outmap << "wall;" << wall_mv.at(i).y << ";" << wall_mv.at(i).x<< "\n";
+                    }
+                    outmap.close();
+                }
             } else if (event.key.keysym.sym == SDLK_KP_1 && event.type == SDL_KEYDOWN)
             {
                 lk = left_down;
