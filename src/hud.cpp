@@ -53,8 +53,8 @@ void hud::displayText(std::string str, TTF_Font* font, SDL_Renderer* renderer)
     }
     else if (SDL_ENABLED == true)
     {
-        unsigned int by = SDL_HEIGTH / 7 / 8;
-        unsigned int bx = SDL_WIDTH / 7 / 8;
+        unsigned int by = SDL_HEIGTH / 8;
+        unsigned int bx = SDL_WIDTH / 8;
 
         char ch;
 
@@ -62,9 +62,9 @@ void hud::displayText(std::string str, TTF_Font* font, SDL_Renderer* renderer)
 
         unsigned int l = by;
 
-        for (unsigned i = 0; i < str.length(); i += SDL_WIDTH / 7 - 2 * bx)
+        for (unsigned i = 0; i < str.length(); i += (SDL_WIDTH - 2 * bx) / 7)
         {
-            bstr = str.substr(i, getmaxx(stdscr) / 7 - 2 * bx);
+            bstr = str.substr((i, SDL_WIDTH - 2 * bx) / 7);
 
             char *cstr = new char[bstr.length() + 1];
             strcpy(cstr, bstr.c_str());
