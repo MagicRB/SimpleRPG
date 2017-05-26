@@ -112,4 +112,4 @@ wall;-25;4
 wall;-25;3
 wall;-25;2
 wall;-25;1
-mapPortal;-25;0
+mapPortal;-25;0;obj.txt

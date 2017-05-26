@@ -19,7 +19,7 @@ player::~player()
 
 void player::SDL_render(SDL_Window* window, SDL_Renderer* renderer, TTF_Font* font, int cy, int cx)
 {
-    SDL_Surface* text = fc.SDL_drawText(font, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, "@", shaded);
+    SDL_Surface* text = fc.SDL_drawText(font, 0x83, 0xFF, 0x00, 0xFF, 0x00, 0x00, 0x00, 0x00, "@", shaded);
 
     SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, text);
 

@@ -111,12 +111,14 @@ void clearObjects()
     wall_v.clear();
     animBlock_v.clear();
     sign_v.clear();
+    mapPortal_v.clear();
 }
 
-void addObjects(bool askMap, std::string objMap = "obj.txt")
+void addObjects(bool askMap, char* objMap = "obj.txt")
 {
     std::ifstream infile;
     clearObjects();
+
     if (askMap == true)
     {
         std::string fl;
@@ -124,9 +126,10 @@ void addObjects(bool askMap, std::string objMap = "obj.txt")
         std::cin >> fl;
         std::cout << std::endl;
         infile.open(fl);
-    } else
+    } else if (askMap == false)
     {
-            infile.open(objMap);;
+        std::cout << objMap << std::endl;
+        infile.open(objMap);;
     }
 
     //infile.open ("obj.txt");
@@ -232,6 +235,10 @@ void addObjects(bool askMap, std::string objMap = "obj.txt")
             {
                 mapPortal_v.push_back(mapPortal_o);
                 mapPortal_v.at(mapPortal_v.size() - 1).setPos(numy, numx);
+                char* chm = strndup(vstr(splObj_ln, 3).c_str(), vstr(splObj_ln, 3).size());
+                std::cout << chm <<  std::endl;
+                mapPortal_v.at(mapPortal_v.size() - 1).setMap(chm);
+                //std::cout << mapPortal_v.at(mapPortal_v.size() - 1).str;
             }
         }
         splObj_ln.clear();
@@ -565,7 +572,9 @@ int main()
                 {
                     if (mapPortal_v.at(i).y == pl.y + pl.lky && mapPortal_v.at(i).x == pl.x + pl.lkx)
                     {
-                        mapPortal_v.at(i).loadMap(&hud_o, addObjects);
+                        addObjects(false, mapPortal_v.at(i).loadMap());
+                        cy = (-1)*(SDL_HEIGTH / 14 / 2);
+                        cx = (-1)*(SDL_WIDTH / 7 / 2);
                     }
                 }
             } else if (event.key.keysym.sym == SDLK_q && event.type == SDL_KEYDOWN)
@@ -650,6 +659,8 @@ int main()
             } else if (event.key.keysym.sym == SDLK_o && event.type == SDL_KEYDOWN)
             {
                 addObjects(true, "");
+                cy = (-1)*(SDL_HEIGTH / 14 / 2);
+                cx = (-1)*(SDL_WIDTH / 7 / 2);
             }
             grender();
         }
