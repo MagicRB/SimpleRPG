@@ -18,6 +18,7 @@
 #include <animBlock.h>
 #include <hud.h>
 #include <sign.h>
+#include <mapPortal.h>
 
 #include <stdio.h>
 
@@ -73,6 +74,9 @@ animBlock animBlock_o;
 std::vector<sign> sign_v;
 sign sign_o;
 
+std::vector<mapPortal> mapPortal_v;
+mapPortal mapPortal_o;
+
 std::string obj_ln;
 std::vector<std::string> splObj_ln;
 
@@ -100,9 +104,30 @@ std::string vstr(std::vector<std::string> v, int unsigned short i)
     return str;
 }
 
-void addObjects()
+void clearObjects()
 {
-    std::ifstream infile("objTutorialRoom.txt");
+    door_v.clear();
+    door_sv.clear();
+    wall_v.clear();
+    animBlock_v.clear();
+    sign_v.clear();
+}
+
+void addObjects(bool askMap, std::string objMap = "obj.txt")
+{
+    std::ifstream infile;
+    clearObjects();
+    if (askMap == true)
+    {
+        std::string fl;
+        std::cout << "Enter name of .txt file which to load map from: ";
+        std::cin >> fl;
+        std::cout << std::endl;
+        infile.open(fl);
+    } else
+    {
+            infile.open(objMap);;
+    }
 
     //infile.open ("obj.txt");
     while(!infile.eof()) // To get you all the lines.
@@ -198,6 +223,16 @@ void addObjects()
                 pl.x = numx;
 
             }
+        } else if (vstr(splObj_ln, 0) == "mapPortal")
+        {
+            std::stringstream nystream(vstr(splObj_ln, 1));
+            std::stringstream nxstream(vstr(splObj_ln, 2));
+
+            if (nystream >> numy && nxstream >> numx)
+            {
+                mapPortal_v.push_back(mapPortal_o);
+                mapPortal_v.at(mapPortal_v.size() - 1).setPos(numy, numx);
+            }
         }
         splObj_ln.clear();
 
@@ -287,6 +322,10 @@ void SDL_Render()
     {
         sign_v.at(i).SDL_render(window, renderer, font, cy, cx);
     }
+    for (int unsigned short i = 0; i < mapPortal_v.size(); i++)
+    {
+        mapPortal_v.at(i).SDL_render(window, renderer, font, cy, cx);
+    }
 
     pl.SDL_render(window, renderer, font, cy, cx);
 
@@ -364,7 +403,7 @@ int main()
     std::ofstream outmap;
     outmap.open ("outmap.txt");
 
-    addObjects();
+    addObjects(true, "");
 
     if (NCURSES_ENABLED == true)
     {
@@ -522,6 +561,13 @@ int main()
                         sign_v.at(i).read(&hud_o, font, renderer);
                     }
                 }
+                for (int unsigned i = 0; i < mapPortal_v.size(); i++)
+                {
+                    if (mapPortal_v.at(i).y == pl.y + pl.lky && mapPortal_v.at(i).x == pl.x + pl.lkx)
+                    {
+                        mapPortal_v.at(i).loadMap(&hud_o, addObjects);
+                    }
+                }
             } else if (event.key.keysym.sym == SDLK_q && event.type == SDL_KEYDOWN)
             {
                 unsigned int by = SDL_HEIGTH / 8;
@@ -601,6 +647,9 @@ int main()
             } else if (event.key.keysym.sym == SDLK_KP_9 && event.type == SDL_KEYDOWN)
             {
                 lk = right_up;
+            } else if (event.key.keysym.sym == SDLK_o && event.type == SDL_KEYDOWN)
+            {
+                addObjects(true, "");
             }
             grender();
         }

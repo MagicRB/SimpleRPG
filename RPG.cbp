@@ -93,6 +93,7 @@
 		<Unit filename="include/door_switch.h" />
 		<Unit filename="include/func.h" />
 		<Unit filename="include/hud.h" />
+		<Unit filename="include/mapPortal.h" />
 		<Unit filename="include/player.h" />
 		<Unit filename="include/sign.h" />
 		<Unit filename="include/wall.h" />
@@ -105,6 +106,7 @@
 		<Unit filename="src/door_switch.cpp" />
 		<Unit filename="src/func.cpp" />
 		<Unit filename="src/hud.cpp" />
+		<Unit filename="src/mapPortal.cpp" />
 		<Unit filename="src/player.cpp" />
 		<Unit filename="src/sign.cpp" />
 		<Unit filename="src/wall.cpp" />

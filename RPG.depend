@@ -577,7 +577,7 @@
 
 1495455075 /home/main/SimpleRPG/colors.h
 
-1495708850 source:/home/main/Desktop/*PROGRAMMING*/C++/SimpleRPG/main.cpp
+1495787259 source:/home/main/Desktop/*PROGRAMMING*/C++/SimpleRPG/main.cpp
 	<iostream>
 	<ncurses/ncurses.h>
 	<ncurses.h>
@@ -591,6 +591,7 @@
 	<animBlock.h>
 	<hud.h>
 	<sign.h>
+	<mapPortal.h>
 	<stdio.h>
 	<SDL2/SDL.h>
 	<SDL2/SDL_video.h>
@@ -602,14 +603,14 @@
 
 1495697298 /home/main/Desktop/*PROGRAMMING*/C++/SimpleRPG/colors.h
 
-1495697298 /home/main/Desktop/*PROGRAMMING*/C++/SimpleRPG/include/func.h
+1495784141 /home/main/Desktop/*PROGRAMMING*/C++/SimpleRPG/include/func.h
 	<string>
 	<vector>
 	<SDL2/SDL.h>
 	<SDL2/SDL_video.h>
 	<SDL2/SDL_ttf.h>
 
-1495697298 /home/main/Desktop/*PROGRAMMING*/C++/SimpleRPG/include/player.h
+1495784141 /home/main/Desktop/*PROGRAMMING*/C++/SimpleRPG/include/player.h
 	<character.h>
 	<SDL2/SDL.h>
 	<SDL2/SDL_video.h>
@@ -644,7 +645,7 @@
 	<func.h>
 	<block.h>
 
-1495697298 /home/main/Desktop/*PROGRAMMING*/C++/SimpleRPG/include/door_switch.h
+1495784141 /home/main/Desktop/*PROGRAMMING*/C++/SimpleRPG/include/door_switch.h
 	<ncurses/curses.h>
 	<ncurses.h>
 	<SDL2/SDL.h>
@@ -701,18 +702,18 @@
 1495697298 source:/home/main/Desktop/*PROGRAMMING*/C++/SimpleRPG/src/door_switch.cpp
 	"door_switch.h"
 
-1495709152 source:/home/main/Desktop/*PROGRAMMING*/C++/SimpleRPG/src/func.cpp
+1495784141 source:/home/main/Desktop/*PROGRAMMING*/C++/SimpleRPG/src/func.cpp
 	"func.h"
 	<string>
 	<vector>
 	<sstream>
 	<iostream>
 
-1495709337 source:/home/main/Desktop/*PROGRAMMING*/C++/SimpleRPG/src/hud.cpp
+1495709720 source:/home/main/Desktop/*PROGRAMMING*/C++/SimpleRPG/src/hud.cpp
 	"hud.h"
 	<player.h>
 
-1495697298 source:/home/main/Desktop/*PROGRAMMING*/C++/SimpleRPG/src/player.cpp
+1495784141 source:/home/main/Desktop/*PROGRAMMING*/C++/SimpleRPG/src/player.cpp
 	"player.h"
 	<ncurses/curses.h>
 	<ncurses.h>
@@ -729,4 +730,20 @@
 	"wall_mark.h"
 	<ncurses/curses.h>
 	<ncurses.h>
+
+1495788236 /home/main/Desktop/*PROGRAMMING*/C++/SimpleRPG/include/mapPortal.h
+	<ncurses/curses.h>
+	<ncurses.h>
+	<SDL2/SDL.h>
+	<SDL2/SDL_video.h>
+	<SDL2/SDL_ttf.h>
+	<iostream>
+	<fstream>
+	<string>
+	<hud.h>
+	<func.h>
+	<block.h>
+
+1495788146 source:/home/main/Desktop/*PROGRAMMING*/C++/SimpleRPG/src/mapPortal.cpp
+	"mapPortal.h"
 
