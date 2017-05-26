@@ -30,7 +30,7 @@ void wall::setPos(int y, int x)
 
 void wall::SDL_render(SDL_Window* window, SDL_Renderer* renderer, TTF_Font* font, int cy, int cx)
 {
-    SDL_Surface* text = fc.SDL_drawText(font, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, "#", shaded);
+    SDL_Surface* text = fc.SDL_drawText(font, 0x93, 0x81, 0x6d, 0xFF, 0xaa, 0x5b, 0x00, 0x00, "#", shaded);
 
     SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, text);
 

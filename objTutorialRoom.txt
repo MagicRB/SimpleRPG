@@ -82,8 +82,10 @@ wall;-18;10
 wall;-18;-10
 wall;-19;10
 wall;-19;-10
-wall;-20;10
-wall;-20;-10
+door;-20;10;closed
+door_switch;-20;10;-20;10
+door;-20;-10;closed
+door_switch;-20;-10;-20;-10
 wall;-21;10
 wall;-21;-10
 wall;-22;10
