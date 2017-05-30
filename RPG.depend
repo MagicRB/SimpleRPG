@@ -495,21 +495,22 @@
 	"hud.h"
 	<player.h>
 
-1495650328 /home/main/SimpleRPG/include/hud.h
+1496151201 /home/main/SimpleRPG/include/hud.h
 	<player.h>
 	<string>
 	<ncurses/ncurses.h>
 	<ncurses.h>
 	<func.h>
+	<sys/time.h>
 
-1495725979 /home/main/SimpleRPG/include/player.h
+1496143138 /home/main/SimpleRPG/include/player.h
 	<character.h>
 	<SDL2/SDL.h>
 	<SDL2/SDL_video.h>
 	<SDL2/SDL_ttf.h>
 	<func.h>
 
-1495726155 source:/home/main/SimpleRPG/src/player.cpp
+1496143138 source:/home/main/SimpleRPG/src/player.cpp
 	"player.h"
 	<ncurses/curses.h>
 	<ncurses.h>
@@ -528,7 +529,7 @@
 	<hud.h>
 	<string>
 
-1495615555 source:/home/main/SimpleRPG/src/wall.cpp
+1496143138 source:/home/main/SimpleRPG/src/wall.cpp
 	"wall.h"
 	<ncurses/curses.h>
 	<ncurses.h>
@@ -552,7 +553,7 @@
 	<ncurses.h>
 	<block.h>
 
-1495725979 source:/home/main/SimpleRPG/main.cpp
+1496151048 source:/home/main/SimpleRPG/main.cpp
 	<iostream>
 	<ncurses/ncurses.h>
 	<ncurses.h>
@@ -566,6 +567,7 @@
 	<animBlock.h>
 	<hud.h>
 	<sign.h>
+	<mapPortal.h>
 	<stdio.h>
 	<SDL2/SDL.h>
 	<SDL2/SDL_video.h>
@@ -745,5 +747,21 @@
 	<block.h>
 
 1495796727 source:/home/main/Desktop/*PROGRAMMING*/C++/SimpleRPG/src/mapPortal.cpp
+	"mapPortal.h"
+
+1496143727 /home/main/SimpleRPG/include/mapPortal.h
+	<ncurses/curses.h>
+	<ncurses.h>
+	<SDL2/SDL.h>
+	<SDL2/SDL_video.h>
+	<SDL2/SDL_ttf.h>
+	<iostream>
+	<fstream>
+	<string>
+	<hud.h>
+	<func.h>
+	<block.h>
+
+1496143727 source:/home/main/SimpleRPG/src/mapPortal.cpp
 	"mapPortal.h"
 

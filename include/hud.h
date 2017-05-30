@@ -11,6 +11,7 @@
 #endif
 
 #include <func.h>
+#include <sys/time.h>
 
 class hud
 {
@@ -26,6 +27,12 @@ class hud
     protected:
 
         func fc;
+
+        struct timeval tv;
+
+        long long int timeDelta = 0;
+        long long int currentTime = 80;
+        long long int lastTime = 0;
 
         SDL_Event event;
 

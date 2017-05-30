@@ -96,6 +96,15 @@ void hud::displayText(std::string str, TTF_Font* font, SDL_Renderer* renderer)
         while (event.key.keysym.sym != SDLK_q && event.type != SDLK_DOWN)
         {
             SDL_PollEvent(&event);
+            gettimeofday (&tv, NULL);
+            currentTime = tv.tv_sec * 1000 + tv.tv_usec / 1000;
+
+            timeDelta = currentTime - lastTime;
+            if (timeDelta >= 20)
+            {
+                lastTime = currentTime;
+                SDL_RenderPresent(renderer);
+            }
         }
     }
 }
