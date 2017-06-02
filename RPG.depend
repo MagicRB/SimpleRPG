@@ -579,7 +579,7 @@
 
 1495455075 /home/main/SimpleRPG/colors.h
 
-1495797347 source:/home/main/Desktop/*PROGRAMMING*/C++/SimpleRPG/main.cpp
+1496399222 source:/home/main/Desktop/*PROGRAMMING*/C++/SimpleRPG/main.cpp
 	<iostream>
 	<ncurses/ncurses.h>
 	<ncurses.h>
@@ -667,12 +667,13 @@
 	<block.h>
 	<sys/time.h>
 
-1495697298 /home/main/Desktop/*PROGRAMMING*/C++/SimpleRPG/include/hud.h
+1496399222 /home/main/Desktop/*PROGRAMMING*/C++/SimpleRPG/include/hud.h
 	<player.h>
 	<string>
 	<ncurses/ncurses.h>
 	<ncurses.h>
 	<func.h>
+	<sys/time.h>
 
 1495697298 /home/main/Desktop/*PROGRAMMING*/C++/SimpleRPG/include/sign.h
 	<ncurses/ncurses.h>
@@ -711,7 +712,7 @@
 	<sstream>
 	<iostream>
 
-1495709720 source:/home/main/Desktop/*PROGRAMMING*/C++/SimpleRPG/src/hud.cpp
+1496399222 source:/home/main/Desktop/*PROGRAMMING*/C++/SimpleRPG/src/hud.cpp
 	"hud.h"
 	<player.h>
 
