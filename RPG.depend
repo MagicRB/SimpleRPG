@@ -491,7 +491,7 @@
 	<SDL2/SDL_video.h>
 	<SDL2/SDL_ttf.h>
 
-1495722836 source:/home/main/SimpleRPG/src/hud.cpp
+1496150890 source:/home/main/SimpleRPG/src/hud.cpp
 	"hud.h"
 	<player.h>
 
@@ -553,7 +553,7 @@
 	<ncurses.h>
 	<block.h>
 
-1496151048 source:/home/main/SimpleRPG/main.cpp
+1496748962 source:/home/main/SimpleRPG/main.cpp
 	<iostream>
 	<ncurses/ncurses.h>
 	<ncurses.h>
