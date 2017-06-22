@@ -339,7 +339,7 @@ void SDL_Render()
 
     for (int unsigned short i = 0; i < wall_v.size(); i++)
     {
-        wall_v.at(i).SDL_render(window, renderer, font, cy, cx);
+        wall_v.at(i).SDL_render(window, renderer, cy, cx);
     }
     for (int unsigned short i = 0; i < wall_mv.size(); i++)
     {
@@ -375,6 +375,46 @@ void SDL_Render()
     SDL_RenderPresent(renderer);
 }
 
+void SDL_IMG_Render()
+{
+    for (int unsigned short i = 0; i < wall_v.size(); i++)
+    {
+        wall_v.at(i).SDL_render(window, renderer, cy, cx);
+    }
+    for (int unsigned short i = 0; i < wall_mv.size(); i++)
+    {
+
+    }
+    for (int unsigned short i = 0; i < door_sv.size(); i++)
+    {
+        //door_sv.at(i).SDL_render(window, renderer, font, cy, cx);
+    }
+    for (int unsigned short i = 0; i < door_v.size(); i++)
+    {
+        //door_v.at(i).SDL_render(window, renderer, font, cy, cx);
+    }
+    for (int unsigned short i = 0; i < animBlock_v.size(); i++)
+    {
+        //animBlock_v.at(i).SDL_render(window, renderer, font, cy, cx);
+    }
+    for (int unsigned short i = 0; i < sign_v.size(); i++)
+    {
+        //sign_v.at(i).SDL_render(window, renderer, font, cy, cx);
+    }
+    for (int unsigned short i = 0; i < mapPortal_v.size(); i++)
+    {
+        //mapPortal_v.at(i).SDL_render(window, renderer, font, cy, cx);
+    }
+
+    pl.SDL_render(window, renderer, font, cy, cx);
+
+    hud_o.SDL_render(window, renderer, font, &pl);
+
+    pl.renderLook(lk, font, renderer, cy, cx);
+
+    SDL_RenderPresent(renderer);
+}
+
 void grender()
 {
     if (NCURSES_ENABLED == true)
@@ -384,6 +424,10 @@ void grender()
     if (SDL_ENABLED == true)
     {
         SDL_Render();
+    }
+    if (SDL_IMAGE_ENABLED == true)
+    {
+        SDL_IMG_Render();
     }
 }
 
@@ -437,6 +481,14 @@ bool checkColl(int y, int x)
     return false;
 }
 
+void initObjects()
+{
+    for (int unsigned short i = 0; i < wall_v.size(); i++)
+    {
+        wall_v.at(i).init(renderer, font);
+    }
+}
+
 int main()
 {
     addObjects(true, "");
@@ -457,7 +509,7 @@ int main()
         init_cpairs();
     }
 
-    if (SDL_ENABLED == true)
+    if (SDL_ENABLED == true || SDL_IMAGE_ENABLED == true)
     {
         if (SDLInit() != 0)
         {
@@ -467,7 +519,7 @@ int main()
         SDL_FlushEvent(SDL_KEYDOWN);
     }
 
-    if (SDL_ENABLED == true)
+    if (SDL_ENABLED == true || SDL_IMAGE_ENABLED == true)
     {
         cy = (-1)*(SDL_HEIGTH / 14 / 2);
         cx = (-1)*(SDL_WIDTH / 7 / 2);
@@ -478,6 +530,8 @@ int main()
         cy = (-1)*(getmaxy(stdscr) / 2);
         cx = (-1)*(getmaxx(stdscr) / 2);
     }
+
+    initObjects();
 
     grender();
 
@@ -550,7 +604,7 @@ int main()
             }
             grender();
         }
-        if (timeDelta >= 20 && SDL_ENABLED == true)
+        if (timeDelta >= 20 && (SDL_ENABLED == true || SDL_IMAGE_ENABLED == true))
         {
             lastTime = currentTime;
 

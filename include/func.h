@@ -15,6 +15,13 @@ enum textQuality { solid, shaded, blended, solid_uni, shaded_uni, blended_uni };
 
 extern bool SDL_ENABLED;
 extern bool NCURSES_ENABLED;
+extern bool SDL_IMAGE_ENABLED;
+
+extern short unsigned int chx;
+extern short unsigned int chy;
+
+extern short unsigned int imgx;
+extern short unsigned int imgy;
 
 class func
 {

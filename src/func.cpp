@@ -4,8 +4,15 @@
 #include <sstream>
 #include <iostream>
 
-bool SDL_ENABLED = true;
+bool SDL_ENABLED = false;
+bool SDL_IMAGE_ENABLED = true;
 bool NCURSES_ENABLED = false;
+
+extern short unsigned int chx = 7;
+extern short unsigned int chy = 14;
+
+extern short unsigned int imgx = 10;
+extern short unsigned int imgy = 10;
 
 func::func()
 {

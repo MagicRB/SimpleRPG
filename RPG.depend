@@ -579,7 +579,7 @@
 
 1495455075 /home/main/SimpleRPG/colors.h
 
-1496399222 source:/home/main/Desktop/*PROGRAMMING*/C++/SimpleRPG/main.cpp
+1498130278 source:/home/main/Desktop/*PROGRAMMING*/C++/SimpleRPG/main.cpp
 	<iostream>
 	<ncurses/ncurses.h>
 	<ncurses.h>
@@ -605,7 +605,7 @@
 
 1495697298 /home/main/Desktop/*PROGRAMMING*/C++/SimpleRPG/colors.h
 
-1495784141 /home/main/Desktop/*PROGRAMMING*/C++/SimpleRPG/include/func.h
+1498126846 /home/main/Desktop/*PROGRAMMING*/C++/SimpleRPG/include/func.h
 	<string>
 	<vector>
 	<SDL2/SDL.h>
@@ -622,12 +622,13 @@
 1495697298 /home/main/Desktop/*PROGRAMMING*/C++/SimpleRPG/include/character.h
 	<string>
 
-1495697298 /home/main/Desktop/*PROGRAMMING*/C++/SimpleRPG/include/wall.h
+1498129578 /home/main/Desktop/*PROGRAMMING*/C++/SimpleRPG/include/wall.h
 	<ncurses/curses.h>
 	<ncurses.h>
 	<SDL2/SDL.h>
-	<SDL2/SDL_video.h>
 	<SDL2/SDL_ttf.h>
+	<SDL2/SDL_image.h>
+	<iostream>
 	<func.h>
 	<block.h>
 
@@ -705,7 +706,7 @@
 1495697298 source:/home/main/Desktop/*PROGRAMMING*/C++/SimpleRPG/src/door_switch.cpp
 	"door_switch.h"
 
-1495784141 source:/home/main/Desktop/*PROGRAMMING*/C++/SimpleRPG/src/func.cpp
+1498129804 source:/home/main/Desktop/*PROGRAMMING*/C++/SimpleRPG/src/func.cpp
 	"func.h"
 	<string>
 	<vector>
@@ -724,7 +725,7 @@
 1495697298 source:/home/main/Desktop/*PROGRAMMING*/C++/SimpleRPG/src/sign.cpp
 	"sign.h"
 
-1495837053 source:/home/main/Desktop/*PROGRAMMING*/C++/SimpleRPG/src/wall.cpp
+1498129804 source:/home/main/Desktop/*PROGRAMMING*/C++/SimpleRPG/src/wall.cpp
 	"wall.h"
 	<ncurses/curses.h>
 	<ncurses.h>

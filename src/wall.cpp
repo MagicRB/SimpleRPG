@@ -9,7 +9,7 @@
 
 wall::wall()
 {
-    block::player_collide = true;
+
 }
 
 wall::~wall()
@@ -28,21 +28,44 @@ void wall::setPos(int y, int x)
     block::x = x;
 }
 
-void wall::SDL_render(SDL_Window* window, SDL_Renderer* renderer, TTF_Font* font, int cy, int cx)
+void wall::SDL_render(SDL_Window* window, SDL_Renderer* renderer, int cy, int cx)
 {
-    SDL_Surface* text = fc.SDL_drawText(font, 0x93, 0x81, 0x6du, 0xFF, 0xaa, 0xa3, 0x94, 0x00, "#", shaded);
-
-    SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, text);
-
-    SDL_FreeSurface(text);
-
     SDL_Rect textRect;
-    textRect.x = (block::x - cx) * 7;
-    textRect.y = (block::y - cy) * 14;
-    textRect.w = 7;
-    textRect.h = 14;
+    textRect.x = (block::x - cx) * chx;
+    textRect.y = (block::y - cy) * chy;
+    textRect.w = chx;
+    textRect.h = chy;
 
     SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
-
-    SDL_DestroyTexture(textTexture);
 }
+
+void wall::init(SDL_Renderer* renderer, TTF_Font* font)
+{
+    block::player_collide = true;
+
+    if (SDL_ENABLED == true)
+    {
+        text = fc.SDL_drawText(font, 0x93, 0x81, 0x6du, 0xFF, 0xaa, 0xa3, 0x94, 0x00, "#", shaded);
+
+        textTexture = SDL_CreateTextureFromSurface(renderer, text);
+
+        SDL_FreeSurface(text);
+    }
+    if (SDL_IMAGE_ENABLED == true)
+    {
+        img = IMG_LoadTexture(renderer, "smile.png");
+    }
+}
+
+void wall::IMG_render(SDL_Renderer* renderer, int cy, int cx)
+{
+	SDL_Rect texr;
+	texr.x = (block::x - cx) * 7;
+	texr.y = (block::y - cy) * 14;
+	texr.w = 7;
+	texr.h = 14;
+
+	SDL_RenderCopy(renderer, img, NULL, &texr);
+}
+
+

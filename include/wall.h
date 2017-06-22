@@ -8,8 +8,10 @@
 #endif
 
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_video.h>
 #include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_image.h>
+
+#include <iostream>
 
 #include <func.h>
 
@@ -26,12 +28,17 @@ class wall : public block
 
         void setPos(int y, int x);
 
-        void SDL_render(SDL_Window* window, SDL_Renderer* renderer, TTF_Font* font, int cy, int cx);
-
+        void SDL_render(SDL_Window* window, SDL_Renderer* renderer, int cy, int cx);
+        void IMG_render(SDL_Renderer* renderer, int cy, int cx);
+        void init(SDL_Renderer* renderer, TTF_Font* font);
 
     protected:
 
     func fc;
+
+    SDL_Texture* textTexture;
+    SDL_Texture* img;
+    SDL_Surface* text;
 
     private:
 };
