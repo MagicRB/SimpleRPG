@@ -53,18 +53,18 @@ void hud::displayText(std::string str, TTF_Font* font, SDL_Renderer* renderer)
     }
     else if (SDL_ENABLED == true)
     {
-        unsigned int by = SDL_HEIGTH / 8;
-        unsigned int bx = SDL_WIDTH / 8;
+        unsigned int by = resy / 8;
+        unsigned int bx = resx / 8;
 
         char ch;
 
         std::string bstr;
 
-        unsigned int l = by / 7;
+        unsigned int l = by / chx;
 
-        for (unsigned i = 0; i < str.length(); i += (SDL_WIDTH - 2 * bx) / 7)
+        for (unsigned i = 0; i < str.length(); i += (resx - 2 * bx) / 7)
         {
-            bstr = str.substr(i, (SDL_WIDTH - 2 * bx) / 7);
+            bstr = str.substr(i, (resx - 2 * bx) / chx);
 
             char *cstr = new char[bstr.length() + 1];
             strcpy(cstr, bstr.c_str());
@@ -77,9 +77,9 @@ void hud::displayText(std::string str, TTF_Font* font, SDL_Renderer* renderer)
 
             SDL_Rect textRect;
             textRect.x = 1 * bx;
-            textRect.y = 0 + l * 14;
-            textRect.w = 7 * bstr.length();
-            textRect.h = 14;
+            textRect.y = 0 + l * chy;
+            textRect.w = chx * bstr.length();
+            textRect.h = chy;
 
             SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
 
@@ -126,8 +126,8 @@ void hud::SDL_render(SDL_Window* window, SDL_Renderer* renderer, TTF_Font* font,
     SDL_Rect textRect;
     textRect.x = 0;
     textRect.y = 0;
-    textRect.w = 7 * sizeof(hp);
-    textRect.h = 14;
+    textRect.w = chx * sizeof(hp);
+    textRect.h = chy;
 
     SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
 

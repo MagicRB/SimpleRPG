@@ -767,3 +767,179 @@
 1496143727 source:/home/main/SimpleRPG/src/mapPortal.cpp
 	"mapPortal.h"
 
+1498679399 source:f:\projects\c++\simplerpg\main.cpp
+	<iostream>
+	<ncursesw/curses.h>
+	"windows.h"
+	<ncurses.h>
+	"colors.h"
+	<func.h>
+	<chrono>
+	<player.h>
+	<wall.h>
+	<wall_mark.h>
+	<door.h>
+	<door_switch.h>
+	<animBlock.h>
+	<hud.h>
+	<sign.h>
+	<mapPortal.h>
+	<stdio.h>
+	<SDL2/SDL.h>
+	<SDL2/SDL_video.h>
+	<SDL2/SDL_ttf.h>
+	<sstream>
+	<string>
+	<vector>
+	<fstream>
+
+1498134146 f:\projects\c++\simplerpg\colors.h
+
+1498675852 f:\projects\c++\simplerpg\include\func.h
+	<string>
+	<vector>
+	<SDL2/SDL.h>
+	<SDL2/SDL_video.h>
+	<SDL2/SDL_ttf.h>
+
+1498134146 f:\projects\c++\simplerpg\include\player.h
+	<character.h>
+	<SDL2/SDL.h>
+	<SDL2/SDL_video.h>
+	<SDL2/SDL_ttf.h>
+	<func.h>
+
+1498134146 f:\projects\c++\simplerpg\include\character.h
+	<string>
+
+1498667148 f:\projects\c++\simplerpg\include\wall.h
+	<ncursesw/curses.h>
+	<ncurses.h>
+	<SDL2/SDL.h>
+	<SDL2/SDL_ttf.h>
+	<SDL2/SDL_image.h>
+	<iostream>
+	<func.h>
+	<block.h>
+
+1498134146 f:\projects\c++\simplerpg\include\block.h
+
+1498667211 f:\projects\c++\simplerpg\include\wall_mark.h
+	<ncursesw/curses.h>
+	<ncurses.h>
+	<block.h>
+
+1498667221 f:\projects\c++\simplerpg\include\door.h
+	<ncursesw/curses.h>
+	<ncurses.h>
+	<SDL2/SDL.h>
+	<SDL2/SDL_video.h>
+	<SDL2/SDL_ttf.h>
+	<func.h>
+	<block.h>
+
+1498677757 f:\projects\c++\simplerpg\include\door_switch.h
+	<ncursesw/curses.h>
+	<ncurses.h>
+	<SDL2/SDL.h>
+	<SDL2/SDL_video.h>
+	<SDL2/SDL_ttf.h>
+	<func.h>
+	<block.h>
+
+1498671982 f:\projects\c++\simplerpg\include\animblock.h
+	<ncursesw/curses.h>
+	"windows.h"
+	<ncurses.h>
+	<SDL2/SDL.h>
+	<SDL2/SDL_video.h>
+	<SDL2/SDL_ttf.h>
+	<func.h>
+	<chrono>
+	<iostream>
+	<block.h>
+
+1498667237 f:\projects\c++\simplerpg\include\hud.h
+	<player.h>
+	<string>
+	<ncursesw/ncurses.h>
+	<ncurses.h>
+	<func.h>
+	<sys/time.h>
+
+1498667241 f:\projects\c++\simplerpg\include\sign.h
+	<ncursesw/curses.h>
+	<ncurses.h>
+	<SDL2/SDL.h>
+	<SDL2/SDL_video.h>
+	<SDL2/SDL_ttf.h>
+	<func.h>
+	<block.h>
+	<hud.h>
+	<string>
+
+1498667244 f:\projects\c++\simplerpg\include\mapportal.h
+	<ncursesw/curses.h>
+	<ncurses.h>
+	<SDL2/SDL.h>
+	<SDL2/SDL_video.h>
+	<SDL2/SDL_ttf.h>
+	<iostream>
+	<fstream>
+	<string>
+	<hud.h>
+	<func.h>
+	<block.h>
+
+1498677757 source:f:\projects\c++\simplerpg\src\animblock.cpp
+	"animBlock.h"
+	<SDL2/SDL.h>
+	<SDL2/SDL_video.h>
+	<SDL2/SDL_ttf.h>
+	<chrono>
+	<func.h>
+
+1498134146 source:f:\projects\c++\simplerpg\src\block.cpp
+	"block.h"
+
+1498134146 source:f:\projects\c++\simplerpg\src\character.cpp
+	"character.h"
+
+1498677757 source:f:\projects\c++\simplerpg\src\door.cpp
+	"door.h"
+
+1498134146 source:f:\projects\c++\simplerpg\src\door_switch.cpp
+	"door_switch.h"
+
+1498677785 source:f:\projects\c++\simplerpg\src\func.cpp
+	"func.h"
+	<string>
+	<vector>
+	<sstream>
+	<iostream>
+
+1498677757 source:f:\projects\c++\simplerpg\src\hud.cpp
+	"hud.h"
+	<player.h>
+
+1498677757 source:f:\projects\c++\simplerpg\src\mapportal.cpp
+	"mapPortal.h"
+
+1498677757 source:f:\projects\c++\simplerpg\src\player.cpp
+	"player.h"
+	<ncursesw/curses.h>
+	<ncurses.h>
+
+1498677757 source:f:\projects\c++\simplerpg\src\sign.cpp
+	"sign.h"
+
+1498668577 source:f:\projects\c++\simplerpg\src\wall.cpp
+	"wall.h"
+	<ncursesw/curses.h>
+	<ncurses.h>
+
+1498667459 source:f:\projects\c++\simplerpg\src\wall_mark.cpp
+	"wall_mark.h"
+	<ncursesw/curses.h>
+	<ncurses.h>
+

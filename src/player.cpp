@@ -1,7 +1,7 @@
 #include "player.h"
 
 #if defined(__WINDOWS__) || defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
-    #include <ncurses/curses.h>
+    #include <ncursesw/curses.h>
 #else
     #include <ncurses.h>
 #endif
@@ -26,10 +26,10 @@ void player::SDL_render(SDL_Window* window, SDL_Renderer* renderer, TTF_Font* fo
     SDL_FreeSurface(text);
 
     SDL_Rect textRect;
-    textRect.x = (character::x - cx) * 7;
-    textRect.y = (character::y - cy) * 14;
-    textRect.w = 7;
-    textRect.h = 14;
+    textRect.x = (character::x - cx) * chx;
+    textRect.y = (character::y - cy) * chy;
+    textRect.w = chx;
+    textRect.h = chy;
 
     SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
 
@@ -90,10 +90,10 @@ void player::renderLook(look lk, TTF_Font* font, SDL_Renderer* renderer, int cy,
     }
 
     SDL_Rect textRect;
-    textRect.x = (character::x - cx + lkx) * 7;
-    textRect.y = (character::y - cy + lky) * 14;
-    textRect.w = 7;
-    textRect.h = 14;
+    textRect.x = (character::x - cx + lkx) * chx;
+    textRect.y = (character::y - cy + lky) * chy;
+    textRect.w = chx;
+    textRect.h = chy;
 
     SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
 

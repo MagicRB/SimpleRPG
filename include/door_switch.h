@@ -2,7 +2,7 @@
 #define DOOR_SWITCH_H
 
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
-    #include <ncurses/curses.h>
+    #include <ncursesw/curses.h>
 #else
     #include <ncurses.h>
 #endif
@@ -39,10 +39,10 @@ class door_switch : public block
             SDL_FreeSurface(text);
 
             SDL_Rect textRect;
-            textRect.x = (block::x - cx) * 7;
-            textRect.y = (block::y - cy) * 14;
-            textRect.w = 7;
-            textRect.h = 14;
+            textRect.x = (block::x - cx) * chx;
+            textRect.y = (block::y - cy) * chy;
+            textRect.w = chx;
+            textRect.h = chy;
 
             SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
 

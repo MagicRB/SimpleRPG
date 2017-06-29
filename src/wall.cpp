@@ -1,7 +1,7 @@
 #include "wall.h"
 
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
-    #include <ncurses/curses.h>
+    #include <ncursesw/curses.h>
 #else
     #include <ncurses.h>
 #endif
@@ -51,21 +51,21 @@ void wall::init(SDL_Renderer* renderer, TTF_Font* font)
 
         SDL_FreeSurface(text);
     }
-    if (SDL_IMAGE_ENABLED == true)
-    {
-        img = IMG_LoadTexture(renderer, "smile.png");
-    }
+//    if (SDL_IMAGE_ENABLED == true)
+//    {
+//        img = IMG_LoadTexture(renderer, "smile.png");
+//    }
 }
 
 void wall::IMG_render(SDL_Renderer* renderer, int cy, int cx)
 {
-	SDL_Rect texr;
-	texr.x = (block::x - cx) * 7;
-	texr.y = (block::y - cy) * 14;
-	texr.w = 7;
-	texr.h = 14;
-
-	SDL_RenderCopy(renderer, img, NULL, &texr);
+//	SDL_Rect texr;
+//	texr.x = (block::x - cx) * 7;
+//	texr.y = (block::y - cy) * 14;
+//	texr.w = 7;
+//	texr.h = 14;
+//
+//	SDL_RenderCopy(renderer, img, NULL, &texr);
 }
 
 

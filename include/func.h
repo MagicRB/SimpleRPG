@@ -4,8 +4,8 @@
 #include <string>
 #include <vector>
 
-#define SDL_WIDTH 600
-#define SDL_HEIGTH 460
+//#define SDL_WIDTH 1920
+//#define SDL_HEIGTH 1080
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_video.h>
@@ -16,6 +16,9 @@ enum textQuality { solid, shaded, blended, solid_uni, shaded_uni, blended_uni };
 extern bool SDL_ENABLED;
 extern bool NCURSES_ENABLED;
 extern bool SDL_IMAGE_ENABLED;
+
+extern short unsigned int resx;
+extern short unsigned int resy;
 
 extern short unsigned int chx;
 extern short unsigned int chy;

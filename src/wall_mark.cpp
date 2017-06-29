@@ -1,7 +1,7 @@
 #include "wall_mark.h"
 
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
-    #include <ncurses/curses.h>
+    #include <ncursesw/curses.h>
 #else
     #include <ncurses.h>
 #endif

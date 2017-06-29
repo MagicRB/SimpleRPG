@@ -1,7 +1,10 @@
 #include <iostream>
 
+#define SDL_MAIN_HANDLED
+
 #if defined(__WINDOWS__) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
-    #include <ncurses/ncurses.h>
+    #include <ncursesw/curses.h>
+    #include "windows.h"
 #else
     #include <ncurses.h>
 #endif
@@ -9,6 +12,8 @@
 #include "colors.h"
 
 #include <func.h>
+
+#include <chrono>
 
 #include <player.h>
 #include <wall.h>
@@ -51,8 +56,6 @@ long long int timeDelta = 0;
 long long int currentTime = 80;
 long long int lastTime = 0;
 
-struct timeval tv;
-
 hud hud_o;
 player pl;
 
@@ -91,6 +94,10 @@ int numy = 0;
 std::string inputText;
 
 look lk = up;
+
+short unsigned int window_mode;
+
+namespace sc = std::chrono;
 
 std::string vstr(std::vector<std::string> v, int unsigned short i)
 {
@@ -141,6 +148,80 @@ void saveObjects(char* file)
         outmap << "mapPortal;" << mapPortal_v.at(i).y << ';' << mapPortal_v.at(i).x << ';' << mapPortal_v.at(i).obj_map << '\n';
     }
     outmap << "player;" << pl.y << ';' << pl.x << '\n';
+}
+
+void loadSettings()
+{
+    std::ifstream infile;
+    infile.open("settings.txt");
+    while(!infile.eof()) // To get you all the lines.
+    {
+        getline(infile,obj_ln); // Saves the line in STRING.
+
+        std::istringstream ss(obj_ln);
+        std::string token;
+
+        if (obj_ln == "")
+        {
+            break;
+        }
+
+        while (std::getline(ss, token, ';'))
+        {
+            splObj_ln.push_back(token);
+        }
+
+        if (vstr(splObj_ln, 0) == "resolution")
+        {
+            std::stringstream nxstream(vstr(splObj_ln, 1));
+            std::stringstream nystream(vstr(splObj_ln, 2));
+
+            if (nxstream >> numx && nystream >> numy)
+            {
+                resx = numx;
+                resy = numy;
+            }
+        } else if (vstr(splObj_ln, 0) == "SDL")
+        {
+            if (vstr(splObj_ln, 1) == "true")
+            {
+                SDL_ENABLED = true;
+            } else if (vstr(splObj_ln, 1) == "false")
+            {
+                SDL_ENABLED = false;
+            }
+        } else if (vstr(splObj_ln, 0) == "SDL_IMAGE")
+        {
+            if (vstr(splObj_ln, 1) == "true")
+            {
+                SDL_IMAGE_ENABLED = true;
+            } else if (vstr(splObj_ln, 1) == "false")
+            {
+                SDL_IMAGE_ENABLED = false;
+            }
+        } else if (vstr(splObj_ln, 0) == "NCURSES")
+        {
+            if (vstr(splObj_ln, 1) == "true")
+            {
+                NCURSES_ENABLED = true;
+            } else if (vstr(splObj_ln, 1) == "false")
+            {
+                NCURSES_ENABLED = false;
+            }
+        } else if (vstr(splObj_ln, 0) == "window_mode")
+        {
+            if (vstr(splObj_ln, 1) == "fullscreen")
+            {
+                window_mode = SDL_WINDOW_FULLSCREEN_DESKTOP;
+            } else if (vstr(splObj_ln, 1) == "windowed")
+            {
+                window_mode = 0;
+            }
+        }
+
+        splObj_ln.clear();
+    }
+    infile.close();
 }
 
 void addObjects(bool askMap, char* objMap = "obj.txt")
@@ -263,19 +344,19 @@ void addObjects(bool askMap, char* objMap = "obj.txt")
             {
                 mapPortal_v.push_back(mapPortal_o);
                 mapPortal_v.at(mapPortal_v.size() - 1).setPos(numy, numx);
-                char* chm = strndup(vstr(splObj_ln, 3).c_str(), vstr(splObj_ln, 3).size());
+                char* chm = strdup(vstr(splObj_ln, 3).c_str());//, vstr(splObj_ln, 3).size());
                 std::cout << chm <<  std::endl;
                 mapPortal_v.at(mapPortal_v.size() - 1).setMap(chm);
                 //std::cout << mapPortal_v.at(mapPortal_v.size() - 1).str;
             }
         }
         splObj_ln.clear();
-
-        cy = (-1)*(SDL_HEIGTH / 14 / 2);
-        cx = (-1)*(SDL_WIDTH / 7 / 2);
-        cy += pl.y;
-        cx += pl.x;
     }
+    cy = (-1)*(resy / chy / 2);
+    cx = (-1)*(resx / chx / 2);
+    cy += pl.y;
+    cx += pl.x;
+
 	infile.close();
 }
 
@@ -328,10 +409,10 @@ void SDL_Render()
     SDL_FreeSurface(text);
 
     SDL_Rect textRect;
-    textRect.x = (0 - cx) * 7;
-    textRect.y = (0 - cy) * 14;
-    textRect.w = 7;
-    textRect.h = 14;
+    textRect.x = (0 - cx) * chx;
+    textRect.y = (0 - cy) * chy;
+    textRect.w = chx;
+    textRect.h = chy;
 
     SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
 
@@ -449,7 +530,7 @@ int SDLInit()
 
     font = fc.loadTTF("./font.ttf", 15);
 
-    window = SDL_CreateWindow("Kurva", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SDL_WIDTH, SDL_HEIGTH, SDL_WINDOW_SHOWN);
+    window = SDL_CreateWindow("Kurva", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, resx, resy, SDL_WINDOW_SHOWN);
     if (window == NULL)
     {
         return -1;
@@ -457,7 +538,9 @@ int SDLInit()
 
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
-    //screenSurface = SDL_GetWindowSurface(window);
+    screenSurface = SDL_GetWindowSurface(window);
+
+    SDL_SetWindowFullscreen(window, window_mode);
 
     return 0;
 }
@@ -489,9 +572,26 @@ void initObjects()
     }
 }
 
+changeSize(short int x, short int y)
+{
+    if (!(chx + x <= 0))
+    {
+        chx = chx + x;
+    }
+    if (!(chy + y <= 0))
+    {
+        chy = chy + y;
+    }
+    cy = (-1)*(resy / chy / 2);
+    cx = (-1)*(resx / chx / 2);
+    cy += pl.y;
+    cx += pl.x;
+}
+
 int main()
 {
-    addObjects(true, "");
+    addObjects(false, "obj.txt");
+    loadSettings();;
 
     if (NCURSES_ENABLED == true)
     {
@@ -521,8 +621,8 @@ int main()
 
     if (SDL_ENABLED == true || SDL_IMAGE_ENABLED == true)
     {
-        cy = (-1)*(SDL_HEIGTH / 14 / 2);
-        cx = (-1)*(SDL_WIDTH / 7 / 2);
+        cy = (-1)*(resy / chy / 2);
+        cx = (-1)*(resx / chx / 2);
     }
 
     if (NCURSES_ENABLED == true)
@@ -537,8 +637,13 @@ int main()
 
     while (true)
     {
-        gettimeofday (&tv, NULL);
-        currentTime = tv.tv_sec * 1000 + tv.tv_usec / 1000;
+        auto time = std::chrono::system_clock::now();
+
+        auto since_epoch = time.time_since_epoch();
+
+        auto millis = sc::duration_cast<std::chrono::milliseconds>(since_epoch);
+
+        currentTime = millis.count();
 
         timeDelta = currentTime - lastTime;
 
@@ -656,24 +761,25 @@ int main()
                     if (mapPortal_v.at(i).y == pl.y + pl.lky && mapPortal_v.at(i).x == pl.x + pl.lkx)
                     {
                         addObjects(false, mapPortal_v.at(i).loadMap());
-                        cy = (-1)*(SDL_HEIGTH / 14 / 2);
-                        cx = (-1)*(SDL_WIDTH / 7 / 2);
+                        initObjects();
+                        cy = (-1)*(resy / chy / 2);
+                        cx = (-1)*(resx / chx / 2);
                     }
                 }
             } else if (event.key.keysym.sym == SDLK_q && event.type == SDL_KEYDOWN)
             {
-                unsigned int by = SDL_HEIGTH / 8;
-                unsigned int bx = SDL_WIDTH / 8;
+                unsigned int by = resy / 8;
+                unsigned int bx = resx / 8;
 
                 std::string str = "Realy quit? [Y/n]";
 
                 std::string bstr;
 
-                unsigned int l = by / 7;
+                unsigned int l = by / chx;
 
-                for (unsigned i = 0; i < str.length(); i += (SDL_WIDTH - 2 * bx) / 7)
+                for (unsigned i = 0; i < str.length(); i += (resx - 2 * bx) / chx)
                 {
-                    bstr = str.substr(i, (SDL_WIDTH - 2 * bx) / 7);
+                    bstr = str.substr(i, (resx - 2 * bx) / chx);
 
                     char *cstr = new char[bstr.length() + 1];
                     strcpy(cstr, bstr.c_str());
@@ -686,9 +792,9 @@ int main()
 
                     SDL_Rect textRect;
                     textRect.x = 1 * bx;
-                    textRect.y = 0 + l * 14;
-                    textRect.w = 7 * bstr.length();
-                    textRect.h = 14;
+                    textRect.y = 0 + l * chy;
+                    textRect.w = chx * bstr.length();
+                    textRect.h = chy;
 
                     SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
 
@@ -704,8 +810,13 @@ int main()
 
                 while ((event.key.keysym.sym != SDLK_y && event.key.keysym.sym != SDLK_n) && event.type != SDLK_DOWN)
                 {
-                    gettimeofday (&tv, NULL);
-                    currentTime = tv.tv_sec * 1000 + tv.tv_usec / 1000;
+                    auto time = std::chrono::system_clock::now();
+
+                    auto since_epoch = time.time_since_epoch();
+
+                    auto millis = sc::duration_cast<std::chrono::milliseconds>(since_epoch);
+
+                    currentTime = millis.count();
 
                     timeDelta = currentTime - lastTime;
                     if (timeDelta >= 20)
@@ -729,20 +840,20 @@ int main()
             {
                 SDL_StartTextInput();
 
-                unsigned int by = SDL_HEIGTH / 8;
-                unsigned int bx = SDL_WIDTH / 8;
+                unsigned int by = resy / 8;
+                unsigned int bx = resx / 8;
 
                 std::string str = "Input name of OBJ file: ";
 
                 std::string bstr;
 
-                unsigned int l = by / 7;
+                unsigned int l = by / chx;
 
                 grender();
 
-                for (unsigned i = 0; i < str.length(); i += (SDL_WIDTH - 2 * bx) / 7)
+                for (unsigned i = 0; i < str.length(); i += (resx - 2 * bx) / chx)
                 {
-                    bstr = str.substr(i, (SDL_WIDTH - 2 * bx) / 7);
+                    bstr = str.substr(i, (resx - 2 * bx) / chx);
 
                     char *cstr = new char[bstr.length() + 1];
                     strcpy(cstr, bstr.c_str());
@@ -755,9 +866,9 @@ int main()
 
                     SDL_Rect textRect;
                     textRect.x = 1 * bx;
-                    textRect.y = 0 + l * 14;
-                    textRect.w = 7 * bstr.length();
-                    textRect.h = 14;
+                    textRect.y = 0 + l * chy;
+                    textRect.w = chx * bstr.length();
+                    textRect.h = chy;
 
                     SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
 
@@ -775,8 +886,14 @@ int main()
 
                 while (event.key.keysym.sym != SDLK_RETURN)
                 {
-                    gettimeofday (&tv, NULL);
-                    currentTime = tv.tv_sec * 1000 + tv.tv_usec / 1000;
+                    auto time = std::chrono::system_clock::now();
+
+                    auto since_epoch = time.time_since_epoch();
+
+                    auto millis = sc::duration_cast<std::chrono::milliseconds>(since_epoch);
+
+                    currentTime = millis.count();
+
 
                     timeDelta = currentTime - lastTime;
                     if (timeDelta >= 20 && SDL_PollEvent(&event))
@@ -812,11 +929,11 @@ int main()
 
                         grender();
 
-                        l = by / 7;
+                        l = by / chx;
 
-                        for (unsigned i = 0; i < str.length(); i += (SDL_WIDTH - 2 * bx) / 7)
+                        for (unsigned i = 0; i < str.length(); i += (resx - 2 * bx) / chx)
                         {
-                            bstr = str.substr(i, (SDL_WIDTH - 2 * bx) / 7);
+                            bstr = str.substr(i, (resx - 2 * bx) / chx);
 
                             char *cstr = new char[bstr.length() + 1];
                             strcpy(cstr, bstr.c_str());
@@ -829,9 +946,9 @@ int main()
 
                             SDL_Rect textRect;
                             textRect.x = 1 * bx;
-                            textRect.y = 0 + l * 14;
-                            textRect.w = 7 * bstr.length();
-                            textRect.h = 14;
+                            textRect.y = 0 + l * chy;
+                            textRect.w = chx * bstr.length();
+                            textRect.h = chy;
 
                             SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
 
@@ -839,13 +956,13 @@ int main()
                             l++;
                         }
 
-                        l = by / 7;
+                        l = by / chx;
 
                         std::string xstr = inputText;
 
-                        for (unsigned i = 0; i < str.length(); i += (SDL_WIDTH - 2 * bx) / 7)
+                        for (unsigned i = 0; i < str.length(); i += (resx - 2 * bx) / chx)
                         {
-                            bstr = xstr.substr(i, (SDL_WIDTH - 2 * bx) / 7);
+                            bstr = xstr.substr(i, (resx - 2 * bx) / chx);
 
                             char *cstr = new char[bstr.length() + 1];
                             strcpy(cstr, bstr.c_str());
@@ -857,10 +974,10 @@ int main()
                             SDL_FreeSurface(text);
 
                             SDL_Rect textRect;
-                            textRect.x = 1 * bx + 7 * str.length();
-                            textRect.y = 0 + l * 14;
-                            textRect.w = 7 * bstr.length();
-                            textRect.h = 14;
+                            textRect.x = 1 * bx + chx * str.length();
+                            textRect.y = 0 + l * chy;
+                            textRect.w = chx * bstr.length();
+                            textRect.h = chy;
 
                             SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
 
@@ -875,25 +992,26 @@ int main()
                 char text[20];
                 strcpy(text, inputText.c_str());
                 addObjects(false, text);
+                initObjects();
                 inputText.erase();
             } else if (event.key.keysym.sym == SDLK_F5 && event.type == SDL_KEYDOWN)
             {
                 SDL_StartTextInput();
 
-                unsigned int by = SDL_HEIGTH / 8;
-                unsigned int bx = SDL_WIDTH / 8;
+                unsigned int by = resy / 8;
+                unsigned int bx = resx / 8;
 
                 std::string str = "Input name of OBJ file: ";
 
                 std::string bstr;
 
-                unsigned int l = by / 7;
+                unsigned int l = by / chx;
 
                 grender();
 
-                for (unsigned i = 0; i < str.length(); i += (SDL_WIDTH - 2 * bx) / 7)
+                for (unsigned i = 0; i < str.length(); i += (resx - 2 * bx) / chx)
                 {
-                    bstr = str.substr(i, (SDL_WIDTH - 2 * bx) / 7);
+                    bstr = str.substr(i, (resx - 2 * bx) / chx);
 
                     char *cstr = new char[bstr.length() + 1];
                     strcpy(cstr, bstr.c_str());
@@ -906,9 +1024,9 @@ int main()
 
                     SDL_Rect textRect;
                     textRect.x = 1 * bx;
-                    textRect.y = 0 + l * 14;
-                    textRect.w = 7 * bstr.length();
-                    textRect.h = 14;
+                    textRect.y = 0 + l * chy;
+                    textRect.w = chx * bstr.length();
+                    textRect.h = chy;
 
                     SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
 
@@ -926,8 +1044,13 @@ int main()
 
                 while (event.key.keysym.sym != SDLK_RETURN)
                 {
-                    gettimeofday (&tv, NULL);
-                    currentTime = tv.tv_sec * 1000 + tv.tv_usec / 1000;
+                    auto time = std::chrono::system_clock::now();
+
+                    auto since_epoch = time.time_since_epoch();
+
+                    auto millis = sc::duration_cast<std::chrono::milliseconds>(since_epoch);
+
+                    currentTime = millis.count();
 
                     timeDelta = currentTime - lastTime;
                     if (timeDelta >= 20 && SDL_PollEvent(&event))
@@ -963,11 +1086,11 @@ int main()
 
                         grender();
 
-                        l = by / 7;
+                        l = by / chx;
 
-                        for (unsigned i = 0; i < str.length(); i += (SDL_WIDTH - 2 * bx) / 7)
+                        for (unsigned i = 0; i < str.length(); i += (resx - 2 * bx) / chx)
                         {
-                            bstr = str.substr(i, (SDL_WIDTH - 2 * bx) / 7);
+                            bstr = str.substr(i, (resx - 2 * bx) / chx);
 
                             char *cstr = new char[bstr.length() + 1];
                             strcpy(cstr, bstr.c_str());
@@ -980,9 +1103,9 @@ int main()
 
                             SDL_Rect textRect;
                             textRect.x = 1 * bx;
-                            textRect.y = 0 + l * 14;
-                            textRect.w = 7 * bstr.length();
-                            textRect.h = 14;
+                            textRect.y = 0 + l * chy;
+                            textRect.w = chx * bstr.length();
+                            textRect.h = chy;
 
                             SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
 
@@ -990,13 +1113,13 @@ int main()
                             l++;
                         }
 
-                        l = by / 7;
+                        l = by / chx;
 
                         std::string xstr = inputText;
 
-                        for (unsigned i = 0; i < str.length(); i += (SDL_WIDTH - 2 * bx) / 7)
+                        for (unsigned i = 0; i < str.length(); i += (resx - 2 * bx) / chx)
                         {
-                            bstr = xstr.substr(i, (SDL_WIDTH - 2 * bx) / 7);
+                            bstr = xstr.substr(i, (resx - 2 * bx) / chx);
 
                             char *cstr = new char[bstr.length() + 1];
                             strcpy(cstr, bstr.c_str());
@@ -1008,10 +1131,10 @@ int main()
                             SDL_FreeSurface(text);
 
                             SDL_Rect textRect;
-                            textRect.x = 1 * bx + 7 * str.length();
-                            textRect.y = 0 + l * 14;
-                            textRect.w = 7 * bstr.length();
-                            textRect.h = 14;
+                            textRect.x = 1 * bx + chx * str.length();
+                            textRect.y = 0 + l * chy;
+                            textRect.w = chx * bstr.length();
+                            textRect.h = chy;
 
                             SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
 
@@ -1051,13 +1174,24 @@ int main()
             } else if (event.key.keysym.sym == SDLK_KP_9 && event.type == SDL_KEYDOWN)
             {
                 lk = right_up;
+            } else if (event.key.keysym.sym == SDLK_f && event.type == SDL_KEYDOWN)
+            {
+                Uint32 flags = SDL_GetWindowFlags(window);
+                if (flags & SDL_WINDOW_FULLSCREEN == true)
+                {
+                    SDL_SetWindowFullscreen(window, 0);
+                } else
+                {
+                    SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
+                }
+
+            } else if (event.key.keysym.sym == SDLK_UP && event.type == SDL_KEYDOWN)
+            {
+                changeSize(7,14);
+            } else if (event.key.keysym.sym == SDLK_DOWN && event.type == SDL_KEYDOWN)
+            {
+                changeSize(-7,-14);
             }
-            //}// else if (event.key.keysym.sym == SDLK_o && event.type == SDL_KEYDOWN)
-//            {
-//                addObjects(true, "");
-//                cy = (-1)*(SDL_HEIGTH / 14 / 2);
-//                cx = (-1)*(SDL_WIDTH / 7 / 2);
-//            }
             grender();
         }
     }

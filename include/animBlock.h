@@ -2,7 +2,8 @@
 #define ANIMBLOCK_H
 
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
-    #include <ncurses/curses.h>
+    #include <ncursesw/curses.h>
+    #include "windows.h"
 #else
     #include <ncurses.h>
 #endif
@@ -13,9 +14,11 @@
 
 #include <func.h>
 
+#include <chrono>
+
 #include <iostream>
 #include <block.h>
-#include <sys/time.h>
+
 
 class animBlock : public block
 {
@@ -23,13 +26,11 @@ class animBlock : public block
         animBlock();
         ~animBlock();
 
-        timeval tv;
-
         char ch = 'a';
 
-        int timeDelta = 0;
-        int currentTime = 80;
-        int lastTime = 0;
+        long long int timeDelta = 0;
+        long long int currentTime = 80;
+        long long int lastTime = 0;
 
         void render(int cy, int cx);
         void SDL_render(SDL_Window* window, SDL_Renderer* renderer, TTF_Font* font, int cy, int cx);

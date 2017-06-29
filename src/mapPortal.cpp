@@ -25,10 +25,10 @@ void mapPortal::SDL_render(SDL_Window* window, SDL_Renderer* renderer, TTF_Font*
     SDL_FreeSurface(text);
 
     SDL_Rect textRect;
-    textRect.x = (block::x - cx) * 7;
-    textRect.y = (block::y - cy) * 14;
-    textRect.w = 7;
-    textRect.h = 14;
+    textRect.x = (block::x - cx) * chx;
+    textRect.y = (block::y - cy) * chy;
+    textRect.w = chx;
+    textRect.h = chy;
 
     SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
 

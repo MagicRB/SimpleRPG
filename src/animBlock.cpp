@@ -4,6 +4,8 @@
 #include <SDL2/SDL_video.h>
 #include <SDL2/SDL_ttf.h>
 
+#include <chrono>
+
 #include <func.h>
 
 animBlock::animBlock()
@@ -18,12 +20,17 @@ animBlock::~animBlock()
 
 void animBlock::render(int cy, int cx)
 {
-    gettimeofday (&tv, NULL);
-    currentTime = (tv.tv_sec) + 0.000001 * tv.tv_usec;
+    auto time = std::chrono::system_clock::now();
+
+    auto since_epoch = time.time_since_epoch();
+
+    auto millis = std::chrono::duration_cast<std::chrono::milliseconds>(since_epoch);
+
+    currentTime = millis.count();
 
     timeDelta = currentTime - lastTime;
 
-    if (timeDelta >= 1)
+    if (timeDelta >= 1000)
     {
         if (ch == 'a')
         {
@@ -39,12 +46,19 @@ void animBlock::render(int cy, int cx)
 
 void animBlock::SDL_render(SDL_Window* window, SDL_Renderer* renderer, TTF_Font* font, int cy, int cx)
 {
-    gettimeofday (&tv, NULL);
-    currentTime = (tv.tv_sec) + 0.000001 * tv.tv_usec;
+    auto time = std::chrono::system_clock::now();
+
+    auto since_epoch = time.time_since_epoch();
+
+    auto millis = std::chrono::duration_cast<std::chrono::milliseconds>(since_epoch);
+
+    currentTime = millis.count();
 
     timeDelta = currentTime - lastTime;
 
-    if (timeDelta >= 1)
+    std::cout << timeDelta << std::endl;
+
+    if (timeDelta >= 1000)
     {
         if (ch == 'a')
         {
@@ -62,10 +76,10 @@ void animBlock::SDL_render(SDL_Window* window, SDL_Renderer* renderer, TTF_Font*
     SDL_FreeSurface(text);
 
     SDL_Rect textRect;
-    textRect.x = (block::x - cx) * 7;
-    textRect.y = (block::y - cy) * 14;
-    textRect.w = 7;
-    textRect.h = 14;
+    textRect.x = (block::x - cx) * chx;
+    textRect.y = (block::y - cy) * chy;
+    textRect.w = chx;
+    textRect.h = chy;
 
     SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
 
