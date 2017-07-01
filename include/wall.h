@@ -41,6 +41,8 @@ class wall : public block
     SDL_Surface* text;
 
     private:
+
+	SDL_Rect renRect;
 };
 
 #endif // WALL_H

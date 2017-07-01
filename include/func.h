@@ -35,10 +35,15 @@ class func
         std::vector<std::string> split(std::string str);
         SDL_Surface* SDL_drawText(TTF_Font* font,  Uint8 fgR, Uint8 fgG, Uint8 fgB, Uint8 fgA, Uint8 bgR, Uint8 bgG, Uint8 bgB, Uint8 bgA, char text[], textQuality quality, Uint16* utext = (Uint16*)2022);
         TTF_Font* loadTTF(char* file, int short ptsize);
+        std::string textInputDialog(std::string text, unsigned int x, unsigned int y, TTF_Font* font, SDL_Renderer* renderer, SDL_Event* event, void (*function)(bool present));
 
     protected:
 
     private:
+
+        SDL_Rect renRect;
+        SDL_Surface* text;
+        SDL_Texture* textTexture;
 };
 
 #endif // FUNC_H

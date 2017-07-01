@@ -767,7 +767,7 @@
 1496143727 source:/home/main/SimpleRPG/src/mapPortal.cpp
 	"mapPortal.h"
 
-1498679399 source:f:\projects\c++\simplerpg\main.cpp
+1498932008 source:f:\projects\c++\simplerpg\main.cpp
 	<iostream>
 	<ncursesw/curses.h>
 	"windows.h"
@@ -795,7 +795,7 @@
 
 1498134146 f:\projects\c++\simplerpg\colors.h
 
-1498675852 f:\projects\c++\simplerpg\include\func.h
+1498918148 f:\projects\c++\simplerpg\include\func.h
 	<string>
 	<vector>
 	<SDL2/SDL.h>
@@ -812,7 +812,7 @@
 1498134146 f:\projects\c++\simplerpg\include\character.h
 	<string>
 
-1498667148 f:\projects\c++\simplerpg\include\wall.h
+1498759841 f:\projects\c++\simplerpg\include\wall.h
 	<ncursesw/curses.h>
 	<ncurses.h>
 	<SDL2/SDL.h>
@@ -911,12 +911,14 @@
 1498134146 source:f:\projects\c++\simplerpg\src\door_switch.cpp
 	"door_switch.h"
 
-1498677785 source:f:\projects\c++\simplerpg\src\func.cpp
+1498932008 source:f:\projects\c++\simplerpg\src\func.cpp
 	"func.h"
 	<string>
 	<vector>
 	<sstream>
 	<iostream>
+	<fstream>
+	<chrono>
 
 1498677757 source:f:\projects\c++\simplerpg\src\hud.cpp
 	"hud.h"
@@ -933,7 +935,7 @@
 1498677757 source:f:\projects\c++\simplerpg\src\sign.cpp
 	"sign.h"
 
-1498668577 source:f:\projects\c++\simplerpg\src\wall.cpp
+1498760455 source:f:\projects\c++\simplerpg\src\wall.cpp
 	"wall.h"
 	<ncursesw/curses.h>
 	<ncurses.h>
