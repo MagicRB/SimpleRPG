@@ -99,6 +99,9 @@ short unsigned int window_mode;
 
 namespace sc = std::chrono;
 
+SDL_Texture* startTexture;
+SDL_Rect startRect;
+
 std::string vstr(std::vector<std::string> v, int unsigned short i)
 {
     //std::cout << i << v.size() << std::endl;
@@ -224,7 +227,7 @@ void loadSettings()
     infile.close();
 }
 
-void addObjects(bool askMap, char* objMap = "obj.txt")
+int addObjects(bool askMap, char* objMap = "obj.txt")
 {
     std::ifstream infile;
     clearObjects();
@@ -235,10 +238,18 @@ void addObjects(bool askMap, char* objMap = "obj.txt")
         std::cout << "Enter name of .txt file which to load map from: ";
         std::cin >> fl;
         infile.open(fl);
+        if (!infile.is_open())
+        {
+            return -1;
+        }
     } else if (askMap == false && objMap != NULL)
     {
         std::string str(objMap);
-        infile.open(str);
+        infile.open(objMap);
+        if (!infile.is_open())
+        {
+            return -1;
+        }
     }
 
     //infile.open ("obj.txt");
@@ -358,6 +369,7 @@ void addObjects(bool askMap, char* objMap = "obj.txt")
     cx += pl.x;
 
 	infile.close();
+	return 0;
 }
 
 void NCurses_Render()
@@ -398,25 +410,16 @@ void NCurses_Render()
     refresh();
 }
 
-void SDL_Render()
+void SDL_Render(bool present)
 {
     SDL_RenderClear(renderer);
 
-    SDL_Surface* text = fc.SDL_drawText(font, (Uint8)0xFF, (Uint8)0xFF, (Uint8)0xFF, (Uint8)0xFF, (Uint8)0x00, (Uint8)0x00, (Uint8)0x00, (Uint8)0x00, (char*)"$", shaded);
+    startRect.x = (0 - cx) * chx;
+    startRect.y = (0 - cy) * chy;
+    startRect.w = chx;
+    startRect.h = chy;
 
-    SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, text);
-
-    SDL_FreeSurface(text);
-
-    SDL_Rect textRect;
-    textRect.x = (0 - cx) * chx;
-    textRect.y = (0 - cy) * chy;
-    textRect.w = chx;
-    textRect.h = chy;
-
-    SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
-
-    SDL_DestroyTexture(textTexture);
+    SDL_RenderCopy(renderer, startTexture, NULL, &startRect);
 
     for (int unsigned short i = 0; i < wall_v.size(); i++)
     {
@@ -453,14 +456,26 @@ void SDL_Render()
 
     pl.renderLook(lk, font, renderer, cy, cx);
 
-    SDL_RenderPresent(renderer);
+    if (present == true)
+    {
+        SDL_RenderPresent(renderer);
+    }
 }
 
-void SDL_IMG_Render()
+void SDL_IMG_Render(bool present)
 {
+    SDL_RenderClear(renderer);
+
+    startRect.x = (0 - cx) * chx;
+    startRect.y = (0 - cy) * chy;
+    startRect.w = chx;
+    startRect.h = chy;
+
+    SDL_RenderCopy(renderer, startTexture, NULL, &startRect);
+
     for (int unsigned short i = 0; i < wall_v.size(); i++)
     {
-        wall_v.at(i).SDL_render(window, renderer, cy, cx);
+        wall_v.at(i).IMG_render(renderer, cy, cx);
     }
     for (int unsigned short i = 0; i < wall_mv.size(); i++)
     {
@@ -492,11 +507,13 @@ void SDL_IMG_Render()
     hud_o.SDL_render(window, renderer, font, &pl);
 
     pl.renderLook(lk, font, renderer, cy, cx);
-
-    SDL_RenderPresent(renderer);
+    if (present == true)
+    {
+        SDL_RenderPresent(renderer);
+    }
 }
 
-void grender()
+void grender(bool present)
 {
     if (NCURSES_ENABLED == true)
     {
@@ -504,11 +521,11 @@ void grender()
     }
     if (SDL_ENABLED == true)
     {
-        SDL_Render();
+        SDL_Render(present);
     }
     if (SDL_IMAGE_ENABLED == true)
     {
-        SDL_IMG_Render();
+        SDL_IMG_Render(present);
     }
 }
 
@@ -526,6 +543,11 @@ int SDLInit()
         return -1;
     }
 
+    //set opengl attributes, supposed to happen before window creation
+    //SDL_GL_SetAttribute (SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE); //OpenGL core profile
+   // SDL_GL_SetAttribute (SDL_GL_CONTEXT_MAJOR_VERSION, 3); //OpenGL 3+
+    //SDL_GL_SetAttribute (SDL_GL_CONTEXT_MINOR_VERSION, 3); //OpenGL 3.3
+
     TTF_Init();
 
     font = fc.loadTTF("./font.ttf", 15);
@@ -541,6 +563,12 @@ int SDLInit()
     screenSurface = SDL_GetWindowSurface(window);
 
     SDL_SetWindowFullscreen(window, window_mode);
+
+    SDL_Surface* text = fc.SDL_drawText(font, (Uint8)0xFF, (Uint8)0xFF, (Uint8)0xFF, (Uint8)0xFF, (Uint8)0x00, (Uint8)0x00, (Uint8)0x00, (Uint8)0x00, (char*)"$", shaded);
+
+    startTexture = SDL_CreateTextureFromSurface(renderer, text);
+
+    SDL_FreeSurface(text);
 
     return 0;
 }
@@ -572,7 +600,7 @@ void initObjects()
     }
 }
 
-changeSize(short int x, short int y)
+void changeSize(short int x, short int y)
 {
     if (!(chx + x <= 0))
     {
@@ -591,7 +619,7 @@ changeSize(short int x, short int y)
 int main()
 {
     addObjects(false, "obj.txt");
-    loadSettings();;
+    loadSettings();
 
     if (NCURSES_ENABLED == true)
     {
@@ -633,7 +661,7 @@ int main()
 
     initObjects();
 
-    grender();
+    grender(true);
 
     while (true)
     {
@@ -707,13 +735,11 @@ int main()
                 cy += pl.y;
                 cx += pl.x;
             }
-            grender();
+            grender(true);
         }
         if (timeDelta >= 20 && (SDL_ENABLED == true || SDL_IMAGE_ENABLED == true))
         {
             lastTime = currentTime;
-
-            ch = getch();
 
             SDL_PollEvent(&event);
 
@@ -838,318 +864,19 @@ int main()
                 }
             } else if (event.key.keysym.sym == SDLK_o && event.type == SDL_KEYDOWN)
             {
-                SDL_StartTextInput();
-
-                unsigned int by = resy / 8;
-                unsigned int bx = resx / 8;
-
-                std::string str = "Input name of OBJ file: ";
-
-                std::string bstr;
-
-                unsigned int l = by / chx;
-
-                grender();
-
-                for (unsigned i = 0; i < str.length(); i += (resx - 2 * bx) / chx)
-                {
-                    bstr = str.substr(i, (resx - 2 * bx) / chx);
-
-                    char *cstr = new char[bstr.length() + 1];
-                    strcpy(cstr, bstr.c_str());
-
-                    SDL_Surface* text = fc.SDL_drawText(font, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, cstr, shaded);
-
-                    SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, text);
-
-                    SDL_FreeSurface(text);
-
-                    SDL_Rect textRect;
-                    textRect.x = 1 * bx;
-                    textRect.y = 0 + l * chy;
-                    textRect.w = chx * bstr.length();
-                    textRect.h = chy;
-
-                    SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
-
-                    SDL_DestroyTexture(textTexture);
-                    l++;
-                }
-
-                SDL_RenderPresent(renderer);
-
-                SDL_FlushEvent(SDL_KEYDOWN);
-
-                SDL_PollEvent(&event);
-
-                //Special key input
-
-                while (event.key.keysym.sym != SDLK_RETURN)
-                {
-                    auto time = std::chrono::system_clock::now();
-
-                    auto since_epoch = time.time_since_epoch();
-
-                    auto millis = sc::duration_cast<std::chrono::milliseconds>(since_epoch);
-
-                    currentTime = millis.count();
-
-
-                    timeDelta = currentTime - lastTime;
-                    if (timeDelta >= 20 && SDL_PollEvent(&event))
-                    {
-                        lastTime = currentTime;
-                        if(event.type == SDL_KEYDOWN && event.key.repeat == 0)
-                        {
-                            //Handle backspace
-                            if (event.key.keysym.sym == SDLK_BACKSPACE && inputText.length() > 0)
-                            {
-                                //lop off
-                                inputText.pop_back();
-                            }
-                            //Handle copy
-                            else if (event.key.keysym.sym == SDLK_c && SDL_GetModState() & KMOD_CTRL)
-                            {
-                                SDL_SetClipboardText( inputText.c_str() );
-                            }
-                            //Handle paste
-                            else if (event.key.keysym.sym == SDLK_v && SDL_GetModState() & KMOD_CTRL)
-                            {
-                                inputText = SDL_GetClipboardText();
-                            }
-                        } else if( event.type == SDL_TEXTINPUT)
-                        {
-                            //Not copy or pasting
-                            if( !( ( event.text.text[0] == 'c' || event.text.text[0] == 'C' ) && ( event.text.text[0] == 'v' || event.text.text[0] == 'V' ) && SDL_GetModState() & KMOD_CTRL ) )
-                            {
-                                //Append character
-                                inputText += event.text.text[0];
-                            }
-                        }
-
-                        grender();
-
-                        l = by / chx;
-
-                        for (unsigned i = 0; i < str.length(); i += (resx - 2 * bx) / chx)
-                        {
-                            bstr = str.substr(i, (resx - 2 * bx) / chx);
-
-                            char *cstr = new char[bstr.length() + 1];
-                            strcpy(cstr, bstr.c_str());
-
-                            SDL_Surface* text = fc.SDL_drawText(font, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, cstr, shaded);
-
-                            SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, text);
-
-                            SDL_FreeSurface(text);
-
-                            SDL_Rect textRect;
-                            textRect.x = 1 * bx;
-                            textRect.y = 0 + l * chy;
-                            textRect.w = chx * bstr.length();
-                            textRect.h = chy;
-
-                            SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
-
-                            SDL_DestroyTexture(textTexture);
-                            l++;
-                        }
-
-                        l = by / chx;
-
-                        std::string xstr = inputText;
-
-                        for (unsigned i = 0; i < str.length(); i += (resx - 2 * bx) / chx)
-                        {
-                            bstr = xstr.substr(i, (resx - 2 * bx) / chx);
-
-                            char *cstr = new char[bstr.length() + 1];
-                            strcpy(cstr, bstr.c_str());
-
-                            SDL_Surface* text = fc.SDL_drawText(font, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, cstr, shaded);
-
-                            SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, text);
-
-                            SDL_FreeSurface(text);
-
-                            SDL_Rect textRect;
-                            textRect.x = 1 * bx + chx * str.length();
-                            textRect.y = 0 + l * chy;
-                            textRect.w = chx * bstr.length();
-                            textRect.h = chy;
-
-                            SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
-
-                            SDL_DestroyTexture(textTexture);
-                            l++;
-                        }
-
-                        SDL_RenderPresent(renderer);
-
-                    }
-                }
-                char text[20];
-                strcpy(text, inputText.c_str());
-                addObjects(false, text);
+                std::string qstr = fc.textInputDialog("Input name of .obj file to load: ", 5, 5, font, renderer, &event, &grender);
+                char* cqstr = new char[qstr.length() + 1];
+                strcpy(cqstr, qstr.c_str());
+                addObjects(false, cqstr);
                 initObjects();
-                inputText.erase();
+                delete [] cqstr;
             } else if (event.key.keysym.sym == SDLK_F5 && event.type == SDL_KEYDOWN)
             {
-                SDL_StartTextInput();
-
-                unsigned int by = resy / 8;
-                unsigned int bx = resx / 8;
-
-                std::string str = "Input name of OBJ file: ";
-
-                std::string bstr;
-
-                unsigned int l = by / chx;
-
-                grender();
-
-                for (unsigned i = 0; i < str.length(); i += (resx - 2 * bx) / chx)
-                {
-                    bstr = str.substr(i, (resx - 2 * bx) / chx);
-
-                    char *cstr = new char[bstr.length() + 1];
-                    strcpy(cstr, bstr.c_str());
-
-                    SDL_Surface* text = fc.SDL_drawText(font, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, cstr, shaded);
-
-                    SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, text);
-
-                    SDL_FreeSurface(text);
-
-                    SDL_Rect textRect;
-                    textRect.x = 1 * bx;
-                    textRect.y = 0 + l * chy;
-                    textRect.w = chx * bstr.length();
-                    textRect.h = chy;
-
-                    SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
-
-                    SDL_DestroyTexture(textTexture);
-                    l++;
-                }
-
-                SDL_RenderPresent(renderer);
-
-                SDL_FlushEvent(SDL_KEYDOWN);
-
-                SDL_PollEvent(&event);
-
-                //Special key input
-
-                while (event.key.keysym.sym != SDLK_RETURN)
-                {
-                    auto time = std::chrono::system_clock::now();
-
-                    auto since_epoch = time.time_since_epoch();
-
-                    auto millis = sc::duration_cast<std::chrono::milliseconds>(since_epoch);
-
-                    currentTime = millis.count();
-
-                    timeDelta = currentTime - lastTime;
-                    if (timeDelta >= 20 && SDL_PollEvent(&event))
-                    {
-                        lastTime = currentTime;
-                        if(event.type == SDL_KEYDOWN && event.key.repeat == 0)
-                        {
-                            //Handle backspace
-                            if (event.key.keysym.sym == SDLK_BACKSPACE && inputText.length() > 0)
-                            {
-                                //lop off
-                                inputText.pop_back();
-                            }
-                            //Handle copy
-                            else if (event.key.keysym.sym == SDLK_c && SDL_GetModState() & KMOD_CTRL)
-                            {
-                                SDL_SetClipboardText( inputText.c_str() );
-                            }
-                            //Handle paste
-                            else if (event.key.keysym.sym == SDLK_v && SDL_GetModState() & KMOD_CTRL)
-                            {
-                                inputText = SDL_GetClipboardText();
-                            }
-                        } else if( event.type == SDL_TEXTINPUT)
-                        {
-                            //Not copy or pasting
-                            if( !( ( event.text.text[0] == 'c' || event.text.text[0] == 'C' ) && ( event.text.text[0] == 'v' || event.text.text[0] == 'V' ) && SDL_GetModState() & KMOD_CTRL ) )
-                            {
-                                //Append character
-                                inputText += event.text.text[0];
-                            }
-                        }
-
-                        grender();
-
-                        l = by / chx;
-
-                        for (unsigned i = 0; i < str.length(); i += (resx - 2 * bx) / chx)
-                        {
-                            bstr = str.substr(i, (resx - 2 * bx) / chx);
-
-                            char *cstr = new char[bstr.length() + 1];
-                            strcpy(cstr, bstr.c_str());
-
-                            SDL_Surface* text = fc.SDL_drawText(font, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, cstr, shaded);
-
-                            SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, text);
-
-                            SDL_FreeSurface(text);
-
-                            SDL_Rect textRect;
-                            textRect.x = 1 * bx;
-                            textRect.y = 0 + l * chy;
-                            textRect.w = chx * bstr.length();
-                            textRect.h = chy;
-
-                            SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
-
-                            SDL_DestroyTexture(textTexture);
-                            l++;
-                        }
-
-                        l = by / chx;
-
-                        std::string xstr = inputText;
-
-                        for (unsigned i = 0; i < str.length(); i += (resx - 2 * bx) / chx)
-                        {
-                            bstr = xstr.substr(i, (resx - 2 * bx) / chx);
-
-                            char *cstr = new char[bstr.length() + 1];
-                            strcpy(cstr, bstr.c_str());
-
-                            SDL_Surface* text = fc.SDL_drawText(font, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, cstr, shaded);
-
-                            SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, text);
-
-                            SDL_FreeSurface(text);
-
-                            SDL_Rect textRect;
-                            textRect.x = 1 * bx + chx * str.length();
-                            textRect.y = 0 + l * chy;
-                            textRect.w = chx * bstr.length();
-                            textRect.h = chy;
-
-                            SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
-
-                            SDL_DestroyTexture(textTexture);
-                            l++;
-                        }
-
-                        SDL_RenderPresent(renderer);
-
-                    }
-                }
-                char text[20];
-                strcpy(text, inputText.c_str());
-                saveObjects(text);
-                inputText.erase();
+                std::string qstr = fc.textInputDialog("Input name of .obj file to save to: ", 5, 5, font, renderer, &event, &grender);
+                char* cqstr = new char[qstr.length() + 1];
+                strcpy(cqstr, qstr.c_str());
+                saveObjects(cqstr);
+                delete [] cqstr;
             } else if (event.key.keysym.sym == SDLK_KP_1 && event.type == SDL_KEYDOWN)
             {
                 lk = left_down;
@@ -1177,7 +904,7 @@ int main()
             } else if (event.key.keysym.sym == SDLK_f && event.type == SDL_KEYDOWN)
             {
                 Uint32 flags = SDL_GetWindowFlags(window);
-                if (flags & SDL_WINDOW_FULLSCREEN == true)
+                if ((flags & SDL_WINDOW_FULLSCREEN) == true)
                 {
                     SDL_SetWindowFullscreen(window, 0);
                 } else
@@ -1191,14 +918,18 @@ int main()
             } else if (event.key.keysym.sym == SDLK_DOWN && event.type == SDL_KEYDOWN)
             {
                 changeSize(-7,-14);
+            } else if (event.type == SDL_QUIT)
+            {
+                break;
             }
-            grender();
+            grender(true);
         }
     }
     endwin();
 
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
+    SDL_DestroyTexture(startTexture);
 
     SDL_Quit();
 

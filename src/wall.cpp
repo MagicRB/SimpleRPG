@@ -14,7 +14,8 @@ wall::wall()
 
 wall::~wall()
 {
-    //dtor
+    SDL_DestroyTexture(textTexture);
+    SDL_DestroyTexture(img);
 }
 
 void wall::render(int cy, int cx)
@@ -30,13 +31,12 @@ void wall::setPos(int y, int x)
 
 void wall::SDL_render(SDL_Window* window, SDL_Renderer* renderer, int cy, int cx)
 {
-    SDL_Rect textRect;
-    textRect.x = (block::x - cx) * chx;
-    textRect.y = (block::y - cy) * chy;
-    textRect.w = chx;
-    textRect.h = chy;
+    renRect.x = (block::x - cx) * chx;
+    renRect.y = (block::y - cy) * chy;
+    renRect.w = chx;
+    renRect.h = chy;
 
-    SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
+    SDL_RenderCopy(renderer, textTexture, NULL, &renRect);
 }
 
 void wall::init(SDL_Renderer* renderer, TTF_Font* font)
@@ -51,21 +51,20 @@ void wall::init(SDL_Renderer* renderer, TTF_Font* font)
 
         SDL_FreeSurface(text);
     }
-//    if (SDL_IMAGE_ENABLED == true)
-//    {
-//        img = IMG_LoadTexture(renderer, "smile.png");
-//    }
+    if (SDL_IMAGE_ENABLED == true)
+    {
+        img = IMG_LoadTexture(renderer, "smile.png");
+    }
 }
 
 void wall::IMG_render(SDL_Renderer* renderer, int cy, int cx)
 {
-//	SDL_Rect texr;
-//	texr.x = (block::x - cx) * 7;
-//	texr.y = (block::y - cy) * 14;
-//	texr.w = 7;
-//	texr.h = 14;
-//
-//	SDL_RenderCopy(renderer, img, NULL, &texr);
+	renRect.x = (block::x - cx) * chx;
+	renRect.y = (block::y - cy) * chy;
+	renRect.w = chx;
+	renRect.h = chy;
+
+	SDL_RenderCopy(renderer, img, NULL, &renRect);
 }
 
 
