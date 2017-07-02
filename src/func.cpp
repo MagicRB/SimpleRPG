@@ -15,11 +15,11 @@ bool NCURSES_ENABLED = false;
 short unsigned int resx = 384;
 short unsigned int resy = 216;
 
-extern short unsigned int chx = 14;
-extern short unsigned int chy = 28;
+short unsigned int chx = 14;
+short unsigned int chy = 28;
 
-extern short unsigned int imgx = 10;
-extern short unsigned int imgy = 10;
+short unsigned int imgx = 10;
+short unsigned int imgy = 10;
 
 func::func()
 {
@@ -187,9 +187,9 @@ std::string func::textInputDialog(std::string str, unsigned int x, unsigned int 
     }
     delete [] cstr;
 
-    SDL_FlushEvent(SDL_KEYDOWN);
+    //SDL_FlushEvent(SDL_KEYDOWN);
 
-    SDL_StopTextInput();
+    //SDL_StopTextInput();
 
     return istr;
 }

@@ -56,8 +56,6 @@ void hud::displayText(std::string str, TTF_Font* font, SDL_Renderer* renderer)
         unsigned int by = resy / 8;
         unsigned int bx = resx / 8;
 
-        char ch;
-
         std::string bstr;
 
         unsigned int l = by / chx;

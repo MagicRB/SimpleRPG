@@ -544,15 +544,15 @@ int SDLInit()
     }
 
     //set opengl attributes, supposed to happen before window creation
-    //SDL_GL_SetAttribute (SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE); //OpenGL core profile
-   // SDL_GL_SetAttribute (SDL_GL_CONTEXT_MAJOR_VERSION, 3); //OpenGL 3+
-    //SDL_GL_SetAttribute (SDL_GL_CONTEXT_MINOR_VERSION, 3); //OpenGL 3.3
+    SDL_GL_SetAttribute (SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE); //OpenGL core profile
+    SDL_GL_SetAttribute (SDL_GL_CONTEXT_MAJOR_VERSION, 4); //OpenGL 3+
+    SDL_GL_SetAttribute (SDL_GL_CONTEXT_MINOR_VERSION, 5); //OpenGL 3.3
 
     TTF_Init();
 
     font = fc.loadTTF("./font.ttf", 15);
 
-    window = SDL_CreateWindow("Kurva", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, resx, resy, SDL_WINDOW_SHOWN);
+    window = SDL_CreateWindow("Kurva", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, resx, resy, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
     if (window == NULL)
     {
         return -1;
