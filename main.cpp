@@ -544,9 +544,15 @@ int SDLInit()
     }
 
     //set opengl attributes, supposed to happen before window creation
+<<<<<<< HEAD
     SDL_GL_SetAttribute (SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE); //OpenGL core profile
     SDL_GL_SetAttribute (SDL_GL_CONTEXT_MAJOR_VERSION, 4); //OpenGL 3+
     SDL_GL_SetAttribute (SDL_GL_CONTEXT_MINOR_VERSION, 5); //OpenGL 3.3
+=======
+    //SDL_GL_SetAttribute (SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE); //OpenGL core profile
+   // SDL_GL_SetAttribute (SDL_GL_CONTEXT_MAJOR_VERSION, 3); //OpenGL 3+
+    //SDL_GL_SetAttribute (SDL_GL_CONTEXT_MINOR_VERSION, 3); //OpenGL 3.3
+>>>>>>> 0f1e38557dc1d5524c3f315746d0a4bab21ec463
 
     TTF_Init();
 

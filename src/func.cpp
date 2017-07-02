@@ -187,9 +187,15 @@ std::string func::textInputDialog(std::string str, unsigned int x, unsigned int 
     }
     delete [] cstr;
 
+<<<<<<< HEAD
     //SDL_FlushEvent(SDL_KEYDOWN);
 
     //SDL_StopTextInput();
+=======
+    SDL_FlushEvent(SDL_KEYDOWN);
+
+    SDL_StopTextInput();
+>>>>>>> 0f1e38557dc1d5524c3f315746d0a4bab21ec463
 
     return istr;
 }
