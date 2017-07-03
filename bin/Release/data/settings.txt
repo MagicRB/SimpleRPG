@@ -1,0 +1,5 @@
+resolution;1000;800
+SDL;false
+NCURSES;false
+SDL_IMAGE;true
+window_mode;windowed

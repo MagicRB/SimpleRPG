@@ -15,8 +15,8 @@ bool NCURSES_ENABLED = false;
 short unsigned int resx = 384;
 short unsigned int resy = 216;
 
-short unsigned int chx = 14;
-short unsigned int chy = 28;
+short unsigned int chx = 20;
+short unsigned int chy = 20;
 
 short unsigned int imgx = 10;
 short unsigned int imgy = 10;
@@ -187,15 +187,10 @@ std::string func::textInputDialog(std::string str, unsigned int x, unsigned int 
     }
     delete [] cstr;
 
-<<<<<<< HEAD
+
     //SDL_FlushEvent(SDL_KEYDOWN);
 
     //SDL_StopTextInput();
-=======
-    SDL_FlushEvent(SDL_KEYDOWN);
-
-    SDL_StopTextInput();
->>>>>>> 0f1e38557dc1d5524c3f315746d0a4bab21ec463
 
     return istr;
 }

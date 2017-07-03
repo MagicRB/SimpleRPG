@@ -156,7 +156,7 @@ void saveObjects(char* file)
 void loadSettings()
 {
     std::ifstream infile;
-    infile.open("settings.txt");
+    infile.open("data/settings.txt");
     while(!infile.eof()) // To get you all the lines.
     {
         getline(infile,obj_ln); // Saves the line in STRING.
@@ -502,7 +502,7 @@ void SDL_IMG_Render(bool present)
         //mapPortal_v.at(i).SDL_render(window, renderer, font, cy, cx);
     }
 
-    pl.SDL_render(window, renderer, font, cy, cx);
+    pl.IMG_render(renderer, cy, cx);
 
     hud_o.SDL_render(window, renderer, font, &pl);
 
@@ -544,19 +544,13 @@ int SDLInit()
     }
 
     //set opengl attributes, supposed to happen before window creation
-<<<<<<< HEAD
     SDL_GL_SetAttribute (SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE); //OpenGL core profile
     SDL_GL_SetAttribute (SDL_GL_CONTEXT_MAJOR_VERSION, 4); //OpenGL 3+
     SDL_GL_SetAttribute (SDL_GL_CONTEXT_MINOR_VERSION, 5); //OpenGL 3.3
-=======
-    //SDL_GL_SetAttribute (SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE); //OpenGL core profile
-   // SDL_GL_SetAttribute (SDL_GL_CONTEXT_MAJOR_VERSION, 3); //OpenGL 3+
-    //SDL_GL_SetAttribute (SDL_GL_CONTEXT_MINOR_VERSION, 3); //OpenGL 3.3
->>>>>>> 0f1e38557dc1d5524c3f315746d0a4bab21ec463
 
     TTF_Init();
 
-    font = fc.loadTTF("./font.ttf", 15);
+    font = fc.loadTTF("data/font.ttf", 15);
 
     window = SDL_CreateWindow("Kurva", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, resx, resy, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
     if (window == NULL)
@@ -604,6 +598,8 @@ void initObjects()
     {
         wall_v.at(i).init(renderer, font);
     }
+
+    pl.init(renderer, font);
 }
 
 void changeSize(short int x, short int y)
@@ -624,7 +620,7 @@ void changeSize(short int x, short int y)
 
 int main()
 {
-    addObjects(false, "obj.txt");
+    addObjects(false, "maps/obj.txt");
     loadSettings();
 
     if (NCURSES_ENABLED == true)
@@ -870,7 +866,7 @@ int main()
                 }
             } else if (event.key.keysym.sym == SDLK_o && event.type == SDL_KEYDOWN)
             {
-                std::string qstr = fc.textInputDialog("Input name of .obj file to load: ", 5, 5, font, renderer, &event, &grender);
+                std::string qstr = "maps/" + fc.textInputDialog("Input name of .obj file to load: ", 5, 5, font, renderer, &event, &grender);
                 char* cqstr = new char[qstr.length() + 1];
                 strcpy(cqstr, qstr.c_str());
                 addObjects(false, cqstr);

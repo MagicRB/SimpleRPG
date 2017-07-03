@@ -36,8 +36,8 @@ class wall : public block
 
     func fc;
 
-    SDL_Texture* textTexture;
-    SDL_Texture* img;
+    SDL_Texture* texture;
+    SDL_Surface* img;
     SDL_Surface* text;
 
     private:
