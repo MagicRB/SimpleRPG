@@ -53,9 +53,9 @@ void wall::init(SDL_Renderer* renderer, TTF_Font* font)
     }
     if (SDL_IMAGE_ENABLED == true)
     {
-        img = SDL_LoadBMP("data/textures/smile.bmp");
+        //img = SDL_LoadBMP("data/textures/wall.bmp");
 
-        texture = SDL_CreateTextureFromSurface(renderer, img);
+        texture = IMG_LoadTexture(renderer, "data/textures/wall.png");//SDL_CreateTextureFromSurface(renderer, img);
     }
 }
 

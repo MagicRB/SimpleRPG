@@ -8,13 +8,14 @@
 #endif
 
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_video.h>
 #include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_image.h>
+
+#include <iostream>
 
 #include <func.h>
 
 #include <block.h>
-
 
 class door_switch : public block
 {
@@ -25,43 +26,25 @@ class door_switch : public block
         int dy;
         int dx;
 
-        void render(int cy, int cx)
-        {
-            mvaddch(block::y - cy, block::x - cx, '+');
-        }
+        void setPos(int y, int x, int ndy, int ndx);
 
-        void SDL_render(SDL_Window* window, SDL_Renderer* renderer, TTF_Font* font, int cy, int cx)
-        {
-            SDL_Surface* text = fc.SDL_drawText(font, (Uint8)0xFF, (Uint8)0xFF, (Uint8)0xFF, (Uint8)0xFF, (Uint8)0x00, (Uint8)0x00, (Uint8)0x00, (Uint8)0x00, (char*)"+", shaded);
+        void render(int cy, int cx);
+        void SDL_render(SDL_Window* window, SDL_Renderer* renderer, int cy, int cx);
+        void IMG_render(SDL_Renderer* renderer, int cy, int cx);
+        void init(SDL_Renderer* renderer, TTF_Font* font);
 
-            SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, text);
-
-            SDL_FreeSurface(text);
-
-            SDL_Rect textRect;
-            textRect.x = (block::x - cx) * chx;
-            textRect.y = (block::y - cy) * chy;
-            textRect.w = chx;
-            textRect.h = chy;
-
-            SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
-
-            SDL_DestroyTexture(textTexture);
-        }
-
-        void setPos(int y, int x, int dyr, int dxr)
-        {
-            block::y = y;
-            block::x = x;
-            dy = dyr;
-            dx =dxr;
-        }
 
     protected:
 
         func fc;
 
+        SDL_Texture* texture;
+        SDL_Surface* img;
+        SDL_Surface* text;
+
     private:
+
+        SDL_Rect renRect;
 };
 
 #endif // DOOR_SWITCH_H

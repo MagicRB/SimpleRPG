@@ -34,15 +34,15 @@ class wall : public block
 
     protected:
 
-    func fc;
+        func fc;
 
-    SDL_Texture* texture;
-    SDL_Surface* img;
-    SDL_Surface* text;
+        SDL_Texture* texture;
+        SDL_Surface* img;
+        SDL_Surface* text;
 
     private:
 
-	SDL_Rect renRect;
+        SDL_Rect renRect;
 };
 
 #endif // WALL_H

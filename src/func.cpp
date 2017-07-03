@@ -114,9 +114,7 @@ std::string func::textInputDialog(std::string str, unsigned int x, unsigned int 
 
     std::string istr = "";
 
-    SDL_Delay(60);
-
-    while (!(event->key.keysym.sym == SDLK_RETURN))
+    while (true)
     {
         auto time = std::chrono::system_clock::now();
 
@@ -130,6 +128,7 @@ std::string func::textInputDialog(std::string str, unsigned int x, unsigned int 
 
         if (timeDelta >= 20)
         {
+
             if (SDL_PollEvent(event))
             {
                 if (event->type == SDL_KEYDOWN)
@@ -149,9 +148,12 @@ std::string func::textInputDialog(std::string str, unsigned int x, unsigned int 
                     else if (event->key.keysym.sym == SDLK_v && SDL_GetModState() & KMOD_CTRL)
                     {
                         istr = SDL_GetClipboardText();
+                    } else if (event->key.keysym.sym == SDLK_RETURN && event->type == SDL_KEYDOWN)
+                    {
+                         break;
                     }
                 }
-                else if (event->type == SDL_TEXTINPUT)
+                else if (event->type == SDL_TEXTINPUT && event->key.repeat == 0)
                 {
                     //Not copy or pasting
                     if (!((event->text.text[ 0 ] == 'c' || event->text.text[ 0 ] == 'C' ) && ( event->text.text[ 0 ] == 'v' || event->text.text[ 0 ] == 'V' ) && SDL_GetModState() & KMOD_CTRL))
@@ -174,8 +176,8 @@ std::string func::textInputDialog(std::string str, unsigned int x, unsigned int 
 
             renRect.x = (resx / 8);
             renRect.y = (resy / 8);
-            renRect.w = chx * (str.length() + istr.length());
-            renRect.h = chy;
+            renRect.w = 7 * (str.length() + istr.length());
+            renRect.h = 14;
 
             SDL_RenderCopy(renderer, textTexture, NULL, &renRect);
 
@@ -188,7 +190,7 @@ std::string func::textInputDialog(std::string str, unsigned int x, unsigned int 
     delete [] cstr;
 
 
-    //SDL_FlushEvent(SDL_KEYDOWN);
+    SDL_FlushEvent(SDL_KEYDOWN);
 
     //SDL_StopTextInput();
 

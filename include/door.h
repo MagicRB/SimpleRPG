@@ -8,7 +8,7 @@
 #endif
 
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_video.h>
+#include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 
 #include <func.h>
@@ -25,27 +25,29 @@ class door : public block
         bool open = false;
         char dch = '/';
 
-        void render(int cy, int cx);
-        void SDL_render(SDL_Window* window, SDL_Renderer* renderer, TTF_Font* font, int cy, int cx);
+        std::string dimg = "data/textures/door_open.png";
+
         void setPos(int y, int x);
 
-        void switchState()
-        {
-            if (open == false)
-            {
-                dch = '*';
-            } else if (open == true)
-            {
-                dch = '/';
-            }
-            open = !open;
-        }
+        void render(int cy, int cx);
+        void SDL_render(SDL_Window* window, SDL_Renderer* renderer, int cy, int cx);
+        void IMG_render(SDL_Renderer* renderer, int cy, int cx);
+        void init(SDL_Renderer* renderer, TTF_Font* font);
+
+        void switchState();
+
 
     protected:
 
         func fc;
 
+        SDL_Texture* texture;
+        SDL_Surface* img;
+        SDL_Surface* text;
+
     private:
+
+        SDL_Rect renRect;
 };
 
 #endif // DOOR_H

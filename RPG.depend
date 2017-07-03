@@ -769,7 +769,7 @@
 
 1498134146 D
 
-1499086699 source:f:\projects\c++\simplerpg\main.cpp
+1499112746 source:f:\projects\c++\simplerpg\main.cpp
 	<iostream>
 	<ncursesw/curses.h>
 	"windows.h"
@@ -837,17 +837,18 @@
 	<SDL2/SDL_video.h>
 	<SDL2/SDL_ttf.h>
 
-1499085510 f:\projects\c++\simplerpg\include\player.h
+1499111239 f:\projects\c++\simplerpg\include\player.h
 	<character.h>
 	<SDL2/SDL.h>
 	<SDL2/SDL_video.h>
 	<SDL2/SDL_ttf.h>
+	<SDL2/SDL_image.h>
 	<func.h>
 
 1498134146 f:\projects\c++\simplerpg\include\character.h
 	<string>
 
-1499084954 f:\projects\c++\simplerpg\include\wall.h
+1499112000 f:\projects\c++\simplerpg\include\wall.h
 	<ncursesw/curses.h>
 	<ncurses.h>
 	<SDL2/SDL.h>
@@ -864,21 +865,22 @@
 	<ncurses.h>
 	<block.h>
 
-1498667221 f:\projects\c++\simplerpg\include\door.h
+1499113009 f:\projects\c++\simplerpg\include\door.h
 	<ncursesw/curses.h>
 	<ncurses.h>
 	<SDL2/SDL.h>
-	<SDL2/SDL_video.h>
+	<SDL2/SDL_image.h>
 	<SDL2/SDL_ttf.h>
 	<func.h>
 	<block.h>
 
-1498677757 f:\projects\c++\simplerpg\include\door_switch.h
+1499112149 f:\projects\c++\simplerpg\include\door_switch.h
 	<ncursesw/curses.h>
 	<ncurses.h>
 	<SDL2/SDL.h>
-	<SDL2/SDL_video.h>
 	<SDL2/SDL_ttf.h>
+	<SDL2/SDL_image.h>
+	<iostream>
 	<func.h>
 	<block.h>
 
@@ -926,7 +928,7 @@
 	<func.h>
 	<block.h>
 
-1498677757 source:f:\projects\c++\simplerpg\src\animblock.cpp
+1499097630 source:f:\projects\c++\simplerpg\src\animblock.cpp
 	"animBlock.h"
 	<SDL2/SDL.h>
 	<SDL2/SDL_video.h>
@@ -940,13 +942,15 @@
 1498134146 source:f:\projects\c++\simplerpg\src\character.cpp
 	"character.h"
 
-1498677757 source:f:\projects\c++\simplerpg\src\door.cpp
+1499113105 source:f:\projects\c++\simplerpg\src\door.cpp
 	"door.h"
 
-1498134146 source:f:\projects\c++\simplerpg\src\door_switch.cpp
+1499112183 source:f:\projects\c++\simplerpg\src\door_switch.cpp
 	"door_switch.h"
+	<ncursesw/curses.h>
+	<ncurses.h>
 
-1499085232 source:f:\projects\c++\simplerpg\src\func.cpp
+1499104504 source:f:\projects\c++\simplerpg\src\func.cpp
 	"func.h"
 	<string>
 	<vector>
@@ -962,7 +966,7 @@
 1498677757 source:f:\projects\c++\simplerpg\src\mapportal.cpp
 	"mapPortal.h"
 
-1499086578 source:f:\projects\c++\simplerpg\src\player.cpp
+1499111205 source:f:\projects\c++\simplerpg\src\player.cpp
 	"player.h"
 	<ncursesw/curses.h>
 	<ncurses.h>
@@ -970,7 +974,7 @@
 1498677757 source:f:\projects\c++\simplerpg\src\sign.cpp
 	"sign.h"
 
-1499086578 source:f:\projects\c++\simplerpg\src\wall.cpp
+1499111487 source:f:\projects\c++\simplerpg\src\wall.cpp
 	"wall.h"
 	<ncursesw/curses.h>
 	<ncurses.h>

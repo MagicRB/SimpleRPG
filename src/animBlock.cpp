@@ -56,8 +56,6 @@ void animBlock::SDL_render(SDL_Window* window, SDL_Renderer* renderer, TTF_Font*
 
     timeDelta = currentTime - lastTime;
 
-    std::cout << timeDelta << std::endl;
-
     if (timeDelta >= 1000)
     {
         if (ch == 'a')

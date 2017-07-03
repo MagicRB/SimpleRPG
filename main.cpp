@@ -294,10 +294,12 @@ int addObjects(bool askMap, char* objMap = "obj.txt")
                 if (vstr(splObj_ln, 3) == "open")
                 {
                     door_v.at(door_v.size() - 1).dch = '*';
+                    door_v.at(door_v.size() - 1).dimg = "data/textures/door_open.png";
                     door_v.at(door_v.size() - 1).open = true;
                 } else
                 {
                     door_v.at(door_v.size() - 1).dch = '/';
+                    door_v.at(door_v.size() - 1).dimg = "data/textures/door_closed.png";
                     door_v.at(door_v.size() - 1).open = false;
                 }
             }
@@ -431,11 +433,11 @@ void SDL_Render(bool present)
     }
     for (int unsigned short i = 0; i < door_sv.size(); i++)
     {
-        door_sv.at(i).SDL_render(window, renderer, font, cy, cx);
+        door_sv.at(i).SDL_render(window, renderer, cy, cx);
     }
     for (int unsigned short i = 0; i < door_v.size(); i++)
     {
-        door_v.at(i).SDL_render(window, renderer, font, cy, cx);
+        door_v.at(i).SDL_render(window, renderer, cy, cx);
     }
     for (int unsigned short i = 0; i < animBlock_v.size(); i++)
     {
@@ -483,11 +485,11 @@ void SDL_IMG_Render(bool present)
     }
     for (int unsigned short i = 0; i < door_sv.size(); i++)
     {
-        //door_sv.at(i).SDL_render(window, renderer, font, cy, cx);
+        door_sv.at(i).IMG_render(renderer, cy, cx);
     }
     for (int unsigned short i = 0; i < door_v.size(); i++)
     {
-        //door_v.at(i).SDL_render(window, renderer, font, cy, cx);
+        door_v.at(i).IMG_render(renderer, cy, cx);
     }
     for (int unsigned short i = 0; i < animBlock_v.size(); i++)
     {
@@ -550,7 +552,7 @@ int SDLInit()
 
     TTF_Init();
 
-    font = fc.loadTTF("data/font.ttf", 15);
+    font = fc.loadTTF("data/fonts/font.ttf", 15);
 
     window = SDL_CreateWindow("Kurva", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, resx, resy, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
     if (window == NULL)
@@ -597,6 +599,14 @@ void initObjects()
     for (int unsigned short i = 0; i < wall_v.size(); i++)
     {
         wall_v.at(i).init(renderer, font);
+    }
+    for (int unsigned short i = 0; i < door_sv.size(); i++)
+    {
+        door_sv.at(i).init(renderer, font);
+    }
+    for (int unsigned short i = 0; i < door_v.size(); i++)
+    {
+        door_v.at(i).init(renderer, font);
     }
 
     pl.init(renderer, font);
@@ -821,8 +831,8 @@ int main()
                     SDL_Rect textRect;
                     textRect.x = 1 * bx;
                     textRect.y = 0 + l * chy;
-                    textRect.w = chx * bstr.length();
-                    textRect.h = chy;
+                    textRect.w = 7 * bstr.length();
+                    textRect.h = 14;
 
                     SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
 
@@ -914,15 +924,41 @@ int main()
                     SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
                 }
 
-            } else if (event.key.keysym.sym == SDLK_UP && event.type == SDL_KEYDOWN)
-            {
-                changeSize(7,14);
-            } else if (event.key.keysym.sym == SDLK_DOWN && event.type == SDL_KEYDOWN)
-            {
-                changeSize(-7,-14);
             } else if (event.type == SDL_QUIT)
             {
                 break;
+            } else if (event.key.keysym.sym == SDLK_F6 && event.type == SDL_KEYDOWN)
+            {
+//                std::string strresx = fc.textInputDialog("Input size of window, X: ", 5, 5, font, renderer, &event, &grender);
+//                std::string strresy = fc.textInputDialog("Input size of window, Y: ", 5, 5, font, renderer, &event, &grender);
+                std::string strchx = fc.textInputDialog("Input size of chars, X: ", 5, 5, font, renderer, &event, &grender);
+                std::string strchy = fc.textInputDialog("Input size of chars, Y: ", 5, 5, font, renderer, &event, &grender);
+//                std::stringstream resxstream(strresx);
+//                std::stringstream resystream(strresy);
+                std::stringstream chxstream(strchx);
+                std::stringstream chystream(strchy);
+
+                short unsigned int chnumx;
+                short unsigned int chnumy;
+
+                if (/*resxstream >> numx && resystream >> numy && */chxstream >> chnumx && chystream >> chnumy)
+                {
+                    chx = chnumx;
+                    chy = chnumy;
+
+                    //SDL_SetWindowSize(window, numx, numy);
+
+                    //resx = numx;
+                    //resy = numy;
+
+                    cy = (-1)*(resy / chy / 2);
+                    cx = (-1)*(resx / chx / 2);
+                    cy += pl.y;
+                    cx += pl.x;
+
+                    //SDL_RenderPresent(renderer);
+                    //SDL_RenderClear(renderer);
+                }
             }
             grender(true);
         }
