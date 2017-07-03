@@ -55,4 +55,4 @@ Set Search Dirs like this:
 * Resource compiler: $prefix/mingw../include
 
 ## Download section
-Just download this... This is all you need to get it running. [DOWNLOAD]()https://github.com/MagicRB/SimpleRPG/edit/master/bin/Release.zip
+Just download this... This is all you need to get it running. [DOWNLOAD](https://github.com/MagicRB/SimpleRPG/raw/master/bin/Release.zip)
