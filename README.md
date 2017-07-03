@@ -54,12 +54,5 @@ Set Search Dirs like this:
 * Linker: $prefix/mingw../lib
 * Resource compiler: $prefix/mingw../include
 
-## Required files
-
-You need [this](https://62.168.71.236/SimpleRPG/settings.txt) setting file in the dir that the .exe exists.
-Also you need some font (.ttf) in the same dir, named font.ttf. I'm using [this](https://62.168.71.236/SimpleRPG/font.ttf) one.
-
 ## Download section
-
-Windows x86_64 Binary [Download](http://62.168.71.236/SimpleRPG/RPG.exe)   
-Example obj file [Download](http://62.168.71.236/SimpleRPG/obj.txt)
+Just download this... This is all you need to get it running. [DOWNLOAD]()https://github.com/MagicRB/SimpleRPG/edit/master/bin/Release.zip
