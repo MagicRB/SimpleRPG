@@ -14,8 +14,8 @@ wall::wall()
 
 wall::~wall()
 {
-    SDL_DestroyTexture(textTexture);
-    SDL_DestroyTexture(img);
+    SDL_DestroyTexture(texture);
+    SDL_FreeSurface(img);
 }
 
 void wall::render(int cy, int cx)
@@ -36,7 +36,7 @@ void wall::SDL_render(SDL_Window* window, SDL_Renderer* renderer, int cy, int cx
     renRect.w = chx;
     renRect.h = chy;
 
-    SDL_RenderCopy(renderer, textTexture, NULL, &renRect);
+    SDL_RenderCopy(renderer, texture, NULL, &renRect);
 }
 
 void wall::init(SDL_Renderer* renderer, TTF_Font* font)
@@ -47,13 +47,15 @@ void wall::init(SDL_Renderer* renderer, TTF_Font* font)
     {
         text = fc.SDL_drawText(font, 0x93, 0x81, 0x6du, 0xFF, 0xaa, 0xa3, 0x94, 0x00, "#", shaded);
 
-        textTexture = SDL_CreateTextureFromSurface(renderer, text);
+        texture = SDL_CreateTextureFromSurface(renderer, text);
 
         SDL_FreeSurface(text);
     }
     if (SDL_IMAGE_ENABLED == true)
     {
-        img = IMG_LoadTexture(renderer, "smile.png");
+        img = SDL_LoadBMP("data/textures/smile.bmp");
+
+        texture = SDL_CreateTextureFromSurface(renderer, img);
     }
 }
 
@@ -64,7 +66,7 @@ void wall::IMG_render(SDL_Renderer* renderer, int cy, int cx)
 	renRect.w = chx;
 	renRect.h = chy;
 
-	SDL_RenderCopy(renderer, img, NULL, &renRect);
+	SDL_RenderCopy(renderer, texture, NULL, &renRect);
 }
 
 
