@@ -63,7 +63,7 @@ void door::setPos(int y, int x)
     block::x = x;
 }
 
-void door::switchState()
+void door::switchState(std::string worldPrefix)
 {
     if (NCURSES_ENABLED == true)
     {
@@ -80,10 +80,10 @@ void door::switchState()
     {
         if (open == false)
         {
-            dimg = "data/textures/door_open.png";
+            dimg = "maps/" + worldPrefix + "/textures/" + "door_open.png";
         } else if (open == true)
         {
-            dimg = "data/textures/door_closed.png";
+            dimg = "maps/" + worldPrefix + "/textures/" + "door_closed.png";
         }
         open = !open;
     }

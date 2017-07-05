@@ -55,7 +55,8 @@ void wall::init(SDL_Renderer* renderer, TTF_Font* font)
     {
         //img = SDL_LoadBMP("data/textures/wall.bmp");
 
-        texture = IMG_LoadTexture(renderer, "data/textures/wall.png");//SDL_CreateTextureFromSurface(renderer, img);
+        texture = IMG_LoadTexture(renderer, pathTexture.c_str());//SDL_CreateTextureFromSurface(renderer, img);
+        std::cout << pathTexture << std::endl;
     }
 }
 

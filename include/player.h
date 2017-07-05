@@ -21,7 +21,7 @@ class player : public character
 
         void SDL_render(SDL_Window* window, SDL_Renderer* renderer, TTF_Font* font, int cy, int cx);
         void IMG_render(SDL_Renderer* renderer, int cy, int cx);
-        void init(SDL_Renderer* renderer, TTF_Font* font);
+        void init(SDL_Renderer* renderer, TTF_Font* font, std::string worldPrefix);
         void chmove(int y, int x);
         void renderLook(look lk, TTF_Font* font, SDL_Renderer* renderer, int cy, int cx);
 

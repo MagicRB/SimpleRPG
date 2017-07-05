@@ -24,6 +24,8 @@
 #include <hud.h>
 #include <sign.h>
 #include <mapPortal.h>
+#include <key.h>
+
 
 #include <stdio.h>
 
@@ -85,6 +87,17 @@ std::vector<std::string> splObj_ln;
 
 func fc;
 
+
+std::string invPath;
+
+/// PLAYER INVENTORY ARRAYS AND OBJECTS
+
+std::vector<key> key_v;
+key key_o;
+
+/// PLAYER INVENTORY ARRAYS AND OBJECTS END
+
+
 int cy = 0;
 int cx = 0;
 
@@ -101,6 +114,10 @@ namespace sc = std::chrono;
 
 SDL_Texture* startTexture;
 SDL_Rect startRect;
+
+
+std::string worldPrefix;
+
 
 std::string vstr(std::vector<std::string> v, int unsigned short i)
 {
@@ -124,6 +141,7 @@ void clearObjects()
     animBlock_v.clear();
     sign_v.clear();
     mapPortal_v.clear();
+    key_v.clear();
 }
 
 void saveObjects(char* file)
@@ -133,13 +151,13 @@ void saveObjects(char* file)
 
     for (int unsigned short i = 0; i < wall_v.size(); i++)
     {
-        outmap << "wall;" << wall_v.at(i).y << ';' << wall_v.at(i).x << '\n';
+        outmap << "wall;" << wall_v.at(i).y << ';' << wall_v.at(i).x << ';' << wall_v.at(i).pathTTemplate << '\n';
     } for (int unsigned short i = 0; i < door_v.size(); i++)
     {
         outmap << "door;" << door_v.at(i).y << ';' << door_v.at(i).x << ';' << (door_v.at(i).open ? "open" : "closed") << '\n';
     } for (int unsigned short i = 0; i < door_sv.size(); i++)
     {
-        outmap << "door_switch;" << door_sv.at(i).y << ';' << door_sv.at(i).x << ';' << door_sv.at(i).dy << ';' << door_sv.at(i).dx << '\n';
+        outmap << "door_switch;" << door_sv.at(i).y << ';' << door_sv.at(i).x << ';' << door_sv.at(i).dy << ';' << door_sv.at(i).dx << ';' << door_sv.at(i).id << '\n';
     } for (int unsigned short i = 0; i < animBlock_v.size(); i++)
     {
         outmap << "anim_block;" << animBlock_v.at(i).y << ';' << animBlock_v.at(i).x << '\n';
@@ -150,6 +168,7 @@ void saveObjects(char* file)
     {
         outmap << "mapPortal;" << mapPortal_v.at(i).y << ';' << mapPortal_v.at(i).x << ';' << mapPortal_v.at(i).obj_map << '\n';
     }
+    outmap << "inventory;" << invPath << '\n';
     outmap << "player;" << pl.y << ';' << pl.x << '\n';
 }
 
@@ -227,6 +246,73 @@ void loadSettings()
     infile.close();
 }
 
+std::string getTextureInfo(std::string path)
+{
+    std::ifstream infile;
+    infile.open("maps/" + worldPrefix + "/texture_template/" + path);
+
+    while(!infile.eof()) // To get you all the lines.
+    {
+        std::string text_ln;
+        std::vector<std::string> splText_ln;
+
+        getline(infile,text_ln); // Saves the line in STRING.
+
+        std::istringstream ss(text_ln);
+        std::string token;
+
+        if (text_ln == "")
+        {
+            break;
+        }
+
+        while (std::getline(ss, token, ';'))
+        {
+            splText_ln.push_back(token);
+        }
+
+        if (vstr(splText_ln, 0) == "texture")
+        {
+            return vstr(splText_ln, 1);
+        }
+    }
+}
+
+void loadPLInventroy(std::string path)
+{
+    std::ifstream infile;
+    infile.open("maps/" + worldPrefix + "/inventory/" + path);
+
+    while(!infile.eof()) // To get you all the lines.
+    {
+        std::string inv_ln;
+        std::vector<std::string> splInv_ln;
+
+        getline(infile,inv_ln); // Saves the line in STRING.
+
+        std::istringstream ss(inv_ln);
+        std::string token;
+
+        if (inv_ln == "")
+        {
+            break;
+        }
+
+        while (std::getline(ss, token, ';'))
+        {
+            splInv_ln.push_back(token);
+        }
+
+        if (vstr(splInv_ln, 0) == "key")
+        {
+            key_v.push_back(key_o);
+            key_v.at(key_v.size() - 1).name = vstr(splInv_ln, 1);
+            key_v.at(key_v.size() - 1).id = vstr(splInv_ln, 2);
+        }
+
+    }
+}
+
 int addObjects(bool askMap, char* objMap = "obj.txt")
 {
     std::ifstream infile;
@@ -282,6 +368,11 @@ int addObjects(bool askMap, char* objMap = "obj.txt")
                 wall_v.push_back(wall_o);
                 wall_v.at(wall_v.size() - 1).setPos(numy, numx);
             }
+            if (vstr(splObj_ln, 3) != "")
+            {
+                wall_v.at(wall_v.size() - 1).pathTexture = "maps/" + worldPrefix + "/textures/" + getTextureInfo(vstr(splObj_ln, 3));
+                wall_v.at(wall_v.size() - 1).pathTTemplate = "maps/" + worldPrefix + "/texture_template/" + vstr(splObj_ln, 3);
+            }
         } else if (vstr(splObj_ln, 0) == "door")
         {
             std::stringstream nystream(vstr(splObj_ln, 1));
@@ -294,12 +385,12 @@ int addObjects(bool askMap, char* objMap = "obj.txt")
                 if (vstr(splObj_ln, 3) == "open")
                 {
                     door_v.at(door_v.size() - 1).dch = '*';
-                    door_v.at(door_v.size() - 1).dimg = "data/textures/door_open.png";
+                    door_v.at(door_v.size() - 1).dimg = "maps/" + worldPrefix + "/textures/" + "door_open.png";
                     door_v.at(door_v.size() - 1).open = true;
                 } else
                 {
                     door_v.at(door_v.size() - 1).dch = '/';
-                    door_v.at(door_v.size() - 1).dimg = "data/textures/door_closed.png";
+                    door_v.at(door_v.size() - 1).dimg = "maps/" + worldPrefix + "/textures/" + "door_closed.png";
                     door_v.at(door_v.size() - 1).open = false;
                 }
             }
@@ -318,7 +409,7 @@ int addObjects(bool askMap, char* objMap = "obj.txt")
                 door_sv.push_back(door_so);
                 door_sv.at(door_sv.size() - 1).setPos(numy, numx, numdy, numdx);
             }
-
+            door_sv.at(door_sv.size() - 1).id = vstr(splObj_ln, 5);
         } else if (vstr(splObj_ln, 0) == "anim_block")
         {
             std::stringstream nystream(vstr(splObj_ln, 1));
@@ -362,6 +453,10 @@ int addObjects(bool askMap, char* objMap = "obj.txt")
                 mapPortal_v.at(mapPortal_v.size() - 1).setMap(chm);
                 //std::cout << mapPortal_v.at(mapPortal_v.size() - 1).str;
             }
+        } else if (vstr(splObj_ln, 0) == "inventory")
+        {
+            invPath = vstr(splObj_ln, 1);
+            loadPLInventroy(vstr(splObj_ln, 1));
         }
         splObj_ln.clear();
     }
@@ -602,14 +697,14 @@ void initObjects()
     }
     for (int unsigned short i = 0; i < door_sv.size(); i++)
     {
-        door_sv.at(i).init(renderer, font);
+        door_sv.at(i).init(renderer, font, worldPrefix);
     }
     for (int unsigned short i = 0; i < door_v.size(); i++)
     {
         door_v.at(i).init(renderer, font);
     }
 
-    pl.init(renderer, font);
+    pl.init(renderer, font, worldPrefix);
 }
 
 void changeSize(short int x, short int y)
@@ -630,7 +725,6 @@ void changeSize(short int x, short int y)
 
 int main()
 {
-    addObjects(false, "maps/obj.txt");
     loadSettings();
 
     if (NCURSES_ENABLED == true)
@@ -720,7 +814,19 @@ int main()
                         {
                             if (door_v.at(di).x == door_sv.at(i).dx && door_v.at(di).y == door_sv.at(i).dy)
                             {
-                                door_v.at(di).switchState();
+                                if (door_sv.at(i).id != "")
+                                {
+                                    for (short unsigned int i = 0; i < key_v.size(); i++)
+                                    {
+                                        if (key_v.at(i - 1).id == door_sv.at(i).id)
+                                        {
+                                            door_v.at(di).switchState(worldPrefix);
+                                        }
+                                    }
+                                } else
+                                {
+                                    door_v.at(di).switchState(worldPrefix);
+                                }
                             }
                         }
                     }
@@ -774,15 +880,27 @@ int main()
                 cy += 1;
             } else if (event.key.keysym.sym == SDLK_e && event.type == SDL_KEYDOWN)
             {
-                for (int unsigned i = 0; i < door_sv.size(); i++)
+                for (int unsigned si = 0; si < door_sv.size(); si++)
                 {
-                    if (door_sv.at(i).y == pl.y + pl.lky && door_sv.at(i).x == pl.x + pl.lkx)
+                    if (door_sv.at(si).y == pl.y + pl.lky && door_sv.at(si).x == pl.x + pl.lkx)
                     {
                         for (int unsigned di = 0; di < door_v.size(); di++)
                         {
-                            if (door_v.at(di).x == door_sv.at(i).dx && door_v.at(di).y == door_sv.at(i).dy)
+                            if (door_v.at(di).x == door_sv.at(si).dx && door_v.at(di).y == door_sv.at(si).dy)
                             {
-                                door_v.at(di).switchState();
+                                if (door_sv.at(si).id != "")
+                                {
+                                    for (short unsigned int i = 0; i < key_v.size(); i++)
+                                    {
+                                        if (key_v.at(i).id == door_sv.at(si).id)
+                                        {
+                                            door_v.at(di).switchState(worldPrefix);
+                                        }
+                                    }
+                                } else
+                                {
+                                    door_v.at(di).switchState(worldPrefix);
+                                }
                             }
                         }
                     }
@@ -813,11 +931,11 @@ int main()
 
                 std::string bstr;
 
-                unsigned int l = by / chx;
+                unsigned int l = by / 7;
 
-                for (unsigned i = 0; i < str.length(); i += (resx - 2 * bx) / chx)
+                for (unsigned i = 0; i < str.length(); i += (resx - 2 * bx) / 7)
                 {
-                    bstr = str.substr(i, (resx - 2 * bx) / chx);
+                    bstr = str.substr(i, (resx - 2 * bx) / 7);
 
                     char *cstr = new char[bstr.length() + 1];
                     strcpy(cstr, bstr.c_str());
@@ -830,7 +948,7 @@ int main()
 
                     SDL_Rect textRect;
                     textRect.x = 1 * bx;
-                    textRect.y = 0 + l * chy;
+                    textRect.y = 0 + l * 14;
                     textRect.w = 7 * bstr.length();
                     textRect.h = 14;
 
@@ -876,7 +994,8 @@ int main()
                 }
             } else if (event.key.keysym.sym == SDLK_o && event.type == SDL_KEYDOWN)
             {
-                std::string qstr = "maps/" + fc.textInputDialog("Input name of .obj file to load: ", 5, 5, font, renderer, &event, &grender);
+                worldPrefix = fc.textInputDialog("Input name of map to load: ", 5, 5, font, renderer, &event, &grender);
+                std::string qstr = "maps/" + worldPrefix + "/world.txt";
                 char* cqstr = new char[qstr.length() + 1];
                 strcpy(cqstr, qstr.c_str());
                 addObjects(false, cqstr);

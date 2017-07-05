@@ -1,0 +1,1 @@
+texture;stone_wall.png

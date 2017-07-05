@@ -1,0 +1,1 @@
+texture;golden_key.png

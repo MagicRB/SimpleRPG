@@ -24,6 +24,9 @@ class wall : public block
         wall();
         ~wall();
 
+        std::string pathTexture;
+        std::string pathTTemplate;
+
         void render(int cy, int cx);
 
         void setPos(int y, int x);

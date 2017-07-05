@@ -91,7 +91,7 @@ void player::renderLook(look lk, TTF_Font* font, SDL_Renderer* renderer, int cy,
     SDL_DestroyTexture(textTexture);
 }
 
-void player::init(SDL_Renderer* renderer, TTF_Font* font)
+void player::init(SDL_Renderer* renderer, TTF_Font* font, std::string worldPrefix)
 {
     if (SDL_ENABLED == true)
     {
@@ -105,7 +105,7 @@ void player::init(SDL_Renderer* renderer, TTF_Font* font)
     {
         //img = SDL_LoadBMP("data/textures/player.png");
 
-        texture = IMG_LoadTexture(renderer, "data/textures/player.png");//SDL_CreateTextureFromSurface(renderer, img);
+        texture = IMG_LoadTexture(renderer, ("maps/" + worldPrefix + "/textures/" + "player.png").c_str());//SDL_CreateTextureFromSurface(renderer, img);
     }
 }
 

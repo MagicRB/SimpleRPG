@@ -41,7 +41,7 @@ void door_switch::SDL_render(SDL_Window* window, SDL_Renderer* renderer, int cy,
     SDL_RenderCopy(renderer, texture, NULL, &renRect);
 }
 
-void door_switch::init(SDL_Renderer* renderer, TTF_Font* font)
+void door_switch::init(SDL_Renderer* renderer, TTF_Font* font, std::string worldPrefix)
 {
     block::player_collide = true;
 
@@ -57,7 +57,7 @@ void door_switch::init(SDL_Renderer* renderer, TTF_Font* font)
     {
         //img = SDL_LoadBMP("data/textures/wall.bmp");
 
-        texture = IMG_LoadTexture(renderer, "data/textures/door_switch.png");//SDL_CreateTextureFromSurface(renderer, img);
+        texture = IMG_LoadTexture(renderer, ("maps/" + worldPrefix + "/textures/" + "door_switch.png").c_str());//SDL_CreateTextureFromSurface(renderer, img);
     }
 }
 

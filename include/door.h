@@ -34,7 +34,7 @@ class door : public block
         void IMG_render(SDL_Renderer* renderer, int cy, int cx);
         void init(SDL_Renderer* renderer, TTF_Font* font);
 
-        void switchState();
+        void switchState(std::string worldPrefix);
 
 
     protected:

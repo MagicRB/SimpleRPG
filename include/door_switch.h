@@ -26,12 +26,14 @@ class door_switch : public block
         int dy;
         int dx;
 
+        std::string id;
+
         void setPos(int y, int x, int ndy, int ndx);
 
         void render(int cy, int cx);
         void SDL_render(SDL_Window* window, SDL_Renderer* renderer, int cy, int cx);
         void IMG_render(SDL_Renderer* renderer, int cy, int cx);
-        void init(SDL_Renderer* renderer, TTF_Font* font);
+        void init(SDL_Renderer* renderer, TTF_Font* font, std::string worldPrefix);
 
 
     protected:
